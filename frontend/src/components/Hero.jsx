@@ -1,119 +1,126 @@
-import * as React from 'react';
-import { alpha } from '@mui/material';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import * as React from "react";
+import { alpha } from "@mui/material";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Link from "@mui/material/Link";
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import AspectRatio from "@mui/joy/AspectRatio";
 
 export default function Hero() {
   return (
     <Box
       id="hero"
       sx={(theme) => ({
-        width: '100%',
-        backgroundImage:
-          theme.palette.mode === 'light'
-            ? 'linear-gradient(180deg, #CEE5FD, #FFF)'
-            : 'linear-gradient(#02294F, #090E10)',
-        backgroundSize: '100% 20%',
-        backgroundRepeat: 'no-repeat',
+        width: "100%",
+        bgcolor: "#076365",
+        height: { xs: "100%", md: "100vh" },
       })}
     >
       <Container
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          alignItems: "center",
+          justifyContent: "center",
           pt: { xs: 14, sm: 20 },
-          pb: { xs: 8, sm: 12 },
+          pb: { xs: 6, sm: 12 },
         }}
       >
-        <Stack spacing={2} useFlexGap sx={{ width: { xs: '100%', sm: '70%' } }}>
+        <Stack spacing={3} useFlexGap sx={{ width: { xs: "80%", sm: "70%" } }}>
           <Typography
             component="h1"
             variant="h1"
             sx={{
-              display: 'flex',
-              flexDirection: { xs: 'column', md: 'row' },
-              alignSelf: 'center',
-              textAlign: 'center',
+              display: "flex",
+              flexDirection: { xs: "column", md: "row" },
+              alignSelf: "center",
+              textAlign: "center",
+              justifyContent: "center",
+              color: (theme) => "#FFF",
+              fontFamily: "open sans, sans-serif",
+              fontWeight: "800",
+              fontSize: { xs: "2rem", md: "2rem" },
+              letterSpacing: "0.5px",
+              gap: {xs: "none", md: "10px"},
             }}
           >
-            Our latest&nbsp;
+            LET'S FIGHT
             <Typography
               component="span"
               variant="h1"
               sx={{
-                color: (theme) =>
-                  theme.palette.mode === 'light' ? 'primary.main' : 'primary.light',
+                color: (theme) => "#FDF3A7",
+                fontFamily: "gluten, sans-serif",
+                fontWeight: "900",
+                fontSize: { xs: "2rem", md: "2.1rem" },
+                paddingTop: {xs: "10px", md: "4px"},
               }}
             >
-              products
+              Food Waste
             </Typography>
+              TOGETHER
           </Typography>
-          <Typography variant="body1" textAlign="center" color="text.secondary">
-            Explore our cutting-edge dashboard, delivering high-quality solutions
-            tailored to your needs. <br />
-            Elevate your experience with top-tier features and services.
+          <Typography
+            variant="body1"
+            textAlign="center"
+            sx={{
+              color: (theme) => "#FFF",
+              fontFamily: "nunito, sans-serif",
+              fontSize: "1.1rem",
+            }}
+          >
+            Join us in reducing food waste while enjoying delicious, fresh, and
+            sustainable produce. Together, we can make a difference.
           </Typography>
           <Stack
-            direction={{ xs: 'column', sm: 'row' }}
+            direction={{ xs: "column", sm: "row" }}
             alignSelf="center"
             spacing={1}
             useFlexGap
-            sx={{ pt: 2, width: { xs: '100%', sm: 'auto' } }}
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: { xs: "auto", sm: "auto" } }}
           >
-            <TextField
-              id="outlined-basic"
-              hiddenLabel
-              size="small"
-              variant="outlined"
-              aria-label="Enter your email address"
-              placeholder="Your email address"
-              inputProps={{
-                autocomplete: 'off',
-                ariaLabel: 'Enter your email address',
+            <Button
+              variant="contained"
+              sx={{
+                borderRadius: "999px",
+                backgroundColor: "#64CF94", // Custom background color
+                color: "#FFF", // Custom text color
+                fontFamily: "nunito, sans-serif",
+                fontWeight: "700",
+                fontSize: "1rem",
+                width: "170px",
+                padding: "10px",
+                boxShadow: "0px",
+                "&:hover": {
+                  backgroundColor: alpha("#64CF94", 0.8),
+                },
               }}
-            />
-            <Button variant="contained" color="primary">
+            >
               Start now
             </Button>
           </Stack>
-          <Typography variant="caption" textAlign="center" sx={{ opacity: 0.8 }}>
-            By clicking &quot;Start now&quot; you agree to our&nbsp;
-            <Link href="#" color="primary">
-              Terms & Conditions
-            </Link>
-            .
-          </Typography>
         </Stack>
-        <Box
-          id="image"
-          sx={(theme) => ({
-            mt: { xs: 8, sm: 10 },
-            alignSelf: 'center',
-            height: { xs: 200, sm: 700 },
-            width: '100%',
-            backgroundImage:
-              theme.palette.mode === 'light'
-                ? 'url("/static/images/templates/templates-images/hero-light.png")'
-                : 'url("/static/images/templates/templates-images/hero-dark.png")',
-            backgroundSize: 'cover',
-            borderRadius: '10px',
-            outline: '1px solid',
-            outlineColor:
-              theme.palette.mode === 'light'
-                ? alpha('#BFCCD9', 0.5)
-                : alpha('#9CCCFC', 0.1),
-            boxShadow:
-              theme.palette.mode === 'light'
-                ? `0 0 12px 8px ${alpha('#9CCCFC', 0.2)}`
-                : `0 0 24px 12px ${alpha('#033363', 0.2)}`,
-          })}
-        />
+        <Box sx={{ padding: 4 }} display={{ xs: "none", md: "flex" }}>
+        <AspectRatio sx={{ width: 450 }} ratio="3/4">
+          <Box
+            
+            id="image"
+            component="img"
+            sx={{
+              alignSelf: "center",
+              objectFit: "cover",
+            }}
+            src="https://lh3.googleusercontent.com/drive-viewer/AEYmBYSrCo4RnSHcgopyh_hX0NOpDnALJu8D3n1_xOisblt85QQ04lyaL6GZT6ZxYhc4yY-t_dc0_pXEQcM8TVB8Q0G0SpXfDw=s1600"
+            alt="Picture of farmer walking in field."
+          />
+        </AspectRatio>
+        </Box>
+        
       </Container>
     </Box>
   );

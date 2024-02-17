@@ -15,6 +15,7 @@
 
 /* Changed font family to Source Sans Pro for text */
 body {
+  /* font-family: 'Nunito' */
   font-family: 'Source Sans Pro', sans-serif;
 }
 
