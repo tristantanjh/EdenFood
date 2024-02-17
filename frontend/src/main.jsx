@@ -9,7 +9,7 @@ import "./index.css";
 import App from "./routes/App.jsx";
 import ErrorPage from "./routes/ErrorPage.jsx";
 
-const router = createHashRouter([
+const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
