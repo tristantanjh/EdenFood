@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
 import "dotenv/config";
+import homeRouter from "./routes/home.js";
+import loginRouter from "./routes/login.js";
 import { APIrouter } from "./routes/routes.js";
 
 ///////////////////////////////////////////////// app set-up //////////////////////////////////////////////////
@@ -11,7 +13,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors(corsOptions));
-app.use("/api", APIrouter);
+app
+  .use("/api", APIrouter)
+  .use("/home", homeRouter)
+  .use("/login", loginRouter);
+app.set("view engine", "ejs");
 
 ///////////////////////////////////////////////// cors set-up //////////////////////////////////////////////////
 var corsOptions = {
@@ -26,32 +32,36 @@ var corsOptions = {
 };
 
 //////////////////////////////////////////////////  mongoDB ///////////////////////////////////////////////////
-const mongoURLString = process.env.DATABASE_URL;
+// const mongoURLString = process.env.DATABASE_URL;
 
-const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(mongoURLString);
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-  } catch (error) {
-    console.log(error);
-    process.exit(1);
-  }
-};
+// const connectDB = async () => {
+//   try {
+//     const conn = await mongoose.connect(mongoURLString);
+//     console.log(`MongoDB Connected: ${conn.connection.host}`);
+//   } catch (error) {
+//     console.log(error);
+//     process.exit(1);
+//   }
+// };
 
 let port = process.env.PORT;
 if (port == null || port == "") {
   port = 3000;
 }
 
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
 //Connect to the database before listening
-connectDB().then(() => {
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
-});
+// connectDB().then(() => {
+//   app.listen(port, () => {
+//     console.log(`Server is running on port ${port}`);
+//   });
+// });
 
-const database = mongoose.connection;
+// const database = mongoose.connection;
 
-database.on("error", (error) => {
-  console.log(error);
-});
+// database.on("error", (error) => {
+//   console.log(error);
+// });
