@@ -3,7 +3,9 @@ const router = express.Router();
 
 // Renders home page
 router.get("/", (req, res) => {
-  res.render("../../frontend/views/home");
+  // Pass the showLoginButton variable to the view rendering function
+  res.render("../../frontend/views/home", { showLoginButton: true });
 });
 
 export default router;
+

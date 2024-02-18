@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
 import "dotenv/config";
-import homeRouter from "./routes/home.js";
-import loginRouter from "./routes/login.js";
-import { APIrouter } from "./routes/routes.js";
+import homeRouter from "./src/routes/home.js";
+import loginRouter from "./src/routes/login.js";
+import { APIrouter } from "./src/routes/routes.js";
 
 ///////////////////////////////////////////////// app set-up //////////////////////////////////////////////////
 const app = express();
@@ -13,10 +13,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors(corsOptions));
+
+/* Define route handler for the root URL ("/")
+app.get("/", (req, res) => {
+  res.send("Welcome to my API"); // You can customize this message
+});*/
+
 app
-  .use("/api", APIrouter)
-  .use("/home", homeRouter)
-  .use("/login", loginRouter);
+ .use(APIrouter)
+ //  .use("/routes/home", homeRouter)
+ app.use("/", homeRouter); // Mount the homeRouter
+ app.use("/login", loginRouter); // Mount the loginRouter at the /login path
 app.set("view engine", "ejs");
 
 ///////////////////////////////////////////////// cors set-up //////////////////////////////////////////////////
