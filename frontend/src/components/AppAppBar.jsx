@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Drawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
+import { alpha } from "@mui/material";
 
 const logoStyle = {
   width: "140px",
@@ -41,14 +42,19 @@ function AppAppBar() {
   };
 
   return (
-    <div>
+    <div
+      sx={{
+        boxShadow: 5,
+        color: "#076365",
+      }}
+    >
       <AppBar
         position="fixed"
         sx={{
           boxShadow: 0,
-          bgcolor: "transparent",
+          bgcolor: "#076365",
           backgroundImage: "none",
-          mt: 2,
+          pb: 2.5,
         }}
       >
         <Container maxWidth="lg">
@@ -76,10 +82,10 @@ function AppAppBar() {
                 id="image"
                 component="img"
                 sx={{
-                  mt: { xs: 0, md: 0 },
+                  mt: { xs: 2, md: 3 },
                   ml: { xs: "-5vw", md: "-5vw" },
                   alignSelf: "flex-start",
-                  height: { xs: 140, sm: 170 },
+                  height: { xs: 130, sm: 150 },
                   objectFit: "cover",
                 }}
                 src="https://lh3.googleusercontent.com/drive-viewer/AEYmBYTsWGRDr8tJmhgQrP_G40atBmlur9_qmMuW_lr64Q0zLJYERNumDobrqvYHIL1-k6HV9DVhBzZt-BRAGew-di0zNnzZdA=s2560"
@@ -95,8 +101,19 @@ function AppAppBar() {
                     color: "#FAFFF4",
                   }}
                 >
-                  <Typography variant="nunito, sans-serif" color="#FAFFF4">
-                    Profile Settings
+                  <Typography
+                    variant="nunito, sans-serif"
+                    color="#FAFFF4"
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      mt: { xs: 2, md: 3 },
+                    }}
+                  >
+                    PROFILE SETTINGS
                   </Typography>
                 </MenuItem>
                 <MenuItem
@@ -107,8 +124,19 @@ function AppAppBar() {
                     fontFamily: "nunito, sans-serif",
                   }}
                 >
-                  <Typography variant="nunito, sans-serif" color="#FAFFF4">
-                    Order History
+                  <Typography
+                    variant="nunito, sans-serif"
+                    color="#FAFFF4"
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      mt: { xs: 2, md: 3 },
+                    }}
+                  >
+                    ORDER HISTORY
                   </Typography>
                 </MenuItem>
                 <MenuItem
@@ -119,8 +147,19 @@ function AppAppBar() {
                     fontFamily: "nunito, sans-serif",
                   }}
                 >
-                  <Typography variant="nunito, sans-serif" color="#FAFFF4">
-                    Manage Listings
+                  <Typography
+                    variant="nunito, sans-serif"
+                    color="#FAFFF4"
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      mt: { xs: 2, md: 3 },
+                    }}
+                  >
+                    MANAGE LISTINGS
                   </Typography>
                 </MenuItem>
                 <MenuItem
@@ -131,8 +170,19 @@ function AppAppBar() {
                     fontFamily: "nunito, sans-serif",
                   }}
                 >
-                  <Typography variant="nunito, sans-serif" color="#FAFFF4">
-                    Dashboard
+                  <Typography
+                    variant="nunito, sans-serif"
+                    color="#FAFFF4"
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      mt: { xs: 2, md: 3 },
+                    }}
+                  >
+                    DASHBOARD
                   </Typography>
                 </MenuItem>
                 <MenuItem
@@ -143,8 +193,19 @@ function AppAppBar() {
                     fontFamily: "nunito, sans-serif",
                   }}
                 >
-                  <Typography variant="nunito, sans-serif" color="#FAFFF4">
-                    Logout
+                  <Typography
+                    variant="nunito, sans-serif"
+                    color="#FAFFF4"
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      mt: { xs: 2, md: 3 },
+                    }}
+                  >
+                    LOGOUT
                   </Typography>
                 </MenuItem>
               </Box>
@@ -163,18 +224,54 @@ function AppAppBar() {
                 component="a"
                 href="/material-ui/getting-started/templates/sign-in/"
                 target="_blank"
+                sx={{
+                  width: "100%",
+                  fontFamily: "nunito, sans-serif",
+                  backgroundColor: "#64CF94",
+                  color: "#FFF",
+                  fontFamily: "nunito, sans-serif",
+                  fontWeight: "700",
+                  fontSize: "1rem",
+                  width: "125px",
+                  padding: "3px",
+                  borderRadius: "15px",
+                  minWidth: "70px",
+                  "&:hover": {
+                    backgroundColor: alpha("#64CF94", 0.6),
+                    color: "#FFF",
+                  },
+                  mt: { xs: 2, md: 3 },
+                }}
               >
-                Sign in
+                Register
               </Button>
               <Button
                 color="primary"
-                variant="contained"
+                variant="text"
                 size="small"
                 component="a"
                 href="/material-ui/getting-started/templates/sign-up/"
                 target="_blank"
+                sx={{
+                  width: "100%",
+                  fontFamily: "nunito, sans-serif",
+                  backgroundColor: "#64CF94",
+                  color: "#FFF",
+                  fontFamily: "nunito, sans-serif",
+                  fontWeight: "700",
+                  fontSize: "1rem",
+                  width: "125px",
+                  padding: "3px",
+                  borderRadius: "15px",
+                  minWidth: "70px",
+                  "&:hover": {
+                    backgroundColor: alpha("#64CF94", 0.6),
+                    color: "#FFF",
+                  },
+                  mt: { xs: 2, md: 3 },
+                }}
               >
-                Sign up
+                Log In
               </Button>
             </Box>
             <Box sx={{ display: { sm: "", md: "none" } }}>
@@ -208,66 +305,131 @@ function AppAppBar() {
                   ></Box>
                   <MenuItem
                     onClick={() => scrollToSection("features")}
-                    sx={{ fontFamily: "nunito, sans-serif" }}
+                    color="#076365"
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      color: (theme) => "#076365",
+                    }}
                   >
-                    Profile Settings
+                    PROFILE SETTINGS
                   </MenuItem>
                   <MenuItem
                     onClick={() => scrollToSection("testimonials")}
-                    sx={{ fontFamily: "nunito, sans-serif" }}
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      color: (theme) => "#076365",
+                    }}
                   >
-                    Order History
+                    ORDER HISTORY
                   </MenuItem>
                   <MenuItem
                     onClick={() => scrollToSection("highlights")}
-                    sx={{ fontFamily: "nunito, sans-serif" }}
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      color: (theme) => "#076365",
+                    }}
                   >
-                    Manage Listings
+                    MANAGE LISTINGS
                   </MenuItem>
                   <MenuItem
                     onClick={() => scrollToSection("pricing")}
-                    sx={{ fontFamily: "nunito, sans-serif" }}
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      color: (theme) => "#076365",
+                    }}
                   >
-                    Dashboard
+                    DASHBOARD
                   </MenuItem>
                   <MenuItem
                     onClick={() => scrollToSection("faq")}
-                    sx={{ fontFamily: "nunito, sans-serif" }}
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      color: (theme) => "#076365",
+                    }}
                   >
-                    Logout
+                    LOGOUT
                   </MenuItem>
                   <Divider />
-                  <MenuItem>
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      component="a"
-                      href="/material-ui/getting-started/templates/sign-up/"
-                      target="_blank"
-                      sx={{
-                        width: "100%",
-                        fontFamily: "nunito, sans-serif",
-                        backgroundColor: "#64CF94",
-                      }}
-                    >
-                      Sign up
-                    </Button>
-                  </MenuItem>
-                  <MenuItem>
-                    <Button
-                      color="primary"
-                      variant="outlined"
-                      component="a"
-                      href="/material-ui/getting-started/templates/sign-in/"
-                      target="_blank"
-                      sx={{
-                        width: "100%",
-                        fontFamily: "nunito, sans-serif",
-                      }}
-                    >
-                      Sign in
-                    </Button>
-                  </MenuItem>
+                  <div style={{ display: "flex", justifyContent: "center" }}>
+                    <MenuItem>
+                      <Button
+                        color="primary"
+                        variant="text"
+                        component="a"
+                        href="/material-ui/getting-started/templates/sign-up/"
+                        target="_blank"
+                        sx={{
+                          width: "100%",
+                          fontFamily: "nunito, sans-serif",
+                          backgroundColor: "#64CF94",
+                          color: "#FFF",
+                          fontFamily: "nunito, sans-serif",
+                          fontWeight: "700",
+                          fontSize: "1rem",
+                          width: "135px",
+                          padding: "5px",
+                          borderRadius: "20px",
+                          minWidth: "100px",
+                          boxshadow: "none",
+                          "&:hover": {
+                            backgroundColor: alpha("#64CF94", 0.6),
+                            color: "#FFF",
+                            boxshadow: "none",
+                          },
+                        }}
+                      >
+                        Register
+                      </Button>
+                    </MenuItem>
+                    <MenuItem>
+                      <Button
+                        color="primary"
+                        variant="text"
+                        component="a"
+                        href="/material-ui/getting-started/templates/sign-in/"
+                        target="_blank"
+                        sx={{
+                          width: "100%",
+                          fontFamily: "nunito, sans-serif",
+                          backgroundColor: "#64CF94",
+                          color: "#FFF",
+                          fontFamily: "nunito, sans-serif",
+                          fontWeight: "700",
+                          fontSize: "1rem",
+                          width: "135px",
+                          padding: "5px",
+                          borderRadius: "20px",
+                          minWidth: "100px",
+                          "&:hover": {
+                            backgroundColor: alpha("#64CF94", 0.6),
+                            color: "#FFF",
+                          },
+                        }}
+                      >
+                        Log In
+                      </Button>
+                    </MenuItem>
+                  </div>
                 </Box>
               </Drawer>
             </Box>
