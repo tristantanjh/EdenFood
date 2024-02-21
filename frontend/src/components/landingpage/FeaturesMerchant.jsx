@@ -1,6 +1,5 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
@@ -19,11 +18,11 @@ const items = [
           height: { xs: 70, sm: 70 },
           objectFit: "cover",
         }}
-        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708504489/value_twsdsh.png"
+        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708526103/return-on-investment-removebg-preview_hce6k0.png"
         alt="value"
       />
     ),
-    title: "SUPPORT LOCAL FRESH PRODUCE AT AFFORDABLE PRICES",
+    title: "CONVERT YOUR EXCESS PRODUCE INTO ADDITIONAL REVENUE EFFORTLESSLY",
   },
   {
     icon: (
@@ -35,11 +34,11 @@ const items = [
           height: { xs: 70, sm: 70 },
           objectFit: "cover",
         }}
-        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708504489/worldwide_ise4ia.png"
+        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708526104/Untitled-3-removebg-preview_1_wogogz.png"
         alt="worldwide"
       />
     ),
-    title: "HELP SINGAPORE MOVE TOWARDS FOOD SUSTAINABILITY",
+    title: "BOOST YOUR VISIBILITY AND DRAW IN FRESH CUSTOMERS, WHETHER ONLINE OR IN-PERSON",
   },
   {
     icon: (
@@ -51,11 +50,11 @@ const items = [
           height: { xs: 70, sm: 70 },
           objectFit: "cover",
         }}
-        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708504489/charity_w3qeej.png"
+        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708526106/flower-removebg-preview_tnozjn.png"
         alt="charity"
       />
     ),
-    title: "RESCUE FOOD THAT WOULD HAVE GONE TO WASTE",
+    title: "JOIN THE MOVEMENT TOWARDS SUSTAINABILITY BY REDUCING FOOD WASTAGE",
   },
 ];
 
@@ -66,44 +65,25 @@ export default function FeaturesCustomer() {
   return (
     <Container
       id="features"
-      sx={{ py: { xs: 8, sm: 16 }, backgroundColor: "#FAFFF4" }}
+      sx={{ py: { xs: 8, sm: 16 }, backgroundColor: "#076365" }}
     >
       <Grid container spacing={6}>
-      <Grid
-          item
-          xs={12}
-          md={6}
-          sx={{ display: { xs: "none", sm: "flex" }, width: "100%" }}
-        >
-          <AspectRatio sx={{ width: 450 }} ratio="3/4">
-            <Box
-              id="image"
-              component="img"
-              src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708506369/edgar-castrejon-1SPu0KT-Ejg-unsplash_cuvm4w.jpg"
-              sx={{
-                objectFit: "cover",
-                width: "100%",
-                height: "100%",
-              }}
-            />
-          </AspectRatio>
-        </Grid>
         <Grid item xs={12} md={6}>
           <div>
             <Typography
               component="h2"
               variant="h4"
-              color="#076365"
+              color="#FAFFF4"
               fontFamily={"open sans, sans-serif"}
               fontWeight={"1000"}
               fontSize={{ xs: "30px", md: "40px" }}
               style={{ textAlign: isMobile ? "center" : "inherit" }}
             >
-              RESCUE FOOD, {isMobile && <br />} REVIVE VALUE
+              TURN WASTE {isMobile && <br />} TO TREASURE
             </Typography>
             <Typography
               variant="body1"
-              color="#076365"
+              color="#FAFFF4"
               sx={{
                 mb: { xs: 2, sm: 4 },
                 mt: { xs: 3, md: 4 },
@@ -111,9 +91,9 @@ export default function FeaturesCustomer() {
                 textAlign: isMobile ? "center" : "inherit",
               }}
             >
-              Always had the issue of not getting your hands on produce from
-              early wet markets? Find that fresh produce are too expensive at
-              supermarkets?
+              Leftover food at the close of the day? Join the multitude of
+              businesses leveraging EdenFood to channel your excess directly to
+              delighted customers, granting fresh foods a renewed chance to be savored.
             </Typography>
           </div>
           <Stack
@@ -147,7 +127,7 @@ export default function FeaturesCustomer() {
                   <Box>{icon}</Box>
                   <div>
                     <Typography
-                      color="#076365"
+                      color="#FAFFF4"
                       variant="body2"
                       fontWeight="900"
                       fontFamily={"open sans, sans-serif"}
@@ -159,6 +139,28 @@ export default function FeaturesCustomer() {
               </Box>
             ))}
           </Stack>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{ display: { xs: "none", sm: "flex" }, width: "100%" }}
+        >
+          <AspectRatio
+            sx={{ width: 450, marginLeft: isMobile ? 0 : 12 }}
+            ratio="3/4"
+          >
+            <Box
+              id="image"
+              component="img"
+              src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708523841/beth-macdonald-mjSWtq7k7k8-unsplash_umxidz.jpg"
+              sx={{
+                objectFit: "cover",
+                width: "100%",
+                height: "100%",
+              }}
+            />
+          </AspectRatio>
         </Grid>
       </Grid>
     </Container>
