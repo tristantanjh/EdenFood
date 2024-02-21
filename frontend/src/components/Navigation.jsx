@@ -8,7 +8,7 @@ import Hero from "../components/Hero.jsx";
 import LogoCollection from "../components/LogoCollection.jsx";
 import Highlights from "../components/Highlights.jsx";
 import Pricing from "../components/Pricing.jsx";
-import Features from "../components/Features.jsx";
+import FeaturesCustomer from "./FeaturesCustomer.jsx";
 import FAQ from "../components/FAQ.jsx";
 import Footer from "../components/Footer.jsx";
 
@@ -18,9 +18,9 @@ export default function Navigation() {
       <CssBaseline />
       <AppAppBar />
       <Hero />
-      <Box sx={{ bgcolor: "#FFFFFF" }}>
+      <Box sx={{ bgcolor: "#FAFFF4" }}>
         <LogoCollection />
-        <Features />
+        <FeaturesCustomer />
         <Divider />
         <Divider />
         <Highlights />
