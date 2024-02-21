@@ -8,11 +8,14 @@ import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import SettingsIcon from "@mui/icons-material/Settings";
 import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Drawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
 import { alpha } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const logoStyle = {
   width: "140px",
@@ -77,21 +80,27 @@ function AppAppBar() {
                 px: 0,
               }}
             >
+              <a href="/">
+                <Box
+                  display={{ md: "flex" }}
+                  id="image"
+                  component="img"
+                  sx={{
+                    mt: { xs: 2.5, md: 3 },
+                    ml: { xs: "-5vw", md: "-5vw" },
+                    alignSelf: "flex-start",
+                    height: { xs: 130, sm: 150 },
+                    objectFit: "cover",
+                  }}
+                  src="https://lh3.googleusercontent.com/drive-viewer/AEYmBYTsWGRDr8tJmhgQrP_G40atBmlur9_qmMuW_lr64Q0zLJYERNumDobrqvYHIL1-k6HV9DVhBzZt-BRAGew-di0zNnzZdA=s2560"
+                  alt="Eden Food Secondary Logo."
+                />
+              </a>
               <Box
-                display={{ md: "flex" }}
-                id="image"
-                component="img"
                 sx={{
-                  mt: { xs: 2, md: 3 },
-                  ml: { xs: "-5vw", md: "-5vw" },
-                  alignSelf: "flex-start",
-                  height: { xs: 130, sm: 150 },
-                  objectFit: "cover",
+                  display: { xs: "none", md: "flex" },
                 }}
-                src="https://lh3.googleusercontent.com/drive-viewer/AEYmBYTsWGRDr8tJmhgQrP_G40atBmlur9_qmMuW_lr64Q0zLJYERNumDobrqvYHIL1-k6HV9DVhBzZt-BRAGew-di0zNnzZdA=s2560"
-                alt="Eden Food Secondary Logo."
-              />
-              <Box sx={{ display: { xs: "none", md: "flex" } }}>
+              >
                 <MenuItem
                   onClick={() => scrollToSection("features")}
                   sx={{
@@ -110,7 +119,8 @@ function AppAppBar() {
                       fontSize: { xs: "0.9rem", md: "0.9rem" },
                       letterSpacing: "0.5px",
                       gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 3 },
+                      mt: { xs: 2, md: 5 },
+                      pb: 3,
                     }}
                   >
                     PROFILE SETTINGS
@@ -133,7 +143,8 @@ function AppAppBar() {
                       fontSize: { xs: "0.9rem", md: "0.9rem" },
                       letterSpacing: "0.5px",
                       gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 3 },
+                      mt: { xs: 2, md: 5 },
+                      pb: 3,
                     }}
                   >
                     ORDER HISTORY
@@ -156,7 +167,8 @@ function AppAppBar() {
                       fontSize: { xs: "0.9rem", md: "0.9rem" },
                       letterSpacing: "0.5px",
                       gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 3 },
+                      mt: { xs: 2, md: 5 },
+                      pb: 3,
                     }}
                   >
                     MANAGE LISTINGS
@@ -179,7 +191,8 @@ function AppAppBar() {
                       fontSize: { xs: "0.9rem", md: "0.9rem" },
                       letterSpacing: "0.5px",
                       gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 3 },
+                      mt: { xs: 2, md: 5 },
+                      pb: 3,
                     }}
                   >
                     DASHBOARD
@@ -202,7 +215,8 @@ function AppAppBar() {
                       fontSize: { xs: "0.9rem", md: "0.9rem" },
                       letterSpacing: "0.5px",
                       gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 3 },
+                      mt: { xs: 2, md: 5 },
+                      pb: 3,
                     }}
                   >
                     LOGOUT
@@ -274,18 +288,28 @@ function AppAppBar() {
                 Log In
               </Button>
             </Box>
-            <Box sx={{ display: { sm: "", md: "none" } }}>
+            <Box
+              sx={{
+                display: { sm: "", md: "none" },
+                mt: "15px",
+              }}
+            >
               <Button
                 variant="text"
                 color="primary"
                 aria-label="menu"
                 onClick={toggleDrawer(true)}
-                sx={{ minWidth: "30px", p: "4px", color: "#FAFFF4" }}
+                sx={{
+                  minWidth: "20px",
+                  p: "4px",
+                  color: "#FAFFF4",
+                }}
               >
                 <MenuIcon />
               </Button>
               <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
                 <Box
+                  id="drawerContent"
                   sx={{
                     minWidth: "60dvw",
                     p: 2,
@@ -315,6 +339,22 @@ function AppAppBar() {
                       color: (theme) => "#076365",
                     }}
                   >
+                    <ListItemIcon>
+                      <img
+                        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708483826/user_zv61ah.png"
+                        alt="Profile Icon"
+                        style={{ width: "25px", height: "25px" }}
+                      />
+                    </ListItemIcon>
+                    <Divider
+                      orientation="vertical"
+                      flexItem
+                      sx={{
+                        borderWidth: "1.1px",
+                        mr: "-2px",
+                        mr: "15px",
+                      }}
+                    />
                     PROFILE SETTINGS
                   </MenuItem>
                   <MenuItem
@@ -328,6 +368,22 @@ function AppAppBar() {
                       color: (theme) => "#076365",
                     }}
                   >
+                    <ListItemIcon>
+                      <img
+                        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708483824/to-do-list_taukoy.png"
+                        alt="Order History Icon"
+                        style={{ width: "25px", height: "25px" }}
+                      />
+                    </ListItemIcon>
+                    <Divider
+                      orientation="vertical"
+                      flexItem
+                      sx={{
+                        borderWidth: "1.1px",
+                        mr: "-2px",
+                        mr: "15px",
+                      }}
+                    />
                     ORDER HISTORY
                   </MenuItem>
                   <MenuItem
@@ -341,6 +397,21 @@ function AppAppBar() {
                       color: (theme) => "#076365",
                     }}
                   >
+                    <ListItemIcon
+                      style={{ color: "#076365", marginLeft: "-3px" }}
+                    >
+                      <SettingsIcon style={{ width: "30px", height: "30px" }} />
+                    </ListItemIcon>
+                    <Divider
+                      orientation="vertical"
+                      flexItem
+                      sx={{
+                        borderWidth: "1.1px",
+                        marginLeft: "3px",
+                        mr: "1px",
+                        mr: "15px",
+                      }}
+                    />
                     MANAGE LISTINGS
                   </MenuItem>
                   <MenuItem
@@ -354,6 +425,22 @@ function AppAppBar() {
                       color: (theme) => "#076365",
                     }}
                   >
+                    <ListItemIcon>
+                      <img
+                        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708483825/dashboard_uncrnk.png"
+                        alt="Dashboard Icon"
+                        style={{ width: "25px", height: "25px" }}
+                      />
+                    </ListItemIcon>
+                    <Divider
+                      orientation="vertical"
+                      flexItem
+                      sx={{
+                        borderWidth: "1.1px",
+                        mr: "-2px",
+                        mr: "15px",
+                      }}
+                    />
                     DASHBOARD
                   </MenuItem>
                   <MenuItem
@@ -367,10 +454,31 @@ function AppAppBar() {
                       color: (theme) => "#076365",
                     }}
                   >
+                    <ListItemIcon>
+                      <img
+                        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708483824/logout_xxldjy.png"
+                        alt="Logout Icon"
+                        style={{ width: "25px", height: "25px" }}
+                      />
+                    </ListItemIcon>
+                    <Divider
+                      orientation="vertical"
+                      flexItem
+                      sx={{
+                        borderWidth: "1.1px",
+                        mr: "-2px",
+                        mr: "15px",
+                      }}
+                    />
                     LOGOUT
                   </MenuItem>
                   <Divider />
-                  <div style={{ display: "flex", justifyContent: "center" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
                     <MenuItem>
                       <Button
                         color="primary"
