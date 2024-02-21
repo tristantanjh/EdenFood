@@ -86,10 +86,10 @@ function AppAppBar() {
                   id="image"
                   component="img"
                   sx={{
-                    mt: { xs: 2.5, md: 3 },
+                    mt: { xs: 2.5, md: 3.5 },
                     ml: { xs: "-5vw", md: "-5vw" },
                     alignSelf: "flex-start",
-                    height: { xs: 130, sm: 150 },
+                    height: { xs: 130, sm: 160 },
                     objectFit: "cover",
                   }}
                   src="https://lh3.googleusercontent.com/drive-viewer/AEYmBYTsWGRDr8tJmhgQrP_G40atBmlur9_qmMuW_lr64Q0zLJYERNumDobrqvYHIL1-k6HV9DVhBzZt-BRAGew-di0zNnzZdA=s2560"
@@ -119,7 +119,7 @@ function AppAppBar() {
                       fontSize: { xs: "0.9rem", md: "0.9rem" },
                       letterSpacing: "0.5px",
                       gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 5 },
+                      mt: { xs: 2, md: 6 },
                       pb: 3,
                     }}
                   >
@@ -143,7 +143,7 @@ function AppAppBar() {
                       fontSize: { xs: "0.9rem", md: "0.9rem" },
                       letterSpacing: "0.5px",
                       gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 5 },
+                      mt: { xs: 2, md: 6 },
                       pb: 3,
                     }}
                   >
@@ -167,7 +167,7 @@ function AppAppBar() {
                       fontSize: { xs: "0.9rem", md: "0.9rem" },
                       letterSpacing: "0.5px",
                       gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 5 },
+                      mt: { xs: 2, md: 6 },
                       pb: 3,
                     }}
                   >
@@ -191,7 +191,7 @@ function AppAppBar() {
                       fontSize: { xs: "0.9rem", md: "0.9rem" },
                       letterSpacing: "0.5px",
                       gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 5 },
+                      mt: { xs: 2, md: 6 },
                       pb: 3,
                     }}
                   >
@@ -215,7 +215,7 @@ function AppAppBar() {
                       fontSize: { xs: "0.9rem", md: "0.9rem" },
                       letterSpacing: "0.5px",
                       gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 5 },
+                      mt: { xs: 2, md: 6 },
                       pb: 3,
                     }}
                   >
