@@ -1,5 +1,5 @@
 import React from "react";
-import Navigation from "../components/Navigation.jsx";
+import Navigation from "../components/landingpage/Navigation.jsx";
 
 export default function App() {
   return (
