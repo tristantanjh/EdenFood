@@ -137,7 +137,7 @@ export default function Hero() {
                 objectFit: "cover",
               }}
               src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708481080/pexels-photo-3098891_gxc029.jpg"
-              alt="Picture of farmer."
+              alt="Picture of market."
             />
           </AspectRatio>
         </Box>
