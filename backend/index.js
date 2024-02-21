@@ -39,33 +39,29 @@ var corsOptions = {
 };
 
 //////////////////////////////////////////////////  mongoDB ///////////////////////////////////////////////////
-// const mongoURLString = process.env.DATABASE_URL;
+const mongoURLString = process.env.MONGO_URI;
 
-// const connectDB = async () => {
-//   try {
-//     const conn = await mongoose.connect(mongoURLString);
-//     console.log(`MongoDB Connected: ${conn.connection.host}`);
-//   } catch (error) {
-//     console.log(error);
-//     process.exit(1);
-//   }
-// };
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(mongoURLString);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+};
 
 let port = process.env.PORT;
 if (port == null || port == "") {
   port = 3000;
 }
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+// Connect to the database before listening
+connectDB().then(() => {
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
 });
-
-//Connect to the database before listening
-// connectDB().then(() => {
-//   app.listen(port, () => {
-//     console.log(`Server is running on port ${port}`);
-//   });
-// });
 
 // const database = mongoose.connection;
 
