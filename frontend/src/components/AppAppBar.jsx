@@ -1,22 +1,26 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import '../index.css';
+import * as React from "react";
+import PropTypes from "prop-types";
+import "../index.css";
 
-import Box from '@mui/material/Box';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Divider from '@mui/material/Divider';
-import Typography from '@mui/material/Typography';
-import MenuItem from '@mui/material/MenuItem';
-import Drawer from '@mui/material/Drawer';
-import MenuIcon from '@mui/icons-material/Menu';
+import Box from "@mui/material/Box";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Divider from "@mui/material/Divider";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import SettingsIcon from "@mui/icons-material/Settings";
+import Typography from "@mui/material/Typography";
+import MenuItem from "@mui/material/MenuItem";
+import Drawer from "@mui/material/Drawer";
+import MenuIcon from "@mui/icons-material/Menu";
+import { alpha } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const logoStyle = {
-  width: '140px',
-  height: 'auto',
-  cursor: 'pointer',
+  width: "140px",
+  height: "auto",
+  cursor: "pointer",
 };
 
 function AppAppBar() {
@@ -31,107 +35,200 @@ function AppAppBar() {
     const offset = 128;
     if (sectionElement) {
       const targetScroll = sectionElement.offsetTop - offset;
-      sectionElement.scrollIntoView({ behavior: 'smooth' });
+      sectionElement.scrollIntoView({ behavior: "smooth" });
       window.scrollTo({
         top: targetScroll,
-        behavior: 'smooth',
+        behavior: "smooth",
       });
       setOpen(false);
     }
   };
 
   return (
-    <div>
+    <div
+      sx={{
+        boxShadow: 5,
+        color: "#076365",
+      }}
+    >
       <AppBar
         position="fixed"
         sx={{
           boxShadow: 0,
-          bgcolor: 'transparent',
-          backgroundImage: 'none',
-          mt: 2,
+          bgcolor: "#076365",
+          backgroundImage: "none",
+          pb: 2.5,
         }}
       >
         <Container maxWidth="lg">
           <Toolbar
             variant="regular"
             sx={(theme) => ({
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
               flexShrink: 0,
-              borderRadius: '999px',
-              bgcolor: 'rgba(255, 255, 255, 0.4)',
-              backdropFilter: 'blur(24px)',
               maxHeight: 40,
-              border: '1px solid',
-              borderColor: 'divider',
-              boxShadow: `0 0 1px rgba(85, 166, 246, 0.1), 1px 1.5px 2px -1px rgba(85, 166, 246, 0.15), 4px 4px 12px -2.5px rgba(85, 166, 246, 0.15)`,
             })}
           >
             <Box
               sx={{
                 flexGrow: 1,
-                display: 'flex',
-                alignItems: 'center',
-                ml: '-18px',
+                display: "flex",
+                alignItems: "center",
+                ml: "-18px",
                 px: 0,
               }}
             >
-              <img
-                src={
-                  'https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/61f12e6faf73568658154dae_SitemarkDefault.svg'
-                }
-                style={logoStyle}
-                alt="logo of sitemark"
-              />
-              <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              <a href="/">
+                <Box
+                  display={{ md: "flex" }}
+                  id="image"
+                  component="img"
+                  sx={{
+                    mt: { xs: 2.5, md: 3.5 },
+                    ml: { xs: "-5vw", md: "-5vw" },
+                    alignSelf: "flex-start",
+                    height: { xs: 130, sm: 160 },
+                    objectFit: "cover",
+                  }}
+                  src="https://lh3.googleusercontent.com/drive-viewer/AEYmBYTsWGRDr8tJmhgQrP_G40atBmlur9_qmMuW_lr64Q0zLJYERNumDobrqvYHIL1-k6HV9DVhBzZt-BRAGew-di0zNnzZdA=s2560"
+                  alt="Eden Food Secondary Logo."
+                />
+              </a>
+              <Box
+                sx={{
+                  display: { xs: "none", md: "flex" },
+                }}
+              >
                 <MenuItem
-                  onClick={() => scrollToSection('features')}
-                  sx={{ py: '6px', px: '12px' }}
+                  onClick={() => scrollToSection("features")}
+                  sx={{
+                    py: "6px",
+                    px: "12px",
+                    fontFamily: "nunito, sans-serif",
+                    color: "#FAFFF4",
+                  }}
                 >
-                  <Typography variant="body2" color="text.primary">
-                    Features
+                  <Typography
+                    variant="nunito, sans-serif"
+                    color="#FAFFF4"
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      mt: { xs: 2, md: 6 },
+                      pb: 3,
+                    }}
+                  >
+                    PROFILE SETTINGS
                   </Typography>
                 </MenuItem>
                 <MenuItem
-                  onClick={() => scrollToSection('testimonials')}
-                  sx={{ py: '6px', px: '12px' }}
+                  onClick={() => scrollToSection("testimonials")}
+                  sx={{
+                    py: "6px",
+                    px: "12px",
+                    fontFamily: "nunito, sans-serif",
+                  }}
                 >
-                  <Typography variant="body2" color="text.primary">
-                    Testimonials
+                  <Typography
+                    variant="nunito, sans-serif"
+                    color="#FAFFF4"
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      mt: { xs: 2, md: 6 },
+                      pb: 3,
+                    }}
+                  >
+                    ORDER HISTORY
                   </Typography>
                 </MenuItem>
                 <MenuItem
-                  onClick={() => scrollToSection('highlights')}
-                  sx={{ py: '6px', px: '12px' }}
+                  onClick={() => scrollToSection("highlights")}
+                  sx={{
+                    py: "6px",
+                    px: "12px",
+                    fontFamily: "nunito, sans-serif",
+                  }}
                 >
-                  <Typography variant="body2" color="text.primary">
-                    Highlights
+                  <Typography
+                    variant="nunito, sans-serif"
+                    color="#FAFFF4"
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      mt: { xs: 2, md: 6 },
+                      pb: 3,
+                    }}
+                  >
+                    MANAGE LISTINGS
                   </Typography>
                 </MenuItem>
                 <MenuItem
-                  onClick={() => scrollToSection('pricing')}
-                  sx={{ py: '6px', px: '12px' }}
+                  onClick={() => scrollToSection("pricing")}
+                  sx={{
+                    py: "6px",
+                    px: "12px",
+                    fontFamily: "nunito, sans-serif",
+                  }}
                 >
-                  <Typography variant="body2" color="text.primary">
-                    Pricing
+                  <Typography
+                    variant="nunito, sans-serif"
+                    color="#FAFFF4"
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      mt: { xs: 2, md: 6 },
+                      pb: 3,
+                    }}
+                  >
+                    DASHBOARD
                   </Typography>
                 </MenuItem>
                 <MenuItem
-                  onClick={() => scrollToSection('faq')}
-                  sx={{ py: '6px', px: '12px' }}
+                  onClick={() => scrollToSection("faq")}
+                  sx={{
+                    py: "6px",
+                    px: "12px",
+                    fontFamily: "nunito, sans-serif",
+                  }}
                 >
-                  <Typography variant="body2" color="text.primary">
-                    FAQ
+                  <Typography
+                    variant="nunito, sans-serif"
+                    color="#FAFFF4"
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      mt: { xs: 2, md: 6 },
+                      pb: 3,
+                    }}
+                  >
+                    LOGOUT
                   </Typography>
                 </MenuItem>
               </Box>
             </Box>
             <Box
               sx={{
-                display: { xs: 'none', md: 'flex' },
+                display: { xs: "none", md: "flex" },
                 gap: 0.5,
-                alignItems: 'center',
+                alignItems: "center",
               }}
             >
               <Button
@@ -141,86 +238,306 @@ function AppAppBar() {
                 component="a"
                 href="/material-ui/getting-started/templates/sign-in/"
                 target="_blank"
+                sx={{
+                  width: "100%",
+                  fontFamily: "nunito, sans-serif",
+                  backgroundColor: "#64CF94",
+                  color: "#FFF",
+                  fontFamily: "nunito, sans-serif",
+                  fontWeight: "700",
+                  fontSize: "1rem",
+                  width: "125px",
+                  padding: "3px",
+                  borderRadius: "15px",
+                  minWidth: "70px",
+                  "&:hover": {
+                    backgroundColor: alpha("#64CF94", 0.6),
+                    color: "#FFF",
+                  },
+                  mt: { xs: 2, md: 3 },
+                }}
               >
-                Sign in
+                Register
               </Button>
               <Button
                 color="primary"
-                variant="contained"
+                variant="text"
                 size="small"
                 component="a"
                 href="/material-ui/getting-started/templates/sign-up/"
                 target="_blank"
+                sx={{
+                  width: "100%",
+                  fontFamily: "nunito, sans-serif",
+                  backgroundColor: "#64CF94",
+                  color: "#FFF",
+                  fontFamily: "nunito, sans-serif",
+                  fontWeight: "700",
+                  fontSize: "1rem",
+                  width: "125px",
+                  padding: "3px",
+                  borderRadius: "15px",
+                  minWidth: "70px",
+                  "&:hover": {
+                    backgroundColor: alpha("#64CF94", 0.6),
+                    color: "#FFF",
+                  },
+                  mt: { xs: 2, md: 3 },
+                }}
               >
-                Sign up
+                Log In
               </Button>
             </Box>
-            <Box sx={{ display: { sm: '', md: 'none' } }}>
+            <Box
+              sx={{
+                display: { sm: "", md: "none" },
+                mt: "15px",
+              }}
+            >
               <Button
                 variant="text"
                 color="primary"
                 aria-label="menu"
                 onClick={toggleDrawer(true)}
-                sx={{ minWidth: '30px', p: '4px' }}
+                sx={{
+                  minWidth: "20px",
+                  p: "4px",
+                  color: "#FAFFF4",
+                }}
               >
                 <MenuIcon />
               </Button>
               <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
                 <Box
+                  id="drawerContent"
                   sx={{
-                    minWidth: '60dvw',
+                    minWidth: "60dvw",
                     p: 2,
-                    backgroundColor: 'background.paper',
+                    backgroundColor: "#FAFFF4",
                     flexGrow: 1,
+                    fontFamily: "nunito, sans-serif",
                   }}
                 >
                   <Box
                     sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'end',
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "end",
                       flexGrow: 1,
+                      fontFamily: "nunito, sans-serif",
+                    }}
+                  ></Box>
+                  <MenuItem
+                    onClick={() => scrollToSection("features")}
+                    color="#076365"
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      color: (theme) => "#076365",
                     }}
                   >
-                  </Box>
-                  <MenuItem onClick={() => scrollToSection('features')}>
-                    Features
+                    <ListItemIcon>
+                      <img
+                        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708483826/user_zv61ah.png"
+                        alt="Profile Icon"
+                        style={{ width: "25px", height: "25px" }}
+                      />
+                    </ListItemIcon>
+                    <Divider
+                      orientation="vertical"
+                      flexItem
+                      sx={{
+                        borderWidth: "1.1px",
+                        mr: "-2px",
+                        mr: "15px",
+                      }}
+                    />
+                    PROFILE SETTINGS
                   </MenuItem>
-                  <MenuItem onClick={() => scrollToSection('testimonials')}>
-                    Testimonials
+                  <MenuItem
+                    onClick={() => scrollToSection("testimonials")}
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      color: (theme) => "#076365",
+                    }}
+                  >
+                    <ListItemIcon>
+                      <img
+                        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708483824/to-do-list_taukoy.png"
+                        alt="Order History Icon"
+                        style={{ width: "25px", height: "25px" }}
+                      />
+                    </ListItemIcon>
+                    <Divider
+                      orientation="vertical"
+                      flexItem
+                      sx={{
+                        borderWidth: "1.1px",
+                        mr: "-2px",
+                        mr: "15px",
+                      }}
+                    />
+                    ORDER HISTORY
                   </MenuItem>
-                  <MenuItem onClick={() => scrollToSection('highlights')}>
-                    Highlights
+                  <MenuItem
+                    onClick={() => scrollToSection("highlights")}
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      color: (theme) => "#076365",
+                    }}
+                  >
+                    <ListItemIcon
+                      style={{ color: "#076365", marginLeft: "-3px" }}
+                    >
+                      <SettingsIcon style={{ width: "30px", height: "30px" }} />
+                    </ListItemIcon>
+                    <Divider
+                      orientation="vertical"
+                      flexItem
+                      sx={{
+                        borderWidth: "1.1px",
+                        marginLeft: "3px",
+                        mr: "1px",
+                        mr: "15px",
+                      }}
+                    />
+                    MANAGE LISTINGS
                   </MenuItem>
-                  <MenuItem onClick={() => scrollToSection('pricing')}>
-                    Pricing
+                  <MenuItem
+                    onClick={() => scrollToSection("pricing")}
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      color: (theme) => "#076365",
+                    }}
+                  >
+                    <ListItemIcon>
+                      <img
+                        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708483825/dashboard_uncrnk.png"
+                        alt="Dashboard Icon"
+                        style={{ width: "25px", height: "25px" }}
+                      />
+                    </ListItemIcon>
+                    <Divider
+                      orientation="vertical"
+                      flexItem
+                      sx={{
+                        borderWidth: "1.1px",
+                        mr: "-2px",
+                        mr: "15px",
+                      }}
+                    />
+                    DASHBOARD
                   </MenuItem>
-                  <MenuItem onClick={() => scrollToSection('faq')}>FAQ</MenuItem>
+                  <MenuItem
+                    onClick={() => scrollToSection("faq")}
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      color: (theme) => "#076365",
+                    }}
+                  >
+                    <ListItemIcon>
+                      <img
+                        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708483824/logout_xxldjy.png"
+                        alt="Logout Icon"
+                        style={{ width: "25px", height: "25px" }}
+                      />
+                    </ListItemIcon>
+                    <Divider
+                      orientation="vertical"
+                      flexItem
+                      sx={{
+                        borderWidth: "1.1px",
+                        mr: "-2px",
+                        mr: "15px",
+                      }}
+                    />
+                    LOGOUT
+                  </MenuItem>
                   <Divider />
-                  <MenuItem>
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      component="a"
-                      href="/material-ui/getting-started/templates/sign-up/"
-                      target="_blank"
-                      sx={{ width: '100%' }}
-                    >
-                      Sign up
-                    </Button>
-                  </MenuItem>
-                  <MenuItem>
-                    <Button
-                      color="primary"
-                      variant="outlined"
-                      component="a"
-                      href="/material-ui/getting-started/templates/sign-in/"
-                      target="_blank"
-                      sx={{ width: '100%' }}
-                    >
-                      Sign in
-                    </Button>
-                  </MenuItem>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <MenuItem>
+                      <Button
+                        color="primary"
+                        variant="text"
+                        component="a"
+                        href="/material-ui/getting-started/templates/sign-up/"
+                        target="_blank"
+                        sx={{
+                          width: "100%",
+                          fontFamily: "nunito, sans-serif",
+                          backgroundColor: "#64CF94",
+                          color: "#FFF",
+                          fontFamily: "nunito, sans-serif",
+                          fontWeight: "700",
+                          fontSize: "1rem",
+                          width: "135px",
+                          padding: "5px",
+                          borderRadius: "20px",
+                          minWidth: "100px",
+                          boxshadow: "none",
+                          "&:hover": {
+                            backgroundColor: alpha("#64CF94", 0.6),
+                            color: "#FFF",
+                            boxshadow: "none",
+                          },
+                        }}
+                      >
+                        Register
+                      </Button>
+                    </MenuItem>
+                    <MenuItem>
+                      <Button
+                        color="primary"
+                        variant="text"
+                        component="a"
+                        href="/material-ui/getting-started/templates/sign-in/"
+                        target="_blank"
+                        sx={{
+                          width: "100%",
+                          fontFamily: "nunito, sans-serif",
+                          backgroundColor: "#64CF94",
+                          color: "#FFF",
+                          fontFamily: "nunito, sans-serif",
+                          fontWeight: "700",
+                          fontSize: "1rem",
+                          width: "135px",
+                          padding: "5px",
+                          borderRadius: "20px",
+                          minWidth: "100px",
+                          "&:hover": {
+                            backgroundColor: alpha("#64CF94", 0.6),
+                            color: "#FFF",
+                          },
+                        }}
+                      >
+                        Log In
+                      </Button>
+                    </MenuItem>
+                  </div>
                 </Box>
               </Drawer>
             </Box>
@@ -232,7 +549,7 @@ function AppAppBar() {
 }
 
 AppAppBar.propTypes = {
-  mode: PropTypes.oneOf(['dark', 'light']).isRequired,
+  mode: PropTypes.oneOf(["dark", "light"]).isRequired,
 };
 
 export default AppAppBar;
