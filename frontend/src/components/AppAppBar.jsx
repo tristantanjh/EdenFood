@@ -86,13 +86,13 @@ function AppAppBar() {
                   id="image"
                   component="img"
                   sx={{
-                    mt: { xs: 2.5, md: 3.5 },
+                    mt: { xs: 5, md: 4 },
                     ml: { xs: "-5vw", md: "-5vw" },
                     alignSelf: "flex-start",
-                    height: { xs: 130, sm: 160 },
+                    height: { xs: 130, sm: 170 },
                     objectFit: "cover",
                   }}
-                  src="https://lh3.googleusercontent.com/drive-viewer/AEYmBYTsWGRDr8tJmhgQrP_G40atBmlur9_qmMuW_lr64Q0zLJYERNumDobrqvYHIL1-k6HV9DVhBzZt-BRAGew-di0zNnzZdA=s2560"
+                  src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708587495/2_xzanz3.png"
                   alt="Eden Food Primary Logo."
                 />
               </a>
