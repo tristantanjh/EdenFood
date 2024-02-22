@@ -3,7 +3,7 @@ import { alpha } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
-import Link from "@mui/material/Link";
+import { Link } from "react-router-dom";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -105,26 +105,28 @@ export default function Hero() {
               mt: { xs: 0.8, md: 2 },
             }}
           >
-            <Button
-              variant="contained"
-              sx={{
-                borderRadius: "999px",
-                borderBlockColor: "transparent",
-                backgroundColor: "#64CF94", // Custom background color
-                color: "#FFF", // Custom text color
-                fontFamily: "nunito, sans-serif",
-                fontWeight: "700",
-                fontSize: "1.15rem",
-                width: "190px",
-                padding: "8px 18px",
-                boxShadow: "0px",
-                "&:hover": {
-                  backgroundColor: alpha("#64CF94", 0.8),
-                },
-              }}
-            >
-              Start now
-            </Button>
+            <Link to="/explore">
+              <Button
+                variant="contained"
+                sx={{
+                  borderRadius: "999px",
+                  borderBlockColor: "transparent",
+                  backgroundColor: "#64CF94", // Custom background color
+                  color: "#FFF", // Custom text color
+                  fontFamily: "nunito, sans-serif",
+                  fontWeight: "700",
+                  fontSize: "1.15rem",
+                  width: "190px",
+                  padding: "8px 18px",
+                  boxShadow: "0px",
+                  "&:hover": {
+                    backgroundColor: alpha("#64CF94", 0.8),
+                  },
+                }}
+              >
+                Order Now
+              </Button>
+            </Link>
           </Stack>
         </Stack>
         <Box sx={{ padding: 4 }} display={{ xs: "none", md: "flex" }}>

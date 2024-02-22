@@ -55,7 +55,7 @@ function AppAppBar() {
         position="fixed"
         sx={{
           boxShadow: 0,
-          bgcolor: "#076365",
+          bgcolor: "#FAFFF4",
           backgroundImage: "none",
           pb: 2.5,
         }}
@@ -92,137 +92,10 @@ function AppAppBar() {
                     height: { xs: 130, sm: 160 },
                     objectFit: "cover",
                   }}
-                  src="https://lh3.googleusercontent.com/drive-viewer/AEYmBYTsWGRDr8tJmhgQrP_G40atBmlur9_qmMuW_lr64Q0zLJYERNumDobrqvYHIL1-k6HV9DVhBzZt-BRAGew-di0zNnzZdA=s2560"
-                  alt="Eden Food Primary Logo."
+                  src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579587/1_hdhl7b.png"
+                  alt="Eden Food Secondary Logo."
                 />
               </a>
-              <Box
-                sx={{
-                  display: { xs: "none", md: "flex" },
-                }}
-              >
-                <MenuItem
-                  onClick={() => scrollToSection("features")}
-                  sx={{
-                    py: "6px",
-                    px: "12px",
-                    fontFamily: "nunito, sans-serif",
-                    color: "#FAFFF4",
-                  }}
-                >
-                  <Typography
-                    variant="nunito, sans-serif"
-                    color="#FAFFF4"
-                    sx={{
-                      fontFamily: "open sans, sans-serif",
-                      fontWeight: "750",
-                      fontSize: { xs: "0.9rem", md: "0.9rem" },
-                      letterSpacing: "0.5px",
-                      gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 6 },
-                      pb: 3,
-                    }}
-                  >
-                    PROFILE SETTINGS
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => scrollToSection("testimonials")}
-                  sx={{
-                    py: "6px",
-                    px: "12px",
-                    fontFamily: "nunito, sans-serif",
-                  }}
-                >
-                  <Typography
-                    variant="nunito, sans-serif"
-                    color="#FAFFF4"
-                    sx={{
-                      fontFamily: "open sans, sans-serif",
-                      fontWeight: "750",
-                      fontSize: { xs: "0.9rem", md: "0.9rem" },
-                      letterSpacing: "0.5px",
-                      gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 6 },
-                      pb: 3,
-                    }}
-                  >
-                    ORDER HISTORY
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => scrollToSection("highlights")}
-                  sx={{
-                    py: "6px",
-                    px: "12px",
-                    fontFamily: "nunito, sans-serif",
-                  }}
-                >
-                  <Typography
-                    variant="nunito, sans-serif"
-                    color="#FAFFF4"
-                    sx={{
-                      fontFamily: "open sans, sans-serif",
-                      fontWeight: "750",
-                      fontSize: { xs: "0.9rem", md: "0.9rem" },
-                      letterSpacing: "0.5px",
-                      gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 6 },
-                      pb: 3,
-                    }}
-                  >
-                    MANAGE LISTINGS
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => scrollToSection("pricing")}
-                  sx={{
-                    py: "6px",
-                    px: "12px",
-                    fontFamily: "nunito, sans-serif",
-                  }}
-                >
-                  <Typography
-                    variant="nunito, sans-serif"
-                    color="#FAFFF4"
-                    sx={{
-                      fontFamily: "open sans, sans-serif",
-                      fontWeight: "750",
-                      fontSize: { xs: "0.9rem", md: "0.9rem" },
-                      letterSpacing: "0.5px",
-                      gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 6 },
-                      pb: 3,
-                    }}
-                  >
-                    DASHBOARD
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => scrollToSection("faq")}
-                  sx={{
-                    py: "6px",
-                    px: "12px",
-                    fontFamily: "nunito, sans-serif",
-                  }}
-                >
-                  <Typography
-                    variant="nunito, sans-serif"
-                    color="#FAFFF4"
-                    sx={{
-                      fontFamily: "open sans, sans-serif",
-                      fontWeight: "750",
-                      fontSize: { xs: "0.9rem", md: "0.9rem" },
-                      letterSpacing: "0.5px",
-                      gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 6 },
-                      pb: 3,
-                    }}
-                  >
-                    LOGOUT
-                  </Typography>
-                </MenuItem>
-              </Box>
             </Box>
             <Box
               sx={{
