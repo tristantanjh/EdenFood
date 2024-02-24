@@ -48,20 +48,18 @@ APIrouter.post("/addCompany", (req, res) => {
 });
 
 APIrouter.post("/createUser", async (req, res) => {
-  const {
-    username,
-    email,
-    password,
-    profilePic,
-    wishlist,
-    cart,
-    order,
-    ratings,
-  } = req.body;
+  const { username, email, password, profilePic } = req.body;
 
   try {
-    const newUser = new User(dummyUser);
+    const newUser = new User({
+      username,
+      email,
+      password,
+      profilePic,
+    });
+
     await newUser.save();
+
     res
       .status(201)
       .json({ message: "User created successfully", user: newUser });
