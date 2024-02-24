@@ -15,7 +15,7 @@ const grocerySchema = new mongoose.Schema({
   },
   price: {
     required: true,
-    type: double,
+    type: Number,
   },
   reviews: [
     {
