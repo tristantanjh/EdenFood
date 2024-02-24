@@ -57,7 +57,7 @@ function AppAppBar() {
           boxShadow: 0,
           bgcolor: "#076365",
           backgroundImage: "none",
-          pb: 2.5,
+          pb: 4.4,
         }}
       >
         <Container maxWidth="lg">
@@ -87,18 +87,20 @@ function AppAppBar() {
                   component="img"
                   sx={{
                     mt: { xs: 5, md: 4 },
-                    ml: { xs: "-5vw", md: "-5vw" },
+                    ml: { xs: "-1vw", sm: "-3vw" },
+                    mr: "1vw",
                     alignSelf: "flex-start",
-                    height: { xs: 130, sm: 170 },
+                    height: { xs: 80, sm: 100 },
                     objectFit: "cover",
                   }}
-                  src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708587495/2_xzanz3.png"
+                  src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708576163/Natural_Fresh_Food_Logo_1_n9mbxk.png"
                   alt="Eden Food Primary Logo."
                 />
               </a>
               <Box
                 sx={{
                   display: { xs: "none", md: "flex" },
+                  mt: { xs: 0, md: 0.8 },
                 }}
               >
                 <MenuItem
@@ -119,8 +121,8 @@ function AppAppBar() {
                       fontSize: { xs: "0.9rem", md: "0.9rem" },
                       letterSpacing: "0.5px",
                       gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 6 },
-                      pb: 3,
+                      mt: { xs: 2, md: 7 },
+                      pb: 4.4,
                     }}
                   >
                     PROFILE SETTINGS
@@ -143,8 +145,8 @@ function AppAppBar() {
                       fontSize: { xs: "0.9rem", md: "0.9rem" },
                       letterSpacing: "0.5px",
                       gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 6 },
-                      pb: 3,
+                      mt: { xs: 2, md: 7 },
+                      pb: 4.4,
                     }}
                   >
                     ORDER HISTORY
@@ -167,8 +169,8 @@ function AppAppBar() {
                       fontSize: { xs: "0.9rem", md: "0.9rem" },
                       letterSpacing: "0.5px",
                       gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 6 },
-                      pb: 3,
+                      mt: { xs: 2, md: 7 },
+                      pb: 4.4,
                     }}
                   >
                     MANAGE LISTINGS
@@ -191,8 +193,8 @@ function AppAppBar() {
                       fontSize: { xs: "0.9rem", md: "0.9rem" },
                       letterSpacing: "0.5px",
                       gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 6 },
-                      pb: 3,
+                      mt: { xs: 2, md: 7 },
+                      pb: 4.4,
                     }}
                   >
                     DASHBOARD
@@ -215,8 +217,8 @@ function AppAppBar() {
                       fontSize: { xs: "0.9rem", md: "0.9rem" },
                       letterSpacing: "0.5px",
                       gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 6 },
-                      pb: 3,
+                      mt: { xs: 2, md: 7 },
+                      pb: 4.4,
                     }}
                   >
                     LOGOUT
@@ -254,7 +256,7 @@ function AppAppBar() {
                     backgroundColor: alpha("#64CF94", 0.6),
                     color: "#FFF",
                   },
-                  mt: { xs: 2, md: 3 },
+                  mt: { xs: 2, md: 4 },
                 }}
               >
                 Register
@@ -282,7 +284,7 @@ function AppAppBar() {
                     backgroundColor: alpha("#64CF94", 0.6),
                     color: "#FFF",
                   },
-                  mt: { xs: 2, md: 3 },
+                  mt: { xs: 2, md: 4 },
                 }}
               >
                 Log In
@@ -297,12 +299,14 @@ function AppAppBar() {
               <Button
                 variant="text"
                 color="primary"
+                size="large"
                 aria-label="menu"
                 onClick={toggleDrawer(true)}
                 sx={{
                   minWidth: "20px",
                   p: "4px",
                   color: "#FAFFF4",
+                  "&:focus": { outline: "none" },
                 }}
               >
                 <MenuIcon />
@@ -336,7 +340,6 @@ function AppAppBar() {
                       fontSize: { xs: "0.9rem", md: "0.9rem" },
                       letterSpacing: "0.5px",
                       gap: { xs: "none", md: "10px" },
-                      color: (theme) => "#076365",
                     }}
                   >
                     <ListItemIcon>

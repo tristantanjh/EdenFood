@@ -41,7 +41,6 @@ export default function ItemCard() {
           flexDirection: { xs: "column", md: "row" },
           alignItems: "center",
           justifyContent: "center",
-          pt: { xs: 14, sm: 20 },
           pb: { xs: 6, sm: 12 },
         }}
       >
@@ -76,7 +75,7 @@ export default function ItemCard() {
                 mb: 0.4,
               }}
             >
-              Norwegian Salmon
+              Norwegian Salmon (100g)
             </Typography>
             {/* Custom number of days based on merchant uploads */}
             <Typography
@@ -119,6 +118,7 @@ export default function ItemCard() {
                 mt: -4.5,
                 width: isMobile ? 40 : 50,
                 height: isMobile ? 40 : 50,
+                "&:focus": { outline: "none" },
               }}
             >
               <img
