@@ -1,7 +1,7 @@
 import express from "express";
 
 import { addToCart, getListOfGroceries } from "../controller/cartController.js";
-import { createListing } from "../controller/groceryController.js"
+import { createListing, getListingByGroceryId } from "../controller/groceryController.js"
 import { checkoutOrder } from "../controller/orderController.js";
 import { createUser } from "../controller/userController.js";
 import { addToWishList } from "../controller/wishListController.js";
@@ -24,6 +24,8 @@ APIrouter.post("/checkoutOrder", checkoutOrder);
 APIrouter.post("/leaveReview/:groceryId", leaveReview);
 
 APIrouter.get("/getListOfGrocery/:userId", getListOfGroceries);
+
+APIrouter.get("/getListingByGroceryId/:groceryId", getListingByGroceryId);
 
 
 export { APIrouter };

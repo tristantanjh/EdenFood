@@ -5,7 +5,7 @@ import { Order } from "../model/orderModel.js";
 
 const checkoutOrder =  async (req, res) => {
     const { pickupLocation, groceries } = req.body;
-  
+    
     const newOrder = new Order({
       pickupLocation,
       status: "pending",
