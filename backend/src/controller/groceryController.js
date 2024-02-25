@@ -22,6 +22,26 @@ const createListing = async (req, res) => {
     }
   }
 
-  //get everything via -> grocery id
+  //get all listing based on user id
 
-  export { createListing };
+// Define a route to fetch a listing by groceryId
+const getListingByGroceryId = async (req, res) => {
+  try {
+    const groceryId = req.params.groceryId;
+
+    // Find the grocery by its ID
+    const grocery = await Grocery.findById(groceryId);
+
+    if (!grocery) {
+      return res.status(404).json({ message: 'Grocery not found' });
+    }
+
+    res.json(grocery);
+  } catch (err) {
+    console.error('Error fetching grocery:', err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
+
+  export { createListing, getListingByGroceryId };
