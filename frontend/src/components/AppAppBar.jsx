@@ -266,8 +266,7 @@ function AppAppBar() {
                 variant="text"
                 size="small"
                 component="a"
-                href="/material-ui/getting-started/templates/sign-up/"
-                target="_blank"
+                href="/login"
                 sx={{
                   width: "100%",
                   fontFamily: "nunito, sans-serif",
@@ -517,7 +516,7 @@ function AppAppBar() {
                         color="primary"
                         variant="text"
                         component="a"
-                        href="/material-ui/getting-started/templates/sign-in/"
+                        href="/login"
                         target="_blank"
                         sx={{
                           width: "100%",
