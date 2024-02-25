@@ -75,11 +75,11 @@ export default function ProductAvailability() {
           flexDirection: { xs: "column", md: "row" },
           alignItems: "center",
           justifyContent: "center",
-          pt: { xs: 14, sm: 20 },
+          pt: { xs: 4, sm: 8 },
           pb: { xs: 6, sm: 12 },
         }}
       >
-        <Card sx={{ minWidth: 27 }}>
+        <Card variant="outlined" sx={{ minWidth: 27, borderRadius: "10px", borderWidth: "2px" }}>
           {/* Custom image based on merchant uploads */}
           <CardContent sx={{ p: 1, pl: 3 }}>
             <Typography

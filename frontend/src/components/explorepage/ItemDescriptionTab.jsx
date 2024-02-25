@@ -74,11 +74,11 @@ export default function ItemDescriptionTab() {
       <Container
         sx={{
           display: "flex",
-          flexDirection: { xs: "column", md: "row" },
+          flexDirection: { xs: "column", md: "column" },
           alignItems: "center",
           justifyContent: "center",
           pt: { xs: 14, sm: 20 },
-          pb: { xs: 6, sm: 12 },
+        //   pb: { xs: 6, sm: 12 },
         }}
       >
         <Box
@@ -146,7 +146,7 @@ export default function ItemDescriptionTab() {
               alignItems: "left",
             }}
           >
-            <List sx={{ listStyleType: "disc" }}>
+            <List sx={{ listStyleType: "disc", pl: "24px" }}>
               <ListItem sx={{ display: "list-item" }}>
                 <Typography
                   display="inline"
@@ -184,7 +184,8 @@ export default function ItemDescriptionTab() {
                 </Typography>
               </ListItem>
             </List>
-            <Typography
+          </Box>
+          <Typography
               display="inline"
               sx={{ fontFamily: "nunito, sans-serif", fontSize: "1rem" }}
             >
@@ -194,7 +195,6 @@ export default function ItemDescriptionTab() {
               milkfish are characterized by their sleek, silvery bodies and
               forked tails.
             </Typography>
-          </Box>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
           Item Two

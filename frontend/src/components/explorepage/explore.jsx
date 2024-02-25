@@ -11,6 +11,7 @@ export default function Explore() {
       <CssBaseline />
       <AppBarSecondary />
       <ItemDescriptionTab />
+      <ProductAvailability />
       <Footer />
     </div>
   );
