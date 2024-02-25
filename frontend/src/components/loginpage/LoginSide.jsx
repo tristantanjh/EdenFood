@@ -325,19 +325,29 @@ export default function SignInSide() {
               type="submit"
               fullWidth
               variant="contained"
+              disabled={!formData.email || !formData.password}
               sx={{
                 mt: 3,
                 mb: 2,
+                py: isMobile ? 1.5 : 1,
                 fontFamily: "open sans, sans-serif",
                 backgroundColor: "#076365",
                 color: "#FAFFF4",
                 borderRadius: "30px",
                 "&:hover": { backgroundColor: "#076365" },
+                position: isMobile ? "fixed" : "static", // Position fixed on mobile
+                bottom: isMobile ? "20px" : "auto", // Adjust bottom position on mobile
+                left: isMobile ? "50%" : "0",
+                transform: isMobile ? "translateX(-50%)" : "0",
+                width: isMobile ? "calc(100% - 40px)" : "100%", // Adjust width on mobile
+                maxWidth: isMobile? "400px" : "auto", // Max width of the button
+                marginLeft: "auto", // Center horizontally
+                marginRight: "auto", // Center horizontally
               }}
             >
               Sign In
             </Button>
-            <Grid container>
+            <Grid container sx={{mt: isMobile ? 2.5 : 0}}>
               <Grid item xs>
                 <Link
                   href="#"
@@ -371,7 +381,7 @@ export default function SignInSide() {
                 </Link>
               </Grid>
             </Grid>
-            <Copyright sx={{ mt: 5 }} />
+            <Copyright sx={{ display: {xs: "none", md:"inherit"}, mt: 5 }} />
           </Box>
         </Box>
       </Grid>
