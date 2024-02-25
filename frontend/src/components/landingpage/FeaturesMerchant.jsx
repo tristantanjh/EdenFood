@@ -67,7 +67,7 @@ export default function FeaturesCustomer() {
       id="features"
       sx={{ py: { xs: 8, sm: 16 }, backgroundColor: "#076365" }}
     >
-      <Grid container spacing={6}>
+      <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           <div>
             <Typography
@@ -150,6 +150,24 @@ export default function FeaturesCustomer() {
             sx={{ width: 450, marginLeft: isMobile ? 0 : 12 }}
             ratio="3/4"
           >
+            <Box
+              id="image"
+              component="img"
+              src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708523841/beth-macdonald-mjSWtq7k7k8-unsplash_umxidz.jpg"
+              sx={{
+                objectFit: "cover",
+                width: "100%",
+                height: "100%",
+              }}
+            />
+          </AspectRatio>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sx={{ display: { xs: "flex", sm: "none" }, width: "100%", justifyContent: "center" }}
+        >
+          <AspectRatio sx={{ width: 300 }} ratio="1/1">
             <Box
               id="image"
               component="img"
