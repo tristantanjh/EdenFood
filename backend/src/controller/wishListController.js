@@ -24,4 +24,6 @@ const addToWishList = async (req, res) => {
     }
   }
 
+  //get wish list based on id
+
   export { addToWishList }

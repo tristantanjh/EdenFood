@@ -1,7 +1,7 @@
 import { User } from "../model/userModel.js";
 
 
-const createUser =async (req, res) => {
+const createUser = async (req, res) => {
     const { username, email, password, profilePic } = req.body;
   
     try {
@@ -25,5 +25,7 @@ const createUser =async (req, res) => {
     }
   }
 
+
+//get email, profilepic by username 
 
   export { createUser };

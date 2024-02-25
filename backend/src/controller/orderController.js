@@ -23,4 +23,6 @@ const checkoutOrder =  async (req, res) => {
     }
   }
 
+//get order based on user id
+
   export { checkoutOrder };
