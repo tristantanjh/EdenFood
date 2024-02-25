@@ -22,7 +22,9 @@ export default function Navigation() {
       <Box sx={{ bgcolor: "#076365" }}>
         <FeaturesMerchant />
       </Box>
-      <Footer />
+      <Box sx={{ bgcolor: "#FAFFF4" }}>
+        <Footer />
+      </Box>
     </div>
   );
 }

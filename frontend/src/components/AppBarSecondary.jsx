@@ -86,13 +86,14 @@ function AppAppBar() {
                   id="image"
                   component="img"
                   sx={{
-                    mt: { xs: 2.5, md: 3.5 },
-                    ml: { xs: "-5vw", md: "-5vw" },
+                    mt: { xs: 5, md: 4 },
+                    ml: { xs: "-1vw", sm: "-3vw" },
+                    mr: "1vw",
                     alignSelf: "flex-start",
-                    height: { xs: 130, sm: 160 },
+                    height: { xs: 80, sm: 100 },
                     objectFit: "cover",
                   }}
-                  src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579587/1_hdhl7b.png"
+                  src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708750197/Natural_Fresh_Food_Logo_uzq4gs.png"
                   alt="Eden Food Secondary Logo."
                 />
               </a>
@@ -175,7 +176,8 @@ function AppAppBar() {
                 sx={{
                   minWidth: "20px",
                   p: "4px",
-                  color: "#FAFFF4",
+                  color: "#076365",
+                  "&:focus": { outline: "none" },
                 }}
               >
                 <MenuIcon />

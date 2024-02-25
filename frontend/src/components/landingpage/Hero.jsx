@@ -25,7 +25,7 @@ export default function Hero() {
           flexDirection: { xs: "column", md: "row" },
           alignItems: "center",
           justifyContent: "center",
-          pt: { xs: 14, sm: 20 },
+          pt: { xs: 14, sm: 16 },
           pb: { xs: 6, sm: 12 },
         }}
       >
@@ -122,6 +122,7 @@ export default function Hero() {
                   "&:hover": {
                     backgroundColor: alpha("#64CF94", 0.8),
                   },
+                  "&:focus": { outline: "none" },
                 }}
               >
                 Order Now
