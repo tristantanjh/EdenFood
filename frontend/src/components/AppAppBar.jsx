@@ -516,7 +516,7 @@ function AppAppBar() {
                         color="primary"
                         variant="text"
                         component="a"
-                        href="/material-ui/getting-started/templates/sign-in/"
+                        href="/login"
                         target="_blank"
                         sx={{
                           width: "100%",
