@@ -67,7 +67,7 @@ export default function FeaturesCustomer() {
       id="features"
       sx={{ py: { xs: 8, sm: 16 }, backgroundColor: "#FAFFF4" }}
     >
-      <Grid container spacing={6}>
+      <Grid container spacing={4}>
       <Grid
           item
           xs={12}
@@ -104,7 +104,7 @@ export default function FeaturesCustomer() {
               variant="body1"
               color="#076365"
               sx={{
-                mb: { xs: 2, sm: 4 },
+                mb: { xs: 4, sm: 4 },
                 mt: { xs: 3, md: 4 },
                 fontFamily: "nunito, sans-serif",
                 textAlign: isMobile ? "center" : "inherit",
@@ -158,6 +158,24 @@ export default function FeaturesCustomer() {
               </Box>
             ))}
           </Stack>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sx={{ display: { xs: "flex", sm: "none" }, width: "100%", justifyContent: "center" }}
+        >
+          <AspectRatio sx={{ width: 300 }} ratio="1/1">
+            <Box
+              id="image"
+              component="img"
+              src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708506369/edgar-castrejon-1SPu0KT-Ejg-unsplash_cuvm4w.jpg"
+              sx={{
+                objectFit: "cover",
+                width: "100%",
+                height: "100%",
+              }}
+            />
+          </AspectRatio>
         </Grid>
       </Grid>
     </Container>
