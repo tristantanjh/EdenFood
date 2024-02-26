@@ -10,6 +10,7 @@ import App from "./routes/App.jsx";
 import Login from "./routes/Login.jsx";
 import ErrorPage from "./routes/ErrorPage.jsx";
 import Explore from "./components/explorepage/explore.jsx";
+import Item from "./components/itempage/Item.jsx";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/item",
+    element: <Item />,
   }
 ]);
 

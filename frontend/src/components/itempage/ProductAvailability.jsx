@@ -76,7 +76,7 @@ export default function ProductAvailability() {
           alignItems: "center",
           justifyContent: "center",
           pt: { xs: 4, sm: 8 },
-          pb: { xs: 6, sm: 12 },
+          pb: { xs: 3, sm: 6 },
         }}
       >
         <Card variant="outlined" sx={{ minWidth: 27, borderRadius: "10px", borderWidth: "2px" }}>
@@ -95,7 +95,8 @@ export default function ProductAvailability() {
               sx={{
                 ml: 1.2,
                 mb: 0.7,
-                fontSize: "0.9rem",
+                mr: { xs: 0, sm: 8 },
+                fontSize: { xs: '0.9rem', sm: '1rem' },
                 fontFamily: "nunito, sans-serif",
               }}
               color="text.secondary"
@@ -115,6 +116,7 @@ export default function ProductAvailability() {
                     sx={{
                       color: item.quantity == 0 ? "rgba(0, 0, 0, 0.54)" : "#000000",
                       p: "5px",
+                      pl: { xs: '5px', md: 3 },
                       border: "0",
                       pointerEvents: item.quantity == 0 ? "none" : "auto",
                     }}
@@ -124,7 +126,7 @@ export default function ProductAvailability() {
                     >
                       <Typography
                         sx={{
-                          fontSize: "0.8rem",
+                          fontSize: { xs: '0.8rem', sm: '1rem' },
                           textTransform: "none",
                           textAlign: "left",
                           mr: "50px",
@@ -138,7 +140,7 @@ export default function ProductAvailability() {
                       </Typography>
                       <Typography
                         sx={{
-                          fontSize: "0.8rem",
+                          fontSize: { xs: '0.8rem', sm: '0.9rem' },
                           textTransform: "none",
                           textAlign: "left",
                         }}

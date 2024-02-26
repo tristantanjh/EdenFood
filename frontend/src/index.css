@@ -42,7 +42,7 @@ button {
 }
 
 button:hover {
-  border-color: #646cff;
+  /* border-color: #646cff; */
 }
 
 button:focus,

@@ -8,6 +8,7 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import AspectRatio from "@mui/joy/AspectRatio";
+import CustomButton from "../common/CustomButton";
 
 export default function Hero() {
   return (
@@ -106,8 +107,7 @@ export default function Hero() {
             }}
           >
             <Link to="/explore">
-              <Button
-                variant="contained"
+              <CustomButton
                 sx={{
                   borderRadius: "999px",
                   borderBlockColor: "transparent",
@@ -126,7 +126,7 @@ export default function Hero() {
                 }}
               >
                 Order Now
-              </Button>
+              </CustomButton>
             </Link>
           </Stack>
         </Stack>

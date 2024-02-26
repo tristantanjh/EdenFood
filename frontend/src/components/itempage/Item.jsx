@@ -2,16 +2,14 @@ import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBarSecondary from "../AppBarSecondary.jsx";
 import Footer from "../Footer.jsx";
-import ItemCard from "./ItemCard.jsx";
-import SearchBar from "./SearchBar.jsx";
+import ItemDescription from "./ItemDescription.jsx";
 
-export default function Explore() {
+export default function Item() {
   return (
     <div>
       <CssBaseline />
       <AppBarSecondary />
-      <SearchBar />
-      <ItemCard />
+      <ItemDescription />
       <Footer />
     </div>
   );
