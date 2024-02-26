@@ -1,15 +1,12 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import swal from "sweetalert";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import Input from "@mui/material/Input";
@@ -20,9 +17,9 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import FormControl from "@mui/material/FormControl";
 import AspectRatio from "@mui/joy/AspectRatio";
-import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import FormHelperText from '@mui/material/FormHelperText';
+import FormHelperText from "@mui/material/FormHelperText";
+import CloudinaryUploadWidget from "../CloudinaryUploadWidget";
 
 function Copyright(props) {
   return (
@@ -63,16 +60,19 @@ const logoStyle = {
   cursor: "pointer",
 };
 
-export default function SignInSide() {
+export default function RegisterMain() {
   const [showPassword, setShowPassword] = React.useState(false);
   const isMobile = useMediaQuery("(max-width:600px)");
+  const [imageURL, setImageURL] = React.useState(
+    "https://res.cloudinary.com/daoutybdu/image/upload/v1686756170/lfabgsuxczvix4eecxas.jpg"
+  );
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    
+
     if (validateForm()) {
       console.log({
         email: data.get("email"),
@@ -103,7 +103,7 @@ export default function SignInSide() {
     console.log(formData);
     setFormData({
       ...formData,
-      [name]: name === 'rememberMe' ? checked : value,
+      [name]: name === "rememberMe" ? checked : value,
     });
   };
 
@@ -119,8 +119,10 @@ export default function SignInSide() {
 
     // Check if email is empty or invalid format
     if (!formData.email || !emailRegex.test(formData.email.trim())) {
-        newErrors.email = !formData.email ? "Email is required" : "Invalid email format";
-        valid = false;
+      newErrors.email = !formData.email
+        ? "Email is required"
+        : "Invalid email format";
+      valid = false;
     }
 
     // Password strength check
@@ -189,7 +191,7 @@ export default function SignInSide() {
               height: "60%",
               width: "60%",
             }}
-            src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708348046/samples/man-portrait.jpg"
+            src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708348042/samples/smile.jpg"
             alt="Eden Food Background Image."
           />
         </AspectRatio>
@@ -240,7 +242,7 @@ export default function SignInSide() {
             fontWeight={"bold"}
             color={"#181B13"}
           >
-            Welcome Back to EdenFood
+            Sign Up for EdenFood
           </Typography>
           <Box
             component="form"
@@ -276,6 +278,43 @@ export default function SignInSide() {
                 },
               }}
             />
+            <Typography
+              variant="body2"
+              color="inherit"
+              align="left"
+              sx={{
+                fontFamily: "nunito, sans-serif",
+                fontSize: "12px",
+              }}
+            >
+              *Please use an email address that is linked to a valid PayPal
+            </Typography>
+            <TextField
+              color="success"
+              variant="standard"
+              fullWidth
+              id="username"
+              label="Username"
+              name="username"
+              onChange={handleChange}
+              error={Boolean(errors.email)}
+              helperText={errors.email}
+              InputProps={{
+                sx: {
+                  "& input:-webkit-autofill": {
+                    WebkitBoxShadow: "0 0 0 1000px #FFFFFF inset",
+                    WebkitTextFillColor: "#181B13",
+                  },
+                  fontFamily: "nunito, sans-serif",
+                },
+              }}
+              sx={{
+                "& label": {
+                  fontFamily: "nunito, sans-serif",
+                },
+                my: "4px",
+              }}
+            />
             <FormControl sx={{ width: "100%" }} variant="standard">
               <InputLabel
                 htmlFor="standard-adornment-password"
@@ -289,6 +328,7 @@ export default function SignInSide() {
               <Input
                 sx={{
                   fontFamily: "nunito, sans-serif",
+                  mb: 2,
                 }}
                 onChange={handleChange}
                 error={Boolean(errors.password)}
@@ -309,25 +349,24 @@ export default function SignInSide() {
                 }
               />
               {Boolean(errors.password) && (
-                    <FormHelperText error>{errors.password}</FormHelperText>
-                )}
+                <FormHelperText error>{errors.password}</FormHelperText>
+              )}
             </FormControl>
-            {/* <FormControlLabel
-                    sx={{color: "#181B13"}}
-                    control={<Checkbox value="remember" sx={{color:"primary"}} />}
-                    label={
-                        <Typography sx={{ fontFamily: 'Nunito, sans-serif', color: "#181B13" }}>
-                          Remember me
-                        </Typography>
-                      }
-                /> */}
+            <CloudinaryUploadWidget
+              onUploadSuccess={(secureUrl) => {
+                swal("Success", "Media uploaded", "success");
+                console.log("Secure URL:", secureUrl);
+                setImageURL(secureUrl);
+                console.log(imageURL);
+              }}
+            />
             <Button
               type="submit"
               fullWidth
               variant="contained"
               disabled={!formData.email || !formData.password}
               sx={{
-                mt: 3,
+                mt: 2,
                 mb: 2,
                 py: isMobile ? 1.5 : 1,
                 fontFamily: "open sans, sans-serif",
@@ -340,33 +379,17 @@ export default function SignInSide() {
                 left: isMobile ? "50%" : "0",
                 transform: isMobile ? "translateX(-50%)" : "0",
                 width: isMobile ? "calc(100% - 40px)" : "100%", // Adjust width on mobile
-                maxWidth: isMobile? "400px" : "auto", // Max width of the button
+                maxWidth: isMobile ? "400px" : "auto", // Max width of the button
                 marginLeft: "auto", // Center horizontally
                 marginRight: "auto", // Center horizontally
               }}
             >
               Sign In
             </Button>
-            <Grid container sx={{mt: isMobile ? 2.5 : 0}}>
-              <Grid item xs>
-                <Link
-                  href="#"
-                  color="inherit"
-                  sx={{
-                    fontFamily: "nunito, sans-serif",
-                    fontSize: "14px",
-                    "&:hover": {
-                      color: "#388e3c", // Change the hover color here
-                      textDecorationColor: "#388e3c", // Change the underline color here
-                    },
-                  }}
-                >
-                  Forgot password?
-                </Link>
-              </Grid>
+            <Grid container sx={{ mt: isMobile ? 2.5 : 0 }}>
               <Grid item>
                 <Link
-                  href="/register"
+                  href="/login"
                   color="inherit"
                   sx={{
                     fontFamily: "nunito, sans-serif",
@@ -377,11 +400,53 @@ export default function SignInSide() {
                     },
                   }}
                 >
-                  Register
+                  Have an account? Log In
                 </Link>
               </Grid>
             </Grid>
-            <Copyright sx={{ display: {xs: "none", md:"inherit"}, mt: 5 }} />
+            <Typography
+              variant="body2"
+              color="inherit"
+              align="center"
+              sx={{
+                fontFamily: "nunito, sans-serif",
+                fontSize: "14px",
+                display: { xs: "none", md: "inherit" },
+                mt: 3,
+              }}
+            >
+              By signing up, you agree to our{" "}
+              <Link
+                color="inherit"
+                href="/terms-and-conditions"
+                sx={{
+                  fontFamily: "nunito, sans-serif",
+                  fontSize: "14px",
+                  "&:hover": {
+                    color: "#388e3c", // Change the hover color here
+                    textDecorationColor: "#388e3c", // Change the underline color here
+                  },
+                }}
+              >
+                Terms and Conditions
+              </Link>{" "}
+              and our{" "}
+              <Link
+                color="inherit"
+                href="/private-policy"
+                sx={{
+                  fontFamily: "nunito, sans-serif",
+                  fontSize: "14px",
+                  "&:hover": {
+                    color: "#388e3c", // Change the hover color here
+                    textDecorationColor: "#388e3c", // Change the underline color here
+                  },
+                }}
+              >
+                Private Policy
+              </Link>
+            </Typography>
+            <Copyright sx={{ display: { xs: "none", md: "inherit" }, mt: 5 }} />
           </Box>
         </Box>
       </Grid>
