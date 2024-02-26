@@ -209,11 +209,12 @@ export default function RegisterMain() {
         <Box
           sx={{
             mx: 4,
+            mt: {xs: 4, md: 0},
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center",
-            height: { xs: "60vh", md: "100vh" },
+            justifyContent: {xs: "flex-start", sm: "center"},
+            height: "100vh",
             width: { xs: "100%", md: "30%" },
           }}
         >

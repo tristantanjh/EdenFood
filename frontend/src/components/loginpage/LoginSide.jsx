@@ -63,7 +63,7 @@ const logoStyle = {
   cursor: "pointer",
 };
 
-export default function SignInSide() {
+export default function LoginSide() {
   const [showPassword, setShowPassword] = React.useState(false);
   const isMobile = useMediaQuery("(max-width:600px)");
 
@@ -207,11 +207,12 @@ export default function SignInSide() {
         <Box
           sx={{
             mx: 4,
+            mt: {xs: 4, md: 0},
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center",
-            height: { xs: "60vh", md: "100vh" },
+            justifyContent: {xs: "flex-start", sm: "center"},
+            height: "100vh",
             width: { xs: "100%", md: "30%" },
           }}
         >
