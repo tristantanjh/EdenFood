@@ -17,6 +17,11 @@ const grocerySchema = new mongoose.Schema({
     required: true,
     type: Number,
   },
+  user: {
+    require: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   reviews: [
     {
       type: mongoose.Schema.Types.ObjectId,

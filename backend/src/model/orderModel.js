@@ -10,6 +10,11 @@ const orderSchema = new mongoose.Schema(
       required: true,
       type: String,
     },
+    user: {
+      require: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     groceries: [
       {
         required: true,

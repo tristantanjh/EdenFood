@@ -2,6 +2,11 @@ import mongoose, { Schema } from "mongoose";
 
 const reviewSchema = new mongoose.Schema(
   {
+    groceryId: {
+      required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Grocery",
+    },
     rating: {
       required: true,
       type: Number,
