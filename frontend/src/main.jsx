@@ -10,6 +10,7 @@ import App from "./routes/App.jsx";
 import Login from "./routes/Login.jsx";
 import ErrorPage from "./routes/ErrorPage.jsx";
 import Explore from "./components/explorepage/explore.jsx";
+import Register from "./routes/Register.jsx";
 import Item from "./components/itempage/Item.jsx";
 
 const router = createBrowserRouter([
@@ -29,7 +30,11 @@ const router = createBrowserRouter([
   {
     path: "/item",
     element: <Item />,
-  }
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
