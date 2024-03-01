@@ -3,9 +3,9 @@ import mongoose, { Schema } from "mongoose";
 const reviewSchema = new mongoose.Schema(
   {
     groceryId: {
-      required: true,
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Grocery",
+      required: true,
     },
     rating: {
       required: true,
