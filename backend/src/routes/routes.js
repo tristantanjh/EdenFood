@@ -1,11 +1,15 @@
 import express from "express";
 
-import { addToCart, getListOfGroceries } from "../controller/cartController.js";
+import { addToCart, getCart } from "../controller/cartController.js";
 import {
   createListing,
   getListingByGroceryId,
 } from "../controller/groceryController.js";
-import { checkoutOrder } from "../controller/orderController.js";
+import { 
+  checkoutOrder, 
+  getOrdersWithUserId
+} from "../controller/orderController.js";
+
 import {
   createUser,
   getEmail,
@@ -33,9 +37,11 @@ APIrouter.post("/addToWishlist", addToWishList);
 
 APIrouter.post("/checkoutOrder", checkoutOrder);
 
+APIrouter.post("/getOrdersWithUserId/:userId",getOrdersWithUserId)
+
 APIrouter.post("/leaveReview/:groceryId", leaveReview);
 
-APIrouter.get("/getListOfGrocery/:userId", getListOfGroceries);
+APIrouter.get("/getCart/:userId", getCart);
 
 APIrouter.get("/getListingByGroceryId/:groceryId", getListingByGroceryId);
 

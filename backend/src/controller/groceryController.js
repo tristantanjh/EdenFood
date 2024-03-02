@@ -25,7 +25,6 @@ const createListing = async (req, res) => {
 
   //get all listing based on user id
 
-// Define a route to fetch a listing by groceryId
 const getListingByGroceryId = async (req, res) => {
   try {
     const groceryId = req.params.groceryId;

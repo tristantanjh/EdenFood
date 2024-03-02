@@ -31,7 +31,8 @@ const addToCart = async (req, res) => {
     }
   }
   
-  const getListOfGroceries = async (req, res) => {
+  //get cart based on userID
+  const getCart = async (req, res) => {
     try {
       const userId = req.params.userId;
   
@@ -52,7 +53,6 @@ const addToCart = async (req, res) => {
     }
   }
 
-//get cart based on userID
 
-export { addToCart, getListOfGroceries };
+export { addToCart, getCart };
 
