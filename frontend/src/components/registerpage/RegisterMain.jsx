@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -63,9 +64,11 @@ const logoStyle = {
 export default function RegisterMain() {
   const [showPassword, setShowPassword] = React.useState(false);
   const isMobile = useMediaQuery("(max-width:600px)");
-  const [imageURL, setImageURL] = React.useState(
-    "https://res.cloudinary.com/daoutybdu/image/upload/v1686756170/lfabgsuxczvix4eecxas.jpg"
-  );
+  const [imageURL, setImageURL] = React.useState("empty");
+
+  useEffect(()=> {
+    console.log(imageURL) //shows true - updated state
+  }, [imageURL])
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -136,6 +139,27 @@ export default function RegisterMain() {
     setErrors(newErrors);
     return valid;
   };
+
+  function handleOnUpload(error, result, widget) {
+    if ( error ) {
+      console.log(error);
+      widget.close({
+        quiet: true
+      });
+      return;
+    }
+    swal("Success", "Media uploaded", "success");
+    console.log(result.info.secure_url)
+    const secureUrl = result?.info?.secure_url;
+    
+    if (secureUrl) {
+      console.log("setURL")
+      setImageURL(secureUrl);
+      console.log(imageURL)
+    }
+
+    
+  }
 
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
@@ -353,14 +377,35 @@ export default function RegisterMain() {
                 <FormHelperText error>{errors.password}</FormHelperText>
               )}
             </FormControl>
-            <CloudinaryUploadWidget
-              onUploadSuccess={(secureUrl) => {
-                swal("Success", "Media uploaded", "success");
-                console.log("Secure URL:", secureUrl);
-                setImageURL(secureUrl);
-                console.log(imageURL);
+            {imageURL == "empty" ? <CloudinaryUploadWidget
+              onUpload={handleOnUpload}>
+              {({ open }) => {
+                function handleOnClick(e) {
+                  e.preventDefault();
+                  open();
+                }
+                return (
+                  <button onClick={handleOnClick}>
+                    Upload an Image
+                  </button>
+                )
               }}
-            />
+            </CloudinaryUploadWidget> : <Box
+                // display={{ xs: "flex", md: "none" }}
+                id="image"
+                component="img"
+                sx={{
+                  mb: 2,
+                  alignSelf: "flex-start",
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                  height: 60,
+                  objectFit: "cover",
+                }}
+                src={imageURL}
+                alt="Uploaded Profile Picture"
+              />}
+            
             <Button
               type="submit"
               fullWidth

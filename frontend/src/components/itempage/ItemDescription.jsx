@@ -12,6 +12,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Grid from "@mui/material/Grid";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Paper from "@mui/material/Paper";
+import CloudinaryUploadWidget from "../CloudinaryUploadWidget.jsx";
 
 export default function ItemDescription() {
   return (
