@@ -14,8 +14,9 @@ import {
   IconButton,
   FormControl,
   FormHelperText,
+  Snackbar,
+  SnackbarContent,
 } from "@mui/material";
-import { Snackbar, SnackbarContent } from "@mui/material";
 import { Visibility, VisibilityOff, Close } from "@mui/icons-material";
 import AspectRatio from "@mui/joy/AspectRatio";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -69,7 +70,6 @@ export default function RegisterMain() {
   const [imageURL, setImageURL] = useState("empty");
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [cursorPosition, setCursorPosition] = useState(null);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -121,7 +121,7 @@ export default function RegisterMain() {
         );
       }
     } else {
-      handleOpenSnackbar("Invalid form! Please check the form for errors.");
+      handleOpenSnackbar("Invalid details entered!");
       console.log("Invalid form");
     }
   };
@@ -445,7 +445,9 @@ export default function RegisterMain() {
                           color: "#181B13",
                           border: "1px dashed #181B13",
                           borderRadius: "10px",
-                          "&:hover": isMobile ? { backgroundColor: "#FFFFFF" } : { backgroundColor: "#DFDFDF" },
+                          "&:hover": isMobile
+                            ? { backgroundColor: "#FFFFFF" }
+                            : { backgroundColor: "#DFDFDF" },
                           px: "16px",
                           py: "8px",
                           fontSize: "18px",

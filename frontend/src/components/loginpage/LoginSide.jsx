@@ -1,28 +1,29 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
-import Input from "@mui/material/Input";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import FormControl from "@mui/material/FormControl";
-import AspectRatio from "@mui/joy/AspectRatio";
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Link,
+  Paper,
+  Box,
+  Grid,
+  Typography,
+  Input,
+  InputLabel,
+  InputAdornment,
+  IconButton,
+  FormControl,
+  useMediaQuery,
+  FormHelperText,
+  Snackbar,
+  SnackbarContent,
+} from "@mui/material";
+import { Visibility, VisibilityOff, Close } from "@mui/icons-material";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import FormHelperText from '@mui/material/FormHelperText';
+import AspectRatio from "@mui/joy/AspectRatio";
+import axios from "axios";
 
 function Copyright(props) {
   return (
@@ -64,49 +65,71 @@ const logoStyle = {
 };
 
 export default function LoginSide() {
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const isMobile = useMediaQuery("(max-width:600px)");
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    rememberMe: false,
+  });
+
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
 
   const handleClickShowPassword = (event) => {
     event.preventDefault();
     setShowPassword((show) => !show);
   };
 
-  const handleSubmit = (event) => {
+  const handleOpenSnackbar = (message) => {
+    setSnackbarMessage(message);
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    
+
     if (validateForm()) {
-      console.log({
-        email: data.get("email"),
-        password: data.get("password"),
-      });
+      try {
+        const response = await axios.post("http://localhost:3000/login", {
+          email: data.get("email"),
+          password: data.get("password"),
+        });
+
+        console.log(response.data); // Handle successful user creation response
+        history.push("/");
+      } catch (error) {
+        if (error.response.status === 401) {
+          console.error("Invalid username or password.");
+          handleOpenSnackbar("Invalid username or password.");
+        } else {
+          console.error("Error creating user:", error.response.data.message);
+          handleOpenSnackbar(
+            error.response.data.message || "An error occurred. Please try again."
+          );
+        }
+      }
     } else {
+      handleOpenSnackbar("Invalid details entered!");
       console.log("Invalid form");
     }
   };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
-  const [formData, setFormData] = React.useState({
-    email: "",
-    password: "",
-    rememberMe: false,
-  });
-
-  const [errors, setErrors] = React.useState({
-    email: "",
-    password: "",
-  });
 
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
     console.log(formData);
     setFormData({
       ...formData,
-      [name]: name === 'rememberMe' ? checked : value,
+      [name]: name === "rememberMe" ? checked : value,
     });
   };
 
@@ -122,8 +145,10 @@ export default function LoginSide() {
 
     // Check if email is empty or invalid format
     if (!formData.email || !emailRegex.test(formData.email.trim())) {
-        newErrors.email = !formData.email ? "Email is required" : "Invalid email format";
-        valid = false;
+      newErrors.email = !formData.email
+        ? "Email is required"
+        : "Invalid email format";
+      valid = false;
     }
 
     // Password strength check
@@ -141,6 +166,30 @@ export default function LoginSide() {
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       <CssBaseline />
+      <Snackbar
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <SnackbarContent
+          sx={{ backgroundColor: "#CE0000" }} // Customize background color for error messages
+          message={snackbarMessage}
+          action={
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={handleCloseSnackbar}
+            >
+              <Close />
+            </IconButton>
+          }
+        />
+      </Snackbar>
       <Grid
         item
         xs={false}
@@ -210,11 +259,11 @@ export default function LoginSide() {
         <Box
           sx={{
             mx: 4,
-            mt: {xs: 4, md: 0},
+            mt: { xs: 4, md: 0 },
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: {xs: "flex-start", sm: "center"},
+            justifyContent: { xs: "flex-start", sm: "center" },
             height: "100vh",
             width: { xs: "100%", md: "30%" },
           }}
@@ -312,8 +361,8 @@ export default function LoginSide() {
                 }
               />
               {Boolean(errors.password) && (
-                    <FormHelperText error>{errors.password}</FormHelperText>
-                )}
+                <FormHelperText error>{errors.password}</FormHelperText>
+              )}
             </FormControl>
             {/* <FormControlLabel
                     sx={{color: "#181B13"}}
@@ -343,14 +392,14 @@ export default function LoginSide() {
                 left: isMobile ? "50%" : "0",
                 transform: isMobile ? "translateX(-50%)" : "0",
                 width: isMobile ? "calc(100% - 40px)" : "100%", // Adjust width on mobile
-                maxWidth: isMobile? "400px" : "auto", // Max width of the button
+                maxWidth: isMobile ? "400px" : "auto", // Max width of the button
                 marginLeft: "auto", // Center horizontally
                 marginRight: "auto", // Center horizontally
               }}
             >
               Sign In
             </Button>
-            <Grid container sx={{mt: isMobile ? 2.5 : 0}}>
+            <Grid container sx={{ mt: isMobile ? 2.5 : 0 }}>
               <Grid item xs>
                 <Link
                   href="#"
@@ -384,7 +433,7 @@ export default function LoginSide() {
                 </Link>
               </Grid>
             </Grid>
-            <Copyright sx={{ display: {xs: "none", md:"inherit"}, mt: 5 }} />
+            <Copyright sx={{ display: { xs: "none", md: "inherit" }, mt: 5 }} />
           </Box>
         </Box>
       </Grid>
