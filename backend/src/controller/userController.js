@@ -1,9 +1,46 @@
 import { User } from "../model/userModel.js";
 
+const login = async (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res
+      .status(400)
+      .json({ error: "Username and password are required." });
+  }
+
+  try {
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(401).json({ error: "Invalid username or password." });
+    } else if (user.password !== password) {
+      return res.status(401).json({ error: "Invalid username or password." });
+    }
+
+    res.json({ userId: user._id });
+  } catch (error) {
+    console.error("Error while logging in:", error);
+    res.status(500).json({ error: "An unexpected error occurred." });
+  }
+};
+
 const createUser = async (req, res) => {
   const { username, email, password, profilePic } = req.body;
 
   try {
+    const existingUser = await User.findOne({ username });
+
+    if (existingUser) {
+      return res.status(400).json({ error: "Username is already taken." });
+    }
+
+    const existingEmail = await User.findOne({ email });
+
+    if (existingEmail) {
+      return res.status(400).json({ error: "Email is already taken." });
+    }
+
     const newUser = new User({
       username,
       email,
@@ -58,4 +95,4 @@ const getProfilePic = async (req, res) => {
   }
 };
 
-export { createUser, getEmail, getProfilePic };
+export { login, createUser, getEmail, getProfilePic };
