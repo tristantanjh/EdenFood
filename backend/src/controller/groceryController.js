@@ -1,30 +1,29 @@
 import { Grocery } from "../model/groceryModel.js";
 
-
 const createListing = async (req, res) => {
-    const { name, description, imageURL, price,categories } = req.body;
-    
-  
-    try {
-      const newGrocery = new Grocery({
-        name,
-        description,
-        imageURL,
-        price,
-        categories,
-      });
-  
-      const savedGrocery = await newGrocery.save();
-      res.status(201).json(savedGrocery);
-    } catch (error) {
-      console.error(error);
-      res
-        .status(500)
-        .json({ message: "An error occurred while creating the grocery." });
-    }
-  }
+  const { name, description, imageURL, price, user, categories } = req.body;
 
-  //get all listing based on user id
+  try {
+    const newGrocery = new Grocery({
+      name,
+      description,
+      imageURL,
+      price,
+      user,
+      categories,
+    });
+
+    const savedGrocery = await newGrocery.save();
+    res.status(201).json(savedGrocery);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while creating the grocery." });
+  }
+};
+
+//get all listing based on user id
 
 const getListingByGroceryId = async (req, res) => {
   try {
@@ -34,15 +33,14 @@ const getListingByGroceryId = async (req, res) => {
     const grocery = await Grocery.findById(groceryId);
 
     if (!grocery) {
-      return res.status(404).json({ message: 'Grocery not found' });
+      return res.status(404).json({ message: "Grocery not found" });
     }
 
     res.json(grocery);
   } catch (err) {
-    console.error('Error fetching grocery:', err);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error("Error fetching grocery:", err);
+    res.status(500).json({ message: "Internal server error" });
   }
-}
+};
 
-
-  export { createListing, getListingByGroceryId };
+export { createListing, getListingByGroceryId };
