@@ -441,11 +441,11 @@ export default function RegisterMain() {
                         sx={{
                           height: "150px",
                           fontFamily: "nunito, sans-serif",
-                          backgroundColor: "#DFDFDF",
+                          backgroundColor: "#FFFFFF",
                           color: "#181B13",
                           border: "1px dashed #181B13",
                           borderRadius: "10px",
-                          "&:hover": { backgroundColor: "#FFFFFF" },
+                          "&:hover": isMobile ? { backgroundColor: "#FFFFFF" } : { backgroundColor: "#DFDFDF" },
                           px: "16px",
                           py: "8px",
                           fontSize: "18px",
