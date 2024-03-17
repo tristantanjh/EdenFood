@@ -336,7 +336,7 @@ export default function LoginSide() {
                 color: "#FAFFF4",
                 borderRadius: "30px",
                 "&:hover": { backgroundColor: "#076365" },
-                position: isMobile ? "fixed" : "static", // Position fixed on mobile
+                position: isMobile ? "fixed" : "none", // Position fixed on mobile
                 bottom: isMobile ? "20px" : "auto", // Adjust bottom position on mobile
                 left: isMobile ? "50%" : "0",
                 transform: isMobile ? "translateX(-50%)" : "0",
