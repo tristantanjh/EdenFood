@@ -12,6 +12,7 @@ import ErrorPage from "./routes/ErrorPage.jsx";
 import Explore from "./components/explorepage/explore.jsx";
 import Register from "./routes/Register.jsx";
 import Item from "./components/itempage/Item.jsx";
+import OrderHistory from "./components/orderhistory/OrderHistory";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/orderhistory",
+    element: <OrderHistory />,
   },
 ]);
 
