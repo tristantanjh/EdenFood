@@ -2,32 +2,34 @@ import mongoose, { Schema } from "mongoose";
 
 const grocerySchema = new mongoose.Schema({
   name: {
-    required: true,
     type: String,
+    required: true
   },
   description: {
-    required: true,
     type: String,
+    required: true
   },
   imageURL: {
-    required: true,
     type: String,
+    required: true
   },
   price: {
-    required: true,
     type: Number,
+    required: true
   },
   user: {
-    require: true,
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: true
   },
-  reviews: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Review",
-    },
-  ],
+  categories: {
+    type: [String], // Array of strings
+    required: true
+  },
+  reviews: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Review"
+  }]
 });
 
 const Grocery = mongoose.model("Grocery", grocerySchema);
