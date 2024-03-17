@@ -11,6 +11,7 @@ import {
 } from "../controller/orderController.js";
 
 import {
+  login,
   createUser,
   getEmail,
   getProfilePic,
@@ -26,6 +27,8 @@ import {
 } from "../controller/reviewController.js";
 
 const APIrouter = express.Router();
+
+APIrouter.post("/login", login);
 
 APIrouter.post("/createUser", createUser);
 
