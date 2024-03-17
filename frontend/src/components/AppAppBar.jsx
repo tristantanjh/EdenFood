@@ -46,8 +46,8 @@ function AppAppBar() {
 
   return (
     <div
-      sx={{
-        boxShadow: 5,
+      style={{
+        WebkitBoxShadow: "5px 5px 15px 5px #076365",
         color: "#076365",
       }}
     >
@@ -113,7 +113,6 @@ function AppAppBar() {
                   }}
                 >
                   <Typography
-                    variant="nunito, sans-serif"
                     color="#FAFFF4"
                     sx={{
                       fontFamily: "open sans, sans-serif",
@@ -137,7 +136,6 @@ function AppAppBar() {
                   }}
                 >
                   <Typography
-                    variant="nunito, sans-serif"
                     color="#FAFFF4"
                     sx={{
                       fontFamily: "open sans, sans-serif",
@@ -161,7 +159,6 @@ function AppAppBar() {
                   }}
                 >
                   <Typography
-                    variant="nunito, sans-serif"
                     color="#FAFFF4"
                     sx={{
                       fontFamily: "open sans, sans-serif",
@@ -185,7 +182,6 @@ function AppAppBar() {
                   }}
                 >
                   <Typography
-                    variant="nunito, sans-serif"
                     color="#FAFFF4"
                     sx={{
                       fontFamily: "open sans, sans-serif",
@@ -209,7 +205,6 @@ function AppAppBar() {
                   }}
                 >
                   <Typography
-                    variant="nunito, sans-serif"
                     color="#FAFFF4"
                     sx={{
                       fontFamily: "open sans, sans-serif",
@@ -238,14 +233,11 @@ function AppAppBar() {
                 variant="text"
                 size="small"
                 component="a"
-                href="/material-ui/getting-started/templates/sign-in/"
-                target="_blank"
+                href="/register"
                 sx={{
-                  width: "100%",
                   fontFamily: "nunito, sans-serif",
                   backgroundColor: "#64CF94",
                   color: "#FFF",
-                  fontFamily: "nunito, sans-serif",
                   fontWeight: "700",
                   fontSize: "1rem",
                   width: "125px",
@@ -268,11 +260,9 @@ function AppAppBar() {
                 component="a"
                 href="/login"
                 sx={{
-                  width: "100%",
                   fontFamily: "nunito, sans-serif",
                   backgroundColor: "#64CF94",
                   color: "#FFF",
-                  fontFamily: "nunito, sans-serif",
                   fontWeight: "700",
                   fontSize: "1rem",
                   width: "125px",
@@ -353,7 +343,6 @@ function AppAppBar() {
                       flexItem
                       sx={{
                         borderWidth: "1.1px",
-                        mr: "-2px",
                         mr: "15px",
                       }}
                     />
@@ -382,7 +371,6 @@ function AppAppBar() {
                       flexItem
                       sx={{
                         borderWidth: "1.1px",
-                        mr: "-2px",
                         mr: "15px",
                       }}
                     />
@@ -410,7 +398,6 @@ function AppAppBar() {
                       sx={{
                         borderWidth: "1.1px",
                         marginLeft: "3px",
-                        mr: "1px",
                         mr: "15px",
                       }}
                     />
@@ -439,7 +426,6 @@ function AppAppBar() {
                       flexItem
                       sx={{
                         borderWidth: "1.1px",
-                        mr: "-2px",
                         mr: "15px",
                       }}
                     />
@@ -468,7 +454,6 @@ function AppAppBar() {
                       flexItem
                       sx={{
                         borderWidth: "1.1px",
-                        mr: "-2px",
                         mr: "15px",
                       }}
                     />
@@ -489,11 +474,9 @@ function AppAppBar() {
                         href="/material-ui/getting-started/templates/sign-up/"
                         target="_blank"
                         sx={{
-                          width: "100%",
                           fontFamily: "nunito, sans-serif",
                           backgroundColor: "#64CF94",
                           color: "#FFF",
-                          fontFamily: "nunito, sans-serif",
                           fontWeight: "700",
                           fontSize: "1rem",
                           width: "135px",
@@ -519,11 +502,9 @@ function AppAppBar() {
                         href="/login"
                         target="_blank"
                         sx={{
-                          width: "100%",
                           fontFamily: "nunito, sans-serif",
                           backgroundColor: "#64CF94",
                           color: "#FFF",
-                          fontFamily: "nunito, sans-serif",
                           fontWeight: "700",
                           fontSize: "1rem",
                           width: "135px",

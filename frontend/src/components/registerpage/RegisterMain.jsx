@@ -1,26 +1,29 @@
-import * as React from "react";
-import { useEffect } from "react";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import swal from "sweetalert";
-import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
-import Input from "@mui/material/Input";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import FormControl from "@mui/material/FormControl";
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  CssBaseline,
+  TextField,
+  Link,
+  Paper,
+  Box,
+  Grid,
+  Typography,
+  Input,
+  InputLabel,
+  InputAdornment,
+  IconButton,
+  FormControl,
+  FormHelperText,
+  Snackbar,
+  SnackbarContent,
+} from "@mui/material";
+import { Visibility, VisibilityOff, Close } from "@mui/icons-material";
 import AspectRatio from "@mui/joy/AspectRatio";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import FormHelperText from "@mui/material/FormHelperText";
+import swal from "sweetalert";
 import CloudinaryUploadWidget from "../CloudinaryUploadWidget";
+
+import axios from "axios";
 
 function Copyright(props) {
   return (
@@ -62,48 +65,70 @@ const logoStyle = {
 };
 
 export default function RegisterMain() {
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const isMobile = useMediaQuery("(max-width:600px)");
-  const [imageURL, setImageURL] = React.useState("empty");
-
-  useEffect(() => {
-    console.log(imageURL); //shows true - updated state
-  }, [imageURL]);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-
-    if (validateForm()) {
-      console.log({
-        email: data.get("email"),
-        password: data.get("password"),
-      });
-    } else {
-      console.log("Invalid form");
-    }
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
-  const [formData, setFormData] = React.useState({
+  const [imageURL, setImageURL] = useState("empty");
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [formData, setFormData] = useState({
     email: "",
     password: "",
     rememberMe: false,
   });
 
-  const [errors, setErrors] = React.useState({
+  const [errors, setErrors] = useState({
     email: "",
     password: "",
   });
 
+  useEffect(() => {
+    console.log(imageURL); //shows true - updated state
+  }, [imageURL]);
+
+  const handleOpenSnackbar = (message) => {
+    setSnackbarMessage(message);
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
+  const handleClickShowPassword = (event) => {
+    event.preventDefault();
+    setShowPassword((show) => !show);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+
+    if (validateForm()) {
+      try {
+        const response = await axios.post("http://localhost:3000/createUser", {
+          username: data.get("username"),
+          email: data.get("email"),
+          password: data.get("password"),
+          profilePic: imageURL, // Assuming imageURL is the URL of the uploaded profile picture
+        });
+
+        console.log(response.data); // Handle successful user creation response
+        history.push("/");
+      } catch (error) {
+        console.error("Error creating user:", error.response.data.message);
+        handleOpenSnackbar(
+          "An error occurred while signing you up. Try again or contact our support team for assistance!"
+        );
+      }
+    } else {
+      handleOpenSnackbar("Invalid details entered!");
+      console.log("Invalid form");
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
-    console.log(formData);
+    // console.log(formData);
     setFormData({
       ...formData,
       [name]: name === "rememberMe" ? checked : value,
@@ -116,9 +141,6 @@ export default function RegisterMain() {
 
     // Email format regex pattern
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    console.log(formData.email);
-    console.log(formData.password);
 
     // Check if email is empty or invalid format
     if (!formData.email || !emailRegex.test(formData.email.trim())) {
@@ -162,6 +184,30 @@ export default function RegisterMain() {
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       <CssBaseline />
+      <Snackbar
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <SnackbarContent
+          sx={{ backgroundColor: "#CE0000" }} // Customize background color for error messages
+          message={snackbarMessage}
+          action={
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={handleCloseSnackbar}
+            >
+              <Close />
+            </IconButton>
+          }
+        />
+      </Snackbar>
       <Grid
         item
         xs={false}
@@ -320,8 +366,6 @@ export default function RegisterMain() {
               label="Username"
               name="username"
               onChange={handleChange}
-              error={Boolean(errors.email)}
-              helperText={errors.email}
               InputProps={{
                 sx: {
                   "& input:-webkit-autofill": {
@@ -351,7 +395,6 @@ export default function RegisterMain() {
               <Input
                 sx={{
                   fontFamily: "nunito, sans-serif",
-                  mb: 2,
                 }}
                 onChange={handleChange}
                 error={Boolean(errors.password)}
@@ -364,7 +407,7 @@ export default function RegisterMain() {
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
+                      // onMouseDown={handleMouseDownPassword}
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
@@ -380,6 +423,7 @@ export default function RegisterMain() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                marginTop: 16,
               }}
             >
               {imageURL == "empty" ? (
@@ -397,11 +441,13 @@ export default function RegisterMain() {
                         sx={{
                           height: "150px",
                           fontFamily: "nunito, sans-serif",
-                          backgroundColor: "#DFDFDF",
+                          backgroundColor: "#FFFFFF",
                           color: "#181B13",
                           border: "1px dashed #181B13",
                           borderRadius: "10px",
-                          "&:hover": { backgroundColor: "#FFFFFF" },
+                          "&:hover": isMobile
+                            ? { backgroundColor: "#FFFFFF" }
+                            : { backgroundColor: "#DFDFDF" },
                           px: "16px",
                           py: "8px",
                           fontSize: "18px",
@@ -441,7 +487,12 @@ export default function RegisterMain() {
               type="submit"
               fullWidth
               variant="contained"
-              disabled={!formData.email || !formData.password}
+              disabled={
+                !formData.email ||
+                !formData.password ||
+                !formData.username ||
+                imageURL == "empty"
+              }
               sx={{
                 mt: 2,
                 mb: 2,
@@ -451,12 +502,12 @@ export default function RegisterMain() {
                 color: "#FAFFF4",
                 borderRadius: "30px",
                 "&:hover": { backgroundColor: "#076365" },
-                position: isMobile ? "fixed" : "static", // Position fixed on mobile
+                position: isMobile ? "fixed" : "none", // Position fixed on mobile
                 bottom: isMobile ? "20px" : "auto", // Adjust bottom position on mobile
                 left: isMobile ? "50%" : "0",
                 transform: isMobile ? "translateX(-50%)" : "0",
                 width: isMobile ? "calc(100% - 40px)" : "100%", // Adjust width on mobile
-                maxWidth: isMobile ? "400px" : "auto", // Max width of the button
+                maxWidth: isMobile ? "400px" : "100%", // Max width of the button
                 marginLeft: "auto", // Center horizontally
                 marginRight: "auto", // Center horizontally
               }}
