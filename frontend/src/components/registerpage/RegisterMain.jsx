@@ -66,9 +66,9 @@ export default function RegisterMain() {
   const isMobile = useMediaQuery("(max-width:600px)");
   const [imageURL, setImageURL] = React.useState("empty");
 
-  useEffect(()=> {
-    console.log(imageURL) //shows true - updated state
-  }, [imageURL])
+  useEffect(() => {
+    console.log(imageURL); //shows true - updated state
+  }, [imageURL]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -141,24 +141,22 @@ export default function RegisterMain() {
   };
 
   function handleOnUpload(error, result, widget) {
-    if ( error ) {
+    if (error) {
       console.log(error);
       widget.close({
-        quiet: true
+        quiet: true,
       });
       return;
     }
     swal("Success", "Media uploaded", "success");
-    console.log(result.info.secure_url)
+    console.log(result.info.secure_url);
     const secureUrl = result?.info?.secure_url;
-    
-    if (secureUrl) {
-      console.log("setURL")
-      setImageURL(secureUrl);
-      console.log(imageURL)
-    }
 
-    
+    if (secureUrl) {
+      console.log("setURL");
+      setImageURL(secureUrl);
+      console.log(imageURL);
+    }
   }
 
   return (
@@ -233,11 +231,11 @@ export default function RegisterMain() {
         <Box
           sx={{
             mx: 4,
-            mt: {xs: 4, md: 0},
+            mt: { xs: 4, md: 0 },
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: {xs: "flex-start", sm: "center"},
+            justifyContent: { xs: "flex-start", sm: "center" },
             height: "100vh",
             width: { xs: "100%", md: "30%" },
           }}
@@ -377,35 +375,68 @@ export default function RegisterMain() {
                 <FormHelperText error>{errors.password}</FormHelperText>
               )}
             </FormControl>
-            {imageURL == "empty" ? <CloudinaryUploadWidget
-              onUpload={handleOnUpload}>
-              {({ open }) => {
-                function handleOnClick(e) {
-                  e.preventDefault();
-                  open();
-                }
-                return (
-                  <button onClick={handleOnClick}>
-                    Upload an Image
-                  </button>
-                )
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
-            </CloudinaryUploadWidget> : <Box
-                // display={{ xs: "flex", md: "none" }}
-                id="image"
-                component="img"
-                sx={{
-                  mb: 2,
-                  alignSelf: "flex-start",
-                  justifyContent: "flex-start",
-                  alignItems: "flex-start",
-                  height: 60,
-                  objectFit: "cover",
-                }}
-                src={imageURL}
-                alt="Uploaded Profile Picture"
-              />}
-            
+            >
+              {imageURL == "empty" ? (
+                <CloudinaryUploadWidget onUpload={handleOnUpload}>
+                  {({ open }) => {
+                    function handleOnClick(e) {
+                      e.preventDefault();
+                      open();
+                    }
+                    return (
+                      <Button
+                        variant="contained"
+                        fullWidth
+                        onClick={handleOnClick}
+                        sx={{
+                          height: "150px",
+                          fontFamily: "nunito, sans-serif",
+                          backgroundColor: "#DFDFDF",
+                          color: "#181B13",
+                          border: "1px dashed #181B13",
+                          borderRadius: "10px",
+                          "&:hover": { backgroundColor: "#FFFFFF" },
+                          px: "16px",
+                          py: "8px",
+                          fontSize: "18px",
+                          cursor: "pointer",
+                          textTransform: "initial",
+                        }}
+                      >
+                        Upload Your Profile Photo
+                      </Button>
+                    );
+                  }}
+                </CloudinaryUploadWidget>
+              ) : (
+                <Box
+                  // display={{ xs: "flex", md: "none" }}
+                  id="image"
+                  component="img"
+                  fullWidth
+                  sx={{
+                    height: "150px",
+                    width: "100%",
+                    border: "1px dashed #181B13",
+                    borderRadius: "10px",
+                    alignSelf: "flex-start",
+                    "&:hover": { backgroundColor: "#FFFFFF" },
+                    justifyContent: "flex-start",
+                    alignItems: "flex-start",
+                    objectFit: "contain",
+                  }}
+                  src={imageURL}
+                  alt="Uploaded Profile Picture"
+                />
+              )}
+            </div>
+
             <Button
               type="submit"
               fullWidth
