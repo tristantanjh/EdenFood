@@ -23,14 +23,20 @@ export default function ItemDescription() {
   return (
     <div>
       <CssBaseline />
-      <Grid container component="main">
+      <Grid
+        container
+        component="main"
+        sx={{
+          backgroundColor: "#FAFFF4",
+        }}
+      >
         <Grid
           item
           xs={12}
-          md={7}
+          md={6}
           sx={{
             position: "relative",
-            backgroundColor: "#076365",
+            backgroundColor: "#FAFFF4",
             ...(isSmallScreen && { padding: "3%" }),
           }}
         >
@@ -62,6 +68,59 @@ export default function ItemDescription() {
               />
             </AspectRatio>
           )}
+          <Container
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "row", md: "row" },
+              alignItems: "center",
+              justifyContent: { xs: "right", md: "center" },
+              mt: "1.5rem",
+              mb: { xs: 0, md: "1.5rem" },
+            }}
+          >
+            <CustomButton
+              sx={{
+                borderRadius: "15px",
+                borderBlockColor: "transparent",
+                backgroundColor: "#64CF94", // Custom background color
+                color: "#FFF", // Custom text color,
+                textTransform: "none",
+                fontFamily: "nunito, sans-serif",
+                fontWeight: "800",
+                fontSize: { xs: ".8rem", md: "1.2rem" },
+                width: { xs: "50px", md: "80px" },
+                padding: "4px 4px",
+                "&:hover": {
+                  backgroundColor: alpha("#64CF94", 0.8),
+                },
+                "&:focus": { outline: "none" },
+                mr: { xs: ".5rem", md: "1.5rem" },
+                ml: { xs: "3rem", md: "1rem" },
+              }}
+            >
+              Edit
+            </CustomButton>
+            <CustomButton
+              sx={{
+                borderRadius: "15px",
+                borderBlockColor: "transparent",
+                backgroundColor: "#64CF94", // Custom background color
+                color: "#FFF", // Custom text color,
+                textTransform: "none",
+                fontFamily: "nunito, sans-serif",
+                fontWeight: "800",
+                fontSize: { xs: ".8rem", md: "1.2rem" },
+                width: { xs: "60px", md: "100px" },
+                padding: "4px 4px",
+                "&:hover": {
+                  backgroundColor: alpha("#64CF94", 0.8),
+                },
+                "&:focus": { outline: "none" },
+              }}
+            >
+              Delete
+            </CustomButton>
+          </Container>
         </Grid>
         <Grid xs={12} sm={12} md={5}>
           <Container

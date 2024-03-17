@@ -77,7 +77,7 @@ export default function ItemDescriptionTab() {
           flexDirection: { xs: "column", md: "column" },
           alignItems: "center",
           justifyContent: "center",
-          pt: { xs: 14, sm: 20 },
+          pt: { xs: 4, md: 20 },
         //   pb: { xs: 6, sm: 12 },
         }}
       >
