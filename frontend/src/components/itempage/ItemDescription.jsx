@@ -2,6 +2,8 @@ import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import ItemDescriptionTab from "../itempage/ItemDescriptionTab.jsx";
 import ProductAvailability from "../itempage/ProductAvailability.jsx";
+import ItemShop from "./ItemShop.jsx";
+import { useTheme, useMediaQuery } from "@mui/material";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -15,46 +17,51 @@ import Paper from "@mui/material/Paper";
 import CloudinaryUploadWidget from "../CloudinaryUploadWidget.jsx";
 
 export default function ItemDescription() {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <div>
-      <Grid container component="main" sx={{ height: "100vh" }}>
+      <CssBaseline />
+      <Grid container component="main">
         <Grid
-          xs={false}
-          sm={false}
+          item
+          xs={12}
           md={7}
           sx={{
             position: "relative",
             backgroundColor: "#076365",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            ...(isSmallScreen && { padding: "3%" }),
           }}
         >
-          <AspectRatio
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: 375,
-              display: { xs: "none", sm: "none", md: "flex" },
-            }}
-            ratio="3/4"
-          >
-            <Box
-              id="image"
-              component="img"
+          <ItemShop />
+          {!isSmallScreen && (
+            <AspectRatio
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "60%",
-                width: "60%",
+                position: "relative",
+                top: "30%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: 375,
               }}
-              src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg"
-              alt="Eden Food Background Image."
-            />
-          </AspectRatio>
+              ratio="3/4"
+            >
+              <Box
+                id="image"
+                component="img"
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "60%",
+                  width: "60%",
+                }}
+                src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg"
+                alt="Eden Food Background Image."
+              />
+            </AspectRatio>
+          )}
         </Grid>
         <Grid xs={12} sm={12} md={5}>
           <Container

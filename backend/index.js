@@ -3,8 +3,6 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
 import "dotenv/config";
-import homeRouter from "./src/routes/home.js";
-import loginRouter from "./src/routes/login.js";
 import { APIrouter } from "./src/routes/routes.js";
 
 ///////////////////////////////////////////////// app set-up //////////////////////////////////////////////////
@@ -22,9 +20,7 @@ app.get("/", (req, res) => {
 app
  .use(APIrouter)
  //  .use("/routes/home", homeRouter)
- app.use("/", homeRouter); // Mount the homeRouter
- app.use("/login", loginRouter); // Mount the loginRouter at the /login path
-app.set("view engine", "ejs");
+
 
 ///////////////////////////////////////////////// cors set-up //////////////////////////////////////////////////
 var corsOptions = {

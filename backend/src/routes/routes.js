@@ -1,49 +1,61 @@
 import express from "express";
-import { Company } from "../model/model.js";
+
+import { addToCart, getCart } from "../controller/cartController.js";
+import {
+  createListing,
+  getListingByGroceryId,
+} from "../controller/groceryController.js";
+import { 
+  checkoutOrder, 
+  getOrdersWithUserId
+} from "../controller/orderController.js";
+
+import {
+  login,
+  createUser,
+  getEmail,
+  getProfilePic,
+} from "../controller/userController.js";
+import {
+  addToWishList,
+  getWishList,
+} from "../controller/wishListController.js";
+import {
+  leaveReview,
+  getReview,
+  deleteReview,
+} from "../controller/reviewController.js";
 
 const APIrouter = express.Router();
 
-/**
- * getAllCompany method
- * @return {Array} found
- */
-APIrouter.get("/getAllCompany", (req, res) => {
-  Company.find()
-    .then((found) => {
-      res.send(found);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.send(err.message);
-    });
-});
+APIrouter.post("/login", login);
 
-/**
- * addCompany method
- * @param {String} company_name
- * @param {String} company_email
- * @return {String} result
- */
-APIrouter.post("/addCompany", (req, res) => {
-  const newCompany = new Company({
-    company_name: req.body.company_name,
-    company_email: req.body.company_email,
-  });
+APIrouter.post("/createUser", createUser);
 
-  newCompany
-    .save()
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.send(err.message);
-    });
-});
+APIrouter.post("/createGrocery", createListing);
 
-//test Method
-APIrouter.get("/test", (req, res) => {
-  res.send("test");
-});
+APIrouter.post("/addToCart", addToCart);
+
+APIrouter.post("/addToWishlist", addToWishList);
+
+APIrouter.post("/checkoutOrder", checkoutOrder);
+
+APIrouter.post("/getOrdersWithUserId/:userId",getOrdersWithUserId)
+
+APIrouter.post("/leaveReview/:groceryId", leaveReview);
+
+APIrouter.get("/getCart/:userId", getCart);
+
+APIrouter.get("/getListingByGroceryId/:groceryId", getListingByGroceryId);
+
+APIrouter.get("/reviews/:groceryId", getReview);
+
+APIrouter.delete("/review/:id", deleteReview);
+
+APIrouter.get("/user/email/:username", getEmail);
+
+APIrouter.get("/user/profile-pic/:username", getProfilePic);
+
+APIrouter.get("/wishlist/:userId", getWishList);
 
 export { APIrouter };
