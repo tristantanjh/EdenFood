@@ -67,7 +67,10 @@ export default function LoginSide() {
   const [showPassword, setShowPassword] = React.useState(false);
   const isMobile = useMediaQuery("(max-width:600px)");
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowPassword = (event) => {
+    event.preventDefault();
+    setShowPassword((show) => !show);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -302,7 +305,6 @@ export default function LoginSide() {
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>

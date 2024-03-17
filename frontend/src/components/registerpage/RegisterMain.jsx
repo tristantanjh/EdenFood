@@ -69,6 +69,7 @@ export default function RegisterMain() {
   const [imageURL, setImageURL] = useState("empty");
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [cursorPosition, setCursorPosition] = useState(null);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -93,7 +94,10 @@ export default function RegisterMain() {
     setOpenSnackbar(false);
   };
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowPassword = (event) => {
+    event.preventDefault();
+    setShowPassword((show) => !show);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -120,10 +124,6 @@ export default function RegisterMain() {
       handleOpenSnackbar("Invalid form! Please check the form for errors.");
       console.log("Invalid form");
     }
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
   };
 
   const handleChange = (e) => {
@@ -407,7 +407,7 @@ export default function RegisterMain() {
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
+                      // onMouseDown={handleMouseDownPassword}
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
