@@ -97,129 +97,6 @@ function AppAppBar() {
                   alt="Eden Food Primary Logo."
                 />
               </a>
-              <Box
-                sx={{
-                  display: { xs: "none", md: "flex" },
-                  mt: { xs: 0, md: 0.8 },
-                }}
-              >
-                <MenuItem
-                  onClick={() => scrollToSection("features")}
-                  sx={{
-                    py: "6px",
-                    px: "12px",
-                    fontFamily: "nunito, sans-serif",
-                    color: "#FAFFF4",
-                  }}
-                >
-                  <Typography
-                    color="#FAFFF4"
-                    sx={{
-                      fontFamily: "open sans, sans-serif",
-                      fontWeight: "750",
-                      fontSize: { xs: "0.9rem", md: "0.9rem" },
-                      letterSpacing: "0.5px",
-                      gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 7 },
-                      pb: 4.4,
-                    }}
-                  >
-                    PROFILE SETTINGS
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => scrollToSection("testimonials")}
-                  sx={{
-                    py: "6px",
-                    px: "12px",
-                    fontFamily: "nunito, sans-serif",
-                  }}
-                >
-                  <Typography
-                    color="#FAFFF4"
-                    sx={{
-                      fontFamily: "open sans, sans-serif",
-                      fontWeight: "750",
-                      fontSize: { xs: "0.9rem", md: "0.9rem" },
-                      letterSpacing: "0.5px",
-                      gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 7 },
-                      pb: 4.4,
-                    }}
-                  >
-                    ORDER HISTORY
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => scrollToSection("highlights")}
-                  sx={{
-                    py: "6px",
-                    px: "12px",
-                    fontFamily: "nunito, sans-serif",
-                  }}
-                >
-                  <Typography
-                    color="#FAFFF4"
-                    sx={{
-                      fontFamily: "open sans, sans-serif",
-                      fontWeight: "750",
-                      fontSize: { xs: "0.9rem", md: "0.9rem" },
-                      letterSpacing: "0.5px",
-                      gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 7 },
-                      pb: 4.4,
-                    }}
-                  >
-                    MANAGE LISTINGS
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => scrollToSection("pricing")}
-                  sx={{
-                    py: "6px",
-                    px: "12px",
-                    fontFamily: "nunito, sans-serif",
-                  }}
-                >
-                  <Typography
-                    color="#FAFFF4"
-                    sx={{
-                      fontFamily: "open sans, sans-serif",
-                      fontWeight: "750",
-                      fontSize: { xs: "0.9rem", md: "0.9rem" },
-                      letterSpacing: "0.5px",
-                      gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 7 },
-                      pb: 4.4,
-                    }}
-                  >
-                    DASHBOARD
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => scrollToSection("faq")}
-                  sx={{
-                    py: "6px",
-                    px: "12px",
-                    fontFamily: "nunito, sans-serif",
-                  }}
-                >
-                  <Typography
-                    color="#FAFFF4"
-                    sx={{
-                      fontFamily: "open sans, sans-serif",
-                      fontWeight: "750",
-                      fontSize: { xs: "0.9rem", md: "0.9rem" },
-                      letterSpacing: "0.5px",
-                      gap: { xs: "none", md: "10px" },
-                      mt: { xs: 2, md: 7 },
-                      pb: 4.4,
-                    }}
-                  >
-                    LOGOUT
-                  </Typography>
-                </MenuItem>
-              </Box>
             </Box>
             <Box
               sx={{
@@ -242,13 +119,14 @@ function AppAppBar() {
                   fontSize: "1rem",
                   width: "125px",
                   padding: "3px",
-                  borderRadius: "15px",
+                  borderRadius: "999px",
                   minWidth: "70px",
                   "&:hover": {
                     backgroundColor: alpha("#64CF94", 0.6),
                     color: "#FFF",
                   },
                   mt: { xs: 2, md: 4 },
+                  mr: 1,
                 }}
               >
                 Register
@@ -267,7 +145,7 @@ function AppAppBar() {
                   fontSize: "1rem",
                   width: "125px",
                   padding: "3px",
-                  borderRadius: "15px",
+                  borderRadius: "999px",
                   minWidth: "70px",
                   "&:hover": {
                     backgroundColor: alpha("#64CF94", 0.6),
@@ -282,10 +160,35 @@ function AppAppBar() {
             <Box
               sx={{
                 display: { sm: "", md: "none" },
-                mt: "15px",
+                mt: "30px",
               }}
             >
               <Button
+                color="primary"
+                variant="text"
+                component="a"
+                href="/login"
+                sx={{
+                  fontFamily: "nunito, sans-serif",
+                  backgroundColor: "#64CF94",
+                  color: "#FFF",
+                  fontWeight: "700",
+                  fontSize: "1rem",
+                  width: "135px",
+                  padding: "5px",
+                  borderRadius: "20px",
+                  minWidth: "100px",
+                  boxshadow: "none",
+                  "&:hover": {
+                    backgroundColor: alpha("#64CF94", 0.6),
+                    color: "#FFF",
+                    boxshadow: "none",
+                  },
+                }}
+              >
+                Log In
+              </Button>
+              {/* <Button
                 variant="text"
                 color="primary"
                 size="large"
@@ -309,161 +212,18 @@ function AppAppBar() {
                     backgroundColor: "#FAFFF4",
                     flexGrow: 1,
                     fontFamily: "nunito, sans-serif",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-around",
+                    height: "100%",
                   }}
                 >
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "end",
-                      flexGrow: 1,
-                      fontFamily: "nunito, sans-serif",
-                    }}
-                  ></Box>
-                  <MenuItem
-                    onClick={() => scrollToSection("features")}
-                    color="#076365"
-                    sx={{
-                      fontFamily: "open sans, sans-serif",
-                      fontWeight: "750",
-                      fontSize: { xs: "0.9rem", md: "0.9rem" },
-                      letterSpacing: "0.5px",
-                      gap: { xs: "none", md: "10px" },
-                    }}
-                  >
-                    <ListItemIcon>
-                      <img
-                        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708483826/user_zv61ah.png"
-                        alt="Profile Icon"
-                        style={{ width: "25px", height: "25px" }}
-                      />
-                    </ListItemIcon>
-                    <Divider
-                      orientation="vertical"
-                      flexItem
-                      sx={{
-                        borderWidth: "1.1px",
-                        mr: "15px",
-                      }}
-                    />
-                    PROFILE SETTINGS
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => scrollToSection("testimonials")}
-                    sx={{
-                      fontFamily: "open sans, sans-serif",
-                      fontWeight: "750",
-                      fontSize: { xs: "0.9rem", md: "0.9rem" },
-                      letterSpacing: "0.5px",
-                      gap: { xs: "none", md: "10px" },
-                      color: (theme) => "#076365",
-                    }}
-                  >
-                    <ListItemIcon>
-                      <img
-                        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708483824/to-do-list_taukoy.png"
-                        alt="Order History Icon"
-                        style={{ width: "25px", height: "25px" }}
-                      />
-                    </ListItemIcon>
-                    <Divider
-                      orientation="vertical"
-                      flexItem
-                      sx={{
-                        borderWidth: "1.1px",
-                        mr: "15px",
-                      }}
-                    />
-                    ORDER HISTORY
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => scrollToSection("highlights")}
-                    sx={{
-                      fontFamily: "open sans, sans-serif",
-                      fontWeight: "750",
-                      fontSize: { xs: "0.9rem", md: "0.9rem" },
-                      letterSpacing: "0.5px",
-                      gap: { xs: "none", md: "10px" },
-                      color: (theme) => "#076365",
-                    }}
-                  >
-                    <ListItemIcon
-                      style={{ color: "#076365", marginLeft: "-3px" }}
-                    >
-                      <SettingsIcon style={{ width: "30px", height: "30px" }} />
-                    </ListItemIcon>
-                    <Divider
-                      orientation="vertical"
-                      flexItem
-                      sx={{
-                        borderWidth: "1.1px",
-                        marginLeft: "3px",
-                        mr: "15px",
-                      }}
-                    />
-                    MANAGE LISTINGS
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => scrollToSection("pricing")}
-                    sx={{
-                      fontFamily: "open sans, sans-serif",
-                      fontWeight: "750",
-                      fontSize: { xs: "0.9rem", md: "0.9rem" },
-                      letterSpacing: "0.5px",
-                      gap: { xs: "none", md: "10px" },
-                      color: (theme) => "#076365",
-                    }}
-                  >
-                    <ListItemIcon>
-                      <img
-                        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708483825/dashboard_uncrnk.png"
-                        alt="Dashboard Icon"
-                        style={{ width: "25px", height: "25px" }}
-                      />
-                    </ListItemIcon>
-                    <Divider
-                      orientation="vertical"
-                      flexItem
-                      sx={{
-                        borderWidth: "1.1px",
-                        mr: "15px",
-                      }}
-                    />
-                    DASHBOARD
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => scrollToSection("faq")}
-                    sx={{
-                      fontFamily: "open sans, sans-serif",
-                      fontWeight: "750",
-                      fontSize: { xs: "0.9rem", md: "0.9rem" },
-                      letterSpacing: "0.5px",
-                      gap: { xs: "none", md: "10px" },
-                      color: (theme) => "#076365",
-                    }}
-                  >
-                    <ListItemIcon>
-                      <img
-                        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708483824/logout_xxldjy.png"
-                        alt="Logout Icon"
-                        style={{ width: "25px", height: "25px" }}
-                      />
-                    </ListItemIcon>
-                    <Divider
-                      orientation="vertical"
-                      flexItem
-                      sx={{
-                        borderWidth: "1.1px",
-                        mr: "15px",
-                      }}
-                    />
-                    LOGOUT
-                  </MenuItem>
-                  <Divider />
                   <div
                     style={{
                       display: "flex",
+                      flexDirection: "column",
                       justifyContent: "center",
+                      alignItems: "center",
                     }}
                   >
                     <MenuItem>
@@ -471,8 +231,7 @@ function AppAppBar() {
                         color="primary"
                         variant="text"
                         component="a"
-                        href="/material-ui/getting-started/templates/sign-up/"
-                        target="_blank"
+                        href="/register"
                         sx={{
                           fontFamily: "nunito, sans-serif",
                           backgroundColor: "#64CF94",
@@ -500,7 +259,6 @@ function AppAppBar() {
                         variant="text"
                         component="a"
                         href="/login"
-                        target="_blank"
                         sx={{
                           fontFamily: "nunito, sans-serif",
                           backgroundColor: "#64CF94",
@@ -522,7 +280,7 @@ function AppAppBar() {
                     </MenuItem>
                   </div>
                 </Box>
-              </Drawer>
+              </Drawer> */}
             </Box>
           </Toolbar>
         </Container>
