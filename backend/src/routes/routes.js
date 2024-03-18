@@ -11,7 +11,7 @@ import {
 } from "../controller/orderController.js";
 
 import {
-  login,
+  authenticateUser,
   createUser,
   getEmail,
   getProfilePic,
@@ -28,7 +28,7 @@ import {
 
 const APIrouter = express.Router();
 
-APIrouter.post("/login", login);
+APIrouter.post("/login", authenticateUser);
 
 APIrouter.post("/createUser", createUser);
 
