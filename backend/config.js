@@ -12,7 +12,7 @@ dotenv.config();
 
 const app = express();
 
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGO_URI);
 
 app
   .set("view engine", "ejs")
