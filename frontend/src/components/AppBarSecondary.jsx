@@ -109,42 +109,140 @@ function AppBarSecondary() {
                   alt="Eden Food Secondary Logo."
                 />
               </a>
-            </Box>
-            <Box
-              sx={{
-                display: { xs: "none", md: "flex" },
-                gap: 0.5,
-                alignItems: "center",
-              }}
-            >
-              <Button
-                color="primary"
-                variant="text"
-                size="small"
-                component="a"
-                onClick={ handleLogout }
+              <Box
                 sx={{
-                  width: "100%",
-                  fontFamily: "nunito, sans-serif",
-                  backgroundColor: "#64CF94",
-                  color: "#FFF",
-                  fontFamily: "nunito, sans-serif",
-                  fontWeight: "700",
-                  fontSize: "1rem",
-                  width: "125px",
-                  padding: "3px",
-                  borderRadius: "15px",
-                  minWidth: "70px",
-                  "&:hover": {
-                    backgroundColor: alpha("#64CF94", 0.6),
-                    color: "#FFF",
-                  },
-                  mt: { xs: 2, md: 3 },
+                  display: { xs: "none", md: "flex" },
+                  justifyContent: "center",
+                  flexDirection: "row",
+                  gap: 0.5,
+                  pt: 1,
+                  alignItems: "center",
                 }}
               >
-                Log Out
-              </Button>
+                  <MenuItem
+                    onClick={() => scrollToSection("features")}
+                    sx={{
+                      py: "0px",
+                      px: "12px",
+                      fontFamily: "nunito, sans-serif",
+                      color: "#FAFFF4",
+                    }}
+                  >
+                    <Typography
+                      color="#076365"
+                      sx={{
+                        fontFamily: "open sans, sans-serif",
+                        fontWeight: "750",
+                        fontSize: { xs: "0.9rem", md: "0.9rem" },
+                        letterSpacing: "0.5px",
+                        gap: { xs: "none", md: "10px" },
+                        mt: { xs: 2, md: 7 },
+                        pb: 4.4,
+                      }}
+                    >
+                      PROFILE SETTINGS
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => scrollToSection("testimonials")}
+                    sx={{
+                      py: "0px",
+                      px: "12px",
+                      fontFamily: "nunito, sans-serif",
+                    }}
+                  >
+                    <Typography
+                      color="#076365"
+                      sx={{
+                        fontFamily: "open sans, sans-serif",
+                        fontWeight: "750",
+                        fontSize: { xs: "0.9rem", md: "0.9rem" },
+                        letterSpacing: "0.5px",
+                        gap: { xs: "none", md: "10px" },
+                        mt: { xs: 2, md: 7 },
+                        pb: 4.4,
+                      }}
+                    >
+                      ORDER HISTORY
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => scrollToSection("highlights")}
+                    sx={{
+                      py: "0px",
+                      px: "12px",
+                      fontFamily: "nunito, sans-serif",
+                    }}
+                  >
+                    <Typography
+                      color="#076365"
+                      sx={{
+                        fontFamily: "open sans, sans-serif",
+                        fontWeight: "750",
+                        fontSize: { xs: "0.9rem", md: "0.9rem" },
+                        letterSpacing: "0.5px",
+                        gap: { xs: "none", md: "10px" },
+                        mt: { xs: 2, md: 7 },
+                        pb: 4.4,
+                      }}
+                    >
+                      MANAGE LISTINGS
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => scrollToSection("pricing")}
+                    sx={{
+                      py: "0px",
+                      px: "12px",
+                      fontFamily: "nunito, sans-serif",
+                    }}
+                  >
+                    <Typography
+                      color="#076365"
+                      sx={{
+                        fontFamily: "open sans, sans-serif",
+                        fontWeight: "750",
+                        fontSize: { xs: "0.9rem", md: "0.9rem" },
+                        letterSpacing: "0.5px",
+                        gap: { xs: "none", md: "10px" },
+                        mt: { xs: 2, md: 7 },
+                        pb: 4.4,
+                      }}
+                    >
+                      DASHBOARD
+                    </Typography>
+                  </MenuItem>
+              </Box>
             </Box>
+            <Button
+              color="primary"
+              variant="text"
+              size="small"
+              component="a"
+              onClick={handleLogout}
+              sx={{
+                display: { xs: "none", md: "flex" },
+                width: "100%",
+                fontFamily: "nunito, sans-serif",
+                backgroundColor: "#64CF94",
+                color: "#FFF",
+                fontFamily: "nunito, sans-serif",
+                fontWeight: "700",
+                fontSize: "1rem",
+                width: "125px",
+                padding: "3px",
+                borderRadius: "15px",
+                minWidth: "70px",
+                "&:hover": {
+                  backgroundColor: alpha("#64CF94", 0.6),
+                  color: "#FFF",
+                },
+                mt: { xs: 2, md: 3 },
+              }}
+            >
+              Log Out
+            </Button>
+
             <Box
               sx={{
                 display: { sm: "", md: "none" },
@@ -301,35 +399,7 @@ function AppBarSecondary() {
                     />
                     DASHBOARD
                   </MenuItem>
-                  <MenuItem
-                    onClick={() => scrollToSection("faq")}
-                    sx={{
-                      fontFamily: "open sans, sans-serif",
-                      fontWeight: "750",
-                      fontSize: { xs: "0.9rem", md: "0.9rem" },
-                      letterSpacing: "0.5px",
-                      gap: { xs: "none", md: "10px" },
-                      color: (theme) => "#076365",
-                    }}
-                  >
-                    <ListItemIcon>
-                      <img
-                        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708483824/logout_xxldjy.png"
-                        alt="Logout Icon"
-                        style={{ width: "25px", height: "25px" }}
-                      />
-                    </ListItemIcon>
-                    <Divider
-                      orientation="vertical"
-                      flexItem
-                      sx={{
-                        borderWidth: "1.1px",
-                        mr: "-2px",
-                        mr: "15px",
-                      }}
-                    />
-                    LOGOUT
-                  </MenuItem>
+
                   <Divider />
                   <div
                     style={{
@@ -341,9 +411,9 @@ function AppBarSecondary() {
                       <Button
                         color="primary"
                         variant="text"
+                        size="small"
                         component="a"
-                        href="/material-ui/getting-started/templates/sign-up/"
-                        target="_blank"
+                        onClick={handleLogout}
                         sx={{
                           width: "100%",
                           fontFamily: "nunito, sans-serif",
@@ -352,47 +422,18 @@ function AppBarSecondary() {
                           fontFamily: "nunito, sans-serif",
                           fontWeight: "700",
                           fontSize: "1rem",
-                          width: "135px",
-                          padding: "5px",
-                          borderRadius: "20px",
-                          minWidth: "100px",
-                          boxshadow: "none",
-                          "&:hover": {
-                            backgroundColor: alpha("#64CF94", 0.6),
-                            color: "#FFF",
-                            boxshadow: "none",
-                          },
-                        }}
-                      >
-                        Register
-                      </Button>
-                    </MenuItem>
-                    <MenuItem>
-                      <Button
-                        color="primary"
-                        variant="text"
-                        component="a"
-                        href="/material-ui/getting-started/templates/sign-in/"
-                        target="_blank"
-                        sx={{
-                          width: "100%",
-                          fontFamily: "nunito, sans-serif",
-                          backgroundColor: "#64CF94",
-                          color: "#FFF",
-                          fontFamily: "nunito, sans-serif",
-                          fontWeight: "700",
-                          fontSize: "1rem",
-                          width: "135px",
-                          padding: "5px",
-                          borderRadius: "20px",
-                          minWidth: "100px",
+                          width: "125px",
+                          padding: "3px",
+                          borderRadius: "15px",
+                          minWidth: "70px",
                           "&:hover": {
                             backgroundColor: alpha("#64CF94", 0.6),
                             color: "#FFF",
                           },
+                          mt: { xs: 2, md: 3 },
                         }}
                       >
-                        Log In
+                        Log Out
                       </Button>
                     </MenuItem>
                   </div>

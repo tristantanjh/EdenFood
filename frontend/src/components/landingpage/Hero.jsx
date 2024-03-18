@@ -106,7 +106,7 @@ export default function Hero() {
               mt: { xs: 0.8, md: 2 },
             }}
           >
-            <Link to="/explore">
+            <Link to="/register">
               <CustomButton
                 sx={{
                   borderRadius: "999px",
