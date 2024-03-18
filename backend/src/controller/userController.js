@@ -78,6 +78,11 @@ const createUser = async (req, res) => {
   }
 };
 
+const logOut = (req, res) => {
+  req.logout();
+  res.status(200).json({ message: "User logged out." });
+};
+
 //module.exports = router;
 //get email, profilepic by username
 
@@ -113,4 +118,4 @@ const getProfilePic = async (req, res) => {
   }
 };
 
-export { authenticateUser, createUser, getEmail, getProfilePic };
+export { authenticateUser, createUser, logOut, getEmail, getProfilePic };
