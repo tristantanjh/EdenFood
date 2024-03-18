@@ -12,6 +12,7 @@ import {
 
 import {
   authenticateUser,
+  logOut,
   createUser,
   getEmail,
   getProfilePic,
@@ -43,6 +44,8 @@ APIrouter.post("/checkoutOrder", checkoutOrder);
 APIrouter.post("/getOrdersWithUserId/:userId",getOrdersWithUserId)
 
 APIrouter.post("/leaveReview/:groceryId", leaveReview);
+
+APIrouter.get("/logout", logOut);
 
 APIrouter.get("/getCart/:userId", getCart);
 
