@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     //placeholder function to authenticate user
     const login = async (data) => {
       setUser(data);
-      navigation("/home");
+      navigation("/explore");
     };
 
   //placeholder function to sign out user

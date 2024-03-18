@@ -16,6 +16,8 @@ import Drawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
 import { alpha } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useAuth } from "../hooks/AuthProvider";
+import axios from "axios";
 
 const logoStyle = {
   width: "140px",
@@ -25,6 +27,7 @@ const logoStyle = {
 
 function AppAppBar() {
   const [open, setOpen] = React.useState(false);
+  const { logout } = useAuth();
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -41,6 +44,15 @@ function AppAppBar() {
         behavior: "smooth",
       });
       setOpen(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await axios.get("http://localhost:3000/logOut");
+      logout();
+    } catch (error) {
+      console.error("Error logging out:", error);
     }
   };
 
@@ -110,8 +122,7 @@ function AppAppBar() {
                 variant="text"
                 size="small"
                 component="a"
-                href="/material-ui/getting-started/templates/sign-in/"
-                target="_blank"
+                onClick={ handleLogout }
                 sx={{
                   width: "100%",
                   fontFamily: "nunito, sans-serif",
@@ -131,35 +142,7 @@ function AppAppBar() {
                   mt: { xs: 2, md: 3 },
                 }}
               >
-                Register
-              </Button>
-              <Button
-                color="primary"
-                variant="text"
-                size="small"
-                component="a"
-                href="/material-ui/getting-started/templates/sign-up/"
-                target="_blank"
-                sx={{
-                  width: "100%",
-                  fontFamily: "nunito, sans-serif",
-                  backgroundColor: "#64CF94",
-                  color: "#FFF",
-                  fontFamily: "nunito, sans-serif",
-                  fontWeight: "700",
-                  fontSize: "1rem",
-                  width: "125px",
-                  padding: "3px",
-                  borderRadius: "15px",
-                  minWidth: "70px",
-                  "&:hover": {
-                    backgroundColor: alpha("#64CF94", 0.6),
-                    color: "#FFF",
-                  },
-                  mt: { xs: 2, md: 3 },
-                }}
-              >
-                Log In
+                Log Out
               </Button>
             </Box>
             <Box

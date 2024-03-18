@@ -79,8 +79,9 @@ const createUser = async (req, res) => {
 };
 
 const logOut = (req, res) => {
-  req.logout();
-  res.status(200).json({ message: "User logged out." });
+  req.logout((err) =>
+    err ? console.error(err) : res.status(200).json({ message: "User logged out." })
+  );
 };
 
 //module.exports = router;
