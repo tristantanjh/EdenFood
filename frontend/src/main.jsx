@@ -38,6 +38,11 @@ const router = createBrowserRouter([
             path: "/register",
             element: <Register />,
           },
+        ],
+      },
+      {
+        element: <ProtectedLayout />,
+        children: [
           {
             path: "/explore",
             element: <Explore />,
@@ -50,12 +55,6 @@ const router = createBrowserRouter([
             path: "/orderhistory",
             element: <OrderHistory />,
           },
-        ],
-      },
-      {
-        element: <ProtectedLayout />,
-        children: [
-          
         ],
       },
     ],

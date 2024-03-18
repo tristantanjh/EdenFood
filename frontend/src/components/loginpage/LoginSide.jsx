@@ -23,6 +23,7 @@ import {
 import { Visibility, VisibilityOff, Close } from "@mui/icons-material";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import AspectRatio from "@mui/joy/AspectRatio";
+import { useAuth } from "../../hooks/AuthProvider";
 import axios from "axios";
 
 function Copyright(props) {
@@ -65,6 +66,8 @@ const logoStyle = {
 };
 
 export default function LoginSide() {
+  const { login } = useAuth();
+
   const [showPassword, setShowPassword] = useState(false);
   const isMobile = useMediaQuery("(max-width:600px)");
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -105,8 +108,9 @@ export default function LoginSide() {
           password: data.get("password"),
         });
 
-        console.log(response.data); // Handle successful user creation response
-        history.push("/");
+        login(response.data.user);
+
+        console.log(response.data);
       } catch (error) {
         if (error.response.status === 401) {
           console.error("Invalid username or password.");
