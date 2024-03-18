@@ -14,11 +14,6 @@ passport.deserializeUser(User.deserializeUser());
 
 // Middleware function for authentication
 const authenticateUser = (req, res, next) => {
-  const user = new User({
-    username: req.body.username,
-    password: req.body.password,
-  });
-
   passport.authenticate("local", (err, user, info) => {
     if (err) {
       return next(err);
