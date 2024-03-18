@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import { mongoose, passport, passportLocalMongoose } from "../../config.js";
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -10,7 +10,6 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
   password: {
-    required: true,
     type: String,
   },
   profilePic: {
@@ -38,6 +37,16 @@ const userSchema = new mongoose.Schema({
   ],
 });
 
-const User = mongoose.model("User", userSchema);
+userSchema.methods.verifyPassword = async function (candidatePassword) {
+  return await bcrypt.compare(candidatePassword, this.passwordHash);
+};
 
-export { User };
+userSchema.plugin(passportLocalMongoose, { usernameField: "email" }); // Add passport-local-mongoose plugin to handle user authentication
+
+const User = mongoose.model("User", userSchema); // Create User model
+
+passport.use(User.createStrategy()); // Use local strategy for authentication
+passport.serializeUser(User.serializeUser()); // Serialize user for session
+passport.deserializeUser(User.deserializeUser()); // Deserialize user from session
+
+export { User, passport };
