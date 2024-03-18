@@ -25,7 +25,7 @@ const logoStyle = {
   cursor: "pointer",
 };
 
-function AppAppBar() {
+function AppBarSecondary() {
   const [open, setOpen] = React.useState(false);
   const { logout } = useAuth();
 
@@ -406,8 +406,8 @@ function AppAppBar() {
   );
 }
 
-AppAppBar.propTypes = {
+AppBarSecondary.propTypes = {
   mode: PropTypes.oneOf(["dark", "light"]).isRequired,
 };
 
-export default AppAppBar;
+export default AppBarSecondary;

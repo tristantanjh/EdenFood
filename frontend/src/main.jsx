@@ -13,6 +13,7 @@ import Explore from "./components/explorepage/explore.jsx";
 import Register from "./routes/Register.jsx";
 import Item from "./components/itempage/Item.jsx";
 import OrderHistory from "./components/orderhistory/OrderHistory";
+import Checkout from "./routes/Checkout.jsx";
 import AuthLayout from "./layout/AuthLayout.jsx";
 import ProtectedLayout from "./layout/ProtectedLayout.jsx";
 import PublicLayout from "./layout/PublicLayout.jsx";
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
           {
             path: "/orderhistory",
             element: <OrderHistory />,
+          },
+          {
+            path: "/checkout",
+            element: <Checkout />,
           },
         ],
       },
