@@ -1,12 +1,12 @@
-import passport from 'passport';
+import passport from "passport";
 import { User } from "../model/userModel.js";
-import passportLocal from 'passport-local';
+import passportLocal from "passport-local";
 const LocalStrategy = passportLocal.Strategy;
 import express from "express";
 const router = express.Router();
 
 // Configure Passport to use Local Strategy
-passport.use(new LocalStrategy(User.authenticate()));
+passport.use(User.createStrategy());
 
 // Serialize and deserialize user instances to support login sessions
 passport.serializeUser(User.serializeUser());
@@ -14,18 +14,26 @@ passport.deserializeUser(User.deserializeUser());
 
 // Middleware function for authentication
 const authenticateUser = (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
+  const user = new User({
+    username: req.body.username,
+    password: req.body.password,
+  });
+
+  passport.authenticate("local", (err, user, info) => {
     if (err) {
       return next(err);
     }
     if (!user) {
       return res.status(401).json({ error: "Authentication failed." });
     }
-    req.logIn(user, (err) => {
+    req.login(user, (err) => {
       if (err) {
         return next(err);
       }
-      return res.status(200).json({ message: "Authentication successful", user });
+      return res.status(200).json({
+        message: "Authentication successful",
+        user: { id: user.id, email: user.email },
+      });
     });
   })(req, res, next);
 };
@@ -59,13 +67,19 @@ const createUser = async (req, res) => {
     req.login(newUser, (err) => {
       if (err) {
         console.error(err);
-        return res.status(500).json({ message: "An error occurred during login." });
+        return res
+          .status(500)
+          .json({ message: "An error occurred during login." });
       }
-      res.status(201).json({ message: "User created successfully", user: newUser });
+      res
+        .status(201)
+        .json({ message: "User created successfully", user: newUser });
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "An error occurred while creating the user." });
+    res
+      .status(500)
+      .json({ message: "An error occurred while creating the user." });
   }
 };
 

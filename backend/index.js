@@ -4,9 +4,9 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import "dotenv/config";
 import { APIrouter } from "./src/routes/routes.js";
+import { app } from "./config.js";
 
 ///////////////////////////////////////////////// app set-up //////////////////////////////////////////////////
-const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -17,10 +17,8 @@ app.get("/", (req, res) => {
   res.send("Welcome to my API"); // You can customize this message
 });*/
 
-app
- .use(APIrouter)
- //  .use("/routes/home", homeRouter)
-
+app.use(APIrouter);
+//  .use("/routes/home", homeRouter)
 
 ///////////////////////////////////////////////// cors set-up //////////////////////////////////////////////////
 var corsOptions = {

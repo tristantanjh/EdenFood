@@ -15,7 +15,6 @@ const app = express();
 mongoose.connect(process.env.MONGO_URI);
 
 app
-  .set("view engine", "ejs")
   .use(bodyParser.urlencoded({ extended: true }))
   .use(express.static("public"))
   .use(
@@ -27,8 +26,7 @@ app
   )
   .use(passport.initialize())
   .use(passport.session())
-  .use(flash())
-  .use("/scripts", express.static("scripts", { extensions: ["js"] }));
+  .use(flash());
 
 export {
   app,
