@@ -13,32 +13,52 @@ import Explore from "./components/explorepage/explore.jsx";
 import Register from "./routes/Register.jsx";
 import Item from "./components/itempage/Item.jsx";
 import OrderHistory from "./components/orderhistory/OrderHistory";
+import AuthLayout from "./layout/AuthLayout.jsx";
+import ProtectedLayout from "./layout/ProtectedLayout.jsx";
+import PublicLayout from "./layout/PublicLayout.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <AuthLayout />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: "/explore",
-    element: <Explore />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/item",
-    element: <Item />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
-  },
-  {
-    path: "/orderhistory",
-    element: <OrderHistory />,
+    children: [
+      {
+        element: <PublicLayout />,
+        children: [
+          {
+            index: true,
+            element: <App />,
+          },
+          {
+            path: "/login",
+            element: <Login />,
+          },
+          {
+            path: "/register",
+            element: <Register />,
+          },
+          {
+            path: "/explore",
+            element: <Explore />,
+          },
+          {
+            path: "/item",
+            element: <Item />,
+          },
+          {
+            path: "/orderhistory",
+            element: <OrderHistory />,
+          },
+        ],
+      },
+      {
+        element: <ProtectedLayout />,
+        children: [
+          
+        ],
+      },
+    ],
   },
 ]);
 
