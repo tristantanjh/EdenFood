@@ -1,28 +1,33 @@
+import passport from 'passport';
 import { User } from "../model/userModel.js";
+import passportLocal from 'passport-local';
+const LocalStrategy = passportLocal.Strategy;
+import express from "express";
+const router = express.Router();
 
-const login = async (req, res) => {
-  const { username, password } = req.body;
+// Configure Passport to use Local Strategy
+passport.use(new LocalStrategy(User.authenticate()));
 
-  if (!username || !password) {
-    return res
-      .status(400)
-      .json({ error: "Username and password are required." });
-  }
+// Serialize and deserialize user instances to support login sessions
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
-  try {
-    const user = await User.findOne({ username });
-
-    if (!user) {
-      return res.status(401).json({ error: "Invalid username or password." });
-    } else if (user.password !== password) {
-      return res.status(401).json({ error: "Invalid username or password." });
+// Middleware function for authentication
+const authenticateUser = (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) {
+      return next(err);
     }
-
-    res.json({ userId: user._id });
-  } catch (error) {
-    console.error("Error while logging in:", error);
-    res.status(500).json({ error: "An unexpected error occurred." });
-  }
+    if (!user) {
+      return res.status(401).json({ error: "Authentication failed." });
+    }
+    req.logIn(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+      return res.status(200).json({ message: "Authentication successful", user });
+    });
+  })(req, res, next);
 };
 
 const createUser = async (req, res) => {
@@ -44,23 +49,27 @@ const createUser = async (req, res) => {
     const newUser = new User({
       username,
       email,
-      password,
       profilePic,
     });
 
-    await newUser.save();
+    // Use Passport's `register` method to handle password hashing
+    await User.register(newUser, password);
 
-    res
-      .status(201)
-      .json({ message: "User created successfully", user: newUser });
+    // Automatically log in the user after registration
+    req.login(newUser, (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ message: "An error occurred during login." });
+      }
+      res.status(201).json({ message: "User created successfully", user: newUser });
+    });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ message: "An error occurred while creating the user." });
+    res.status(500).json({ message: "An error occurred while creating the user." });
   }
 };
 
+//module.exports = router;
 //get email, profilepic by username
 
 const getEmail = async (req, res) => {
@@ -95,4 +104,4 @@ const getProfilePic = async (req, res) => {
   }
 };
 
-export { login, createUser, getEmail, getProfilePic };
+export { authenticateUser, createUser, getEmail, getProfilePic };

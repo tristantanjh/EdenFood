@@ -1,41 +1,39 @@
-// Requiring required packages
-require("dotenv").config();
-const express = require("express");
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
-const session = require("express-session");
-const passport = require("passport");
-const passportLocalMongoose = require("passport-local-mongoose");
-const flash = require("connect-flash");
-const https = require("https");
+import dotenv from "dotenv";
+import express from "express";
+import bodyParser from "body-parser";
+import mongoose from "mongoose";
+import session from "express-session";
+import passport from "passport";
+import passportLocalMongoose from "passport-local-mongoose";
+import flash from "connect-flash";
+import https from "https";
 
- // Creating application using express
+dotenv.config();
+
 const app = express();
 
-// Connecting to MongoDB database
-mongoose.connect("ongodb+srv://natakon:SwK0dVfnOmgUEyUZ@edenfoodapp.0ojwxn7.mongodb.net/?retryWrites=true&w=majority");
-
+mongoose.connect(process.env.MONGODB_URI);
 
 app
-  .set("view engine", "ejs") // Set EJS as the view engine
-  .use(bodyParser.urlencoded({ extended: true })) // Parse URL-encoded bodies
-  .use(express.static("public")) // Serve static files from the "public" directory
+  .set("view engine", "ejs")
+  .use(bodyParser.urlencoded({ extended: true }))
+  .use(express.static("public"))
   .use(
     session({
-      secret: process.env.ENCRYPTION_KEY, // Secret key for session encryption
-      resave: false, // Do not save session if unmodified
-      saveUninitialized: false, // Do not create session until something is stored
+      secret: process.env.ENCRYPTION_KEY,
+      resave: false,
+      saveUninitialized: false,
     })
   )
-  .use(passport.initialize()) // Initialize Passport.js for authentication
-  .use(passport.session()) // Enable persistent login sessions
-  .use(flash()) // Enable flash messages
-  .use("/scripts", express.static("scripts", { extensions: ["js"] })); // Serve JavaScript files from the "scripts" directory
+  .use(passport.initialize())
+  .use(passport.session())
+  .use(flash())
+  .use("/scripts", express.static("scripts", { extensions: ["js"] }));
 
-module.exports = {
+export {
   app,
   mongoose,
   passport,
   passportLocalMongoose,
-  https,
+  https
 };
