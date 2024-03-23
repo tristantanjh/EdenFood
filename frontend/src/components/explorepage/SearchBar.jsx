@@ -15,15 +15,6 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-  >
-    •
-  </Box>
-);
-
 // const categories = [
 //   {
 //     value: "All",
@@ -158,8 +149,8 @@ export default function SearchBar() {
           flexDirection: { xs: "column", md: "row" },
           alignItems: "center",
           justifyContent: "center",
-          pt: { xs: 11, sm: 13 },
-          pb: { xs: 6, sm: 12 },
+          pt: { xs: 12, sm: 14 },
+          pb: { xs: 2, sm: 4 },
         }}
       >
         {/* <ThemeProvider theme={customTheme}>
@@ -184,7 +175,7 @@ export default function SearchBar() {
               ))}
             </TextField>
           </ThemeProvider> */}
-        <Stack direction="row" width={"95%"}>
+        <Stack direction="row" sx={{ width: { xs: "95%", sm: "100%" }, ml: { xs: ".5rem", sm: "" } }}>
           <ThemeProvider theme={customTheme}>
             <TextField
               id="outlined-search-food-produce"
@@ -202,7 +193,7 @@ export default function SearchBar() {
                 width: "100%",
                 fontFamily: "open sans, sans-serif",
               }}
-            ></TextField>
+            />
           </ThemeProvider>
           <IconButton
             type="button"

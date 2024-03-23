@@ -10,6 +10,7 @@ import App from "./routes/App.jsx";
 import Login from "./routes/Login.jsx";
 import ErrorPage from "./routes/ErrorPage.jsx";
 import Explore from "./components/explorepage/explore.jsx";
+import Listing from "./components/addListingpage/Listing.jsx";
 import Register from "./routes/Register.jsx";
 import Item from "./components/itempage/Item.jsx";
 import OrderHistory from "./components/orderhistory/OrderHistory";
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
           {
             path: "/checkout",
             element: <Checkout />,
+          },
+          {
+            path: "/addListing",
+            element: <Listing />,
           },
         ],
       },

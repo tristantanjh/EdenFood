@@ -1,15 +1,14 @@
 import * as React from "react";
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 let cloudinary;
 
 const CloudinaryUploadWidget = ({ children, onUpload }) => {
-
   const widget = useRef();
   useEffect(() => {
     // Store the Cloudinary window instance to a ref when the page renders
 
-    if ( !cloudinary ) {
+    if (!cloudinary) {
       cloudinary = window.cloudinary;
     }
 
@@ -18,17 +17,19 @@ const CloudinaryUploadWidget = ({ children, onUpload }) => {
     // setTimeout: https://caniuse.com/requestidlecallback
 
     function onIdle() {
-      if ( !widget.current ) {
+      if (!widget.current) {
         widget.current = createWidget();
       }
     }
 
-    'requestIdleCallback' in window ? requestIdleCallback(onIdle) : setTimeout(onIdle, 1);
+    "requestIdleCallback" in window
+      ? requestIdleCallback(onIdle)
+      : setTimeout(onIdle, 1);
 
     return () => {
       widget.current?.destroy();
       widget.current = undefined;
-    }
+    };
     // eslint-disable-next-line
   }, []);
 
@@ -48,7 +49,7 @@ const CloudinaryUploadWidget = ({ children, onUpload }) => {
 
     if (!cloudName || !uploadPreset) {
       console.warn(`Kindly ensure you have the cloudName and UploadPreset 
-      setup in your .env file at the root of your project.`)
+      setup in your .env file at the root of your project.`);
     }
     const options = {
       cloudName: cloudName,
@@ -56,11 +57,11 @@ const CloudinaryUploadWidget = ({ children, onUpload }) => {
       cropping: true, //add a cropping step
       // multiple: true,
       showUploadMoreButton: false,
-      maxFiles: 1,
+      maxFiles: 5,
       croppingAspectRatio: 1,
       // showAdvancedOptions: true,  //add advanced options (public_id and tag)
       // sources: [ "local", "url"], // restrict the upload sources to URL and local files
-      multiple: false,  //restrict upload to a single file
+      multiple: false, //restrict upload to a single file
       // folder: "user_images", //upload files to the specified folder
       // tags: ["users", "profile"], //add the given tags to the uploaded files
       // context: {alt: "user_uploaded"}, //add the given context data to the uploaded files
@@ -70,19 +71,20 @@ const CloudinaryUploadWidget = ({ children, onUpload }) => {
       minImageWidth: 150,
       maxImageHeight: 150,
       minImageHeight: 150,
-    }
+    };
 
-    return cloudinary?.createUploadWidget(options,
-      function (error, result) {
-        // The callback is a bit more chatty than failed or success so
-        // only trigger when one of those are the case. You can additionally
-        // create a separate handler such as onEvent and trigger it on
-        // ever occurrence
-        if ((error || result.event === 'success') && typeof onUpload === 'function' ) {
-          onUpload(error, result, widget);
-        }
+    return cloudinary?.createUploadWidget(options, function (error, result) {
+      // The callback is a bit more chatty than failed or success so
+      // only trigger when one of those are the case. You can additionally
+      // create a separate handler such as onEvent and trigger it on
+      // ever occurrence
+      if (
+        (error || result.event === "success") &&
+        typeof onUpload === "function"
+      ) {
+        onUpload(error, result, widget);
       }
-    );
+    });
   }
 
   /**
@@ -91,18 +93,14 @@ const CloudinaryUploadWidget = ({ children, onUpload }) => {
    */
 
   function open() {
-    if ( !widget.current ) {
+    if (!widget.current) {
       widget.current = createWidget();
     }
     widget.current && widget.current.open();
   }
 
-  return (
-    <>
-      {children({ cloudinary, widget, open })}
-    </>
-  )
-}
+  return <>{children({ cloudinary, widget, open })}</>;
+};
 
 export default CloudinaryUploadWidget;
 // import React, { Component } from "react";
@@ -202,7 +200,7 @@ export default CloudinaryUploadWidget;
 //   //         console.log("Done! Here is the image info: ", result);
 //   //         this.props.onUploadSuccess(result.info.secure_url);
 //   //       }
-        
+
 //   //     }
 //   //   );
 //   //   document.getElementById("upload_widget").addEventListener(
