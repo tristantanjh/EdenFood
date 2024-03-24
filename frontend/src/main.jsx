@@ -18,6 +18,7 @@ import Checkout from "./routes/Checkout.jsx";
 import AuthLayout from "./layout/AuthLayout.jsx";
 import ProtectedLayout from "./layout/ProtectedLayout.jsx";
 import PublicLayout from "./layout/PublicLayout.jsx";
+import Profile from "./components/profilepage/ProfilePage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
           {
             path: "/checkout",
             element: <Checkout />,
+          },
+          {
+            path: "/profile",
+            element: <Profile />,
           },
           {
             path: "/addListing",
