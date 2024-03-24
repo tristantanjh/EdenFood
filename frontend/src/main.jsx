@@ -18,6 +18,7 @@ import Checkout from "./routes/Checkout.jsx";
 import AuthLayout from "./layout/AuthLayout.jsx";
 import ProtectedLayout from "./layout/ProtectedLayout.jsx";
 import PublicLayout from "./layout/PublicLayout.jsx";
+import Dashboard from "./components/dashBoardPage/dashboard.jsx";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
           {
             path: "/addListing",
             element: <Listing />,
+          },
+          {
+            path: "/dashBoard",
+            element: <Dashboard />,
           },
         ],
       },
