@@ -3,6 +3,7 @@ import {
   createBrowserRouter,
   createHashRouter,
   RouterProvider,
+  Navigate,
 } from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import "./index.css";
@@ -14,11 +15,13 @@ import Listing from "./components/addListingpage/Listing.jsx";
 import Register from "./routes/Register.jsx";
 import Item from "./components/itempage/Item.jsx";
 import OrderHistory from "./components/orderhistory/OrderHistory";
-import Checkout from "./routes/Checkout.jsx";
+import CheckoutLayout from "./layout/CheckoutLayout.jsx";
 import AuthLayout from "./layout/AuthLayout.jsx";
 import ProtectedLayout from "./layout/ProtectedLayout.jsx";
 import PublicLayout from "./layout/PublicLayout.jsx";
 import Profile from "./components/profilepage/ProfilePage.jsx";
+import Info from "./components/checkout/info/Info.jsx";
+import Confirmation from "./components/checkout/confirmation/Confirmation.jsx";
 
 const router = createBrowserRouter([
   {
@@ -60,7 +63,21 @@ const router = createBrowserRouter([
           },
           {
             path: "/checkout",
-            element: <Checkout />,
+            element: <CheckoutLayout />,
+            children: [
+              {
+                index: true,
+                element: <Navigate to="info" />,
+              },
+              {
+                path: "info",
+                element: <Info />, 
+              },
+              {
+                path: "confirmation", 
+                element: <Confirmation />,
+              },
+            ],
           },
           {
             path: "/profile",
