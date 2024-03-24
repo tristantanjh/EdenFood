@@ -5,7 +5,7 @@ import ButtonGroup from "@mui/material/Button";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 
-const QuantitySelector = ({ children, ...props }) => {
+const QuantitySelector = ({ children, minValue, maxValue, ...props }) => {
   const [count, setCount] = useState(minValue);
 
   const handleIncrementCounter = () => {
