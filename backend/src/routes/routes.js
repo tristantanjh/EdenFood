@@ -41,7 +41,7 @@ APIrouter.post("/addToWishlist", addToWishList);
 
 APIrouter.post("/checkoutOrder", checkoutOrder);
 
-APIrouter.post("/getOrdersWithUserId/:userId",getOrdersWithUserId)
+APIrouter.get("/getOrdersWithUserId",getOrdersWithUserId)
 
 APIrouter.post("/leaveReview/:groceryId", leaveReview);
 

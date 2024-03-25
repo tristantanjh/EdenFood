@@ -9,11 +9,11 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useLocalStorage("user", null);
   const navigation = useNavigate();
 
-    //placeholder function to authenticate user
-    const login = async (data) => {
-      setUser(data);
-      navigation("/explore");
-    };
+  //placeholder function to authenticate user
+  const login = async (data) => {
+    setUser(data);
+    navigation("/explore");
+  };
 
   //placeholder function to sign out user
   const logout = () => {

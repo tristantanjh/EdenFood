@@ -18,6 +18,7 @@ import { alpha } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/AuthProvider";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const logoStyle = {
   width: "140px",
@@ -28,6 +29,7 @@ const logoStyle = {
 function AppBarSecondary() {
   const [open, setOpen] = React.useState(false);
   const { logout } = useAuth();
+  const navigate = useNavigate();
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -120,7 +122,7 @@ function AppBarSecondary() {
                 }}
               >
                   <MenuItem
-                    onClick={() => scrollToSection("features")}
+                    onClick={() => navigate("/profile")}
                     sx={{
                       py: "0px",
                       px: "12px",
@@ -144,7 +146,7 @@ function AppBarSecondary() {
                     </Typography>
                   </MenuItem>
                   <MenuItem
-                    onClick={() => scrollToSection("testimonials")}
+                    onClick={() => navigate("/orderhistory")}
                     sx={{
                       py: "0px",
                       px: "12px",
@@ -167,7 +169,7 @@ function AppBarSecondary() {
                     </Typography>
                   </MenuItem>
                   <MenuItem
-                    onClick={() => scrollToSection("highlights")}
+                    onClick={() => navigate("/managelistings")}
                     sx={{
                       py: "0px",
                       px: "12px",
@@ -190,7 +192,7 @@ function AppBarSecondary() {
                     </Typography>
                   </MenuItem>
                   <MenuItem
-                    onClick={() => scrollToSection("pricing")}
+                    onClick={() => navigate("/dashboard")}
                     sx={{
                       py: "0px",
                       px: "12px",
