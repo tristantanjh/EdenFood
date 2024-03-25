@@ -71,13 +71,13 @@ const router = createBrowserRouter([
             path: "/addListing",
             element: <Listing />,
           },
+          {
+            path: "/shoppingCart",
+            element: <ShoppingCart />,
+          },
         ],
       },
     ],
-  },
-  {
-    path: "/shoppingCart",
-    element: <ShoppingCart />,
   },
 ]);
 
