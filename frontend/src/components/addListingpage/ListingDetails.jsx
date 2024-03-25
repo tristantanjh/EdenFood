@@ -61,6 +61,15 @@ export default function ListingDetails() {
               mt: "1%",
               width: isSmallScreen ? "90%" : isMediumScreen ? "40%" : "28%",
             }}
+            id="freshness"
+            label="Category"
+            variant="outlined"
+          />
+          <TextField
+            sx={{
+              mt: "1%",
+              width: isSmallScreen ? "90%" : isMediumScreen ? "40%" : "28%",
+            }}
             id="Price"
             label="$ (Price)"
             variant="outlined"
