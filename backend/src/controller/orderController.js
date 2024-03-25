@@ -28,13 +28,14 @@ const checkoutOrder =  async (req, res) => {
 
 const getOrdersWithUserId = async (req, res) => {
   try {
-    const userId = req.params.userId; 
+    const userId = req.query.userId; 
+    console.log(userId);
     const orders = await Order.find({ user: userId }).populate("groceries");
-
+    
     if (orders.length > 0) {
       res.status(200).json({ orders });
     } else {
-      res.status(404).json({ message: "No orders found for the user." });
+      res.status(200).json({ message: "No orders found for the user." });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -12,6 +12,8 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
+import { useAuth } from "../../hooks/AuthProvider";
+import axios from "axios";
 
 const Accordion = styled(MuiAccordion)({
   "&.Mui-expanded": {
@@ -70,12 +72,29 @@ const orders = [
 
 export default function OrderHistory() {
   const [expanded, setExpanded] = React.useState("panel0");
+  const { user } = useAuth();
+  // const [orders, setOrders] = 
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/getOrdersWithUserId",
+        { params: { userId: user.id } }
+      );
+      console.log(response);
+    } catch (error) {
+      // Handle error
+      console.error(error);
+    }
+  };
 
   const handleChange = (panel) => (event, newExpanded) => {
     console.log(panel);
     console.log(newExpanded);
     setExpanded(newExpanded ? panel : false);
   };
+
+  fetchData();
 
   return (
     <div>
