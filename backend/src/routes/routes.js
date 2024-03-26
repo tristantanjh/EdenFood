@@ -73,4 +73,16 @@ APIrouter.get("/user/profile-pic", getProfilePic);
 
 APIrouter.get("/wishlist", getWishList);
 
+///untested
+
+APIrouter.delete("/removeFromCart",removeFromCart);
+
+APIrouter.post("/incrementGroceryQuantity", incrementGroceryQuantity);
+
+APIrouter.post("/decrementGroceryQuantity", decrementGroceryQuantity);
+
+APIrouter.get("/getListingsByCategory", getListingsByCategory);
+
+APIrouter.get("/getAllOtherGroceries", getAllGroceries);
+
 export { APIrouter };
