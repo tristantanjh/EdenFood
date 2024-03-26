@@ -47,7 +47,7 @@ APIrouter.post("/leaveReview/:groceryId", leaveReview);
 
 APIrouter.get("/logout", logOut);
 
-APIrouter.get("/getCart/:userId", getCart);
+APIrouter.get("/getCart", getCart);
 
 APIrouter.get("/getListingByGroceryId/:groceryId", getListingByGroceryId);
 

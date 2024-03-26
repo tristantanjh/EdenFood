@@ -18,7 +18,11 @@ import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 export default function ItemCard(props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
+  const handleQuantityChange = (newQuantity) => {
+    props.setTotalPrice(
+      (prevTotalPrice) => prevTotalPrice + props.price * newQuantity
+    );
+  };
   return (
     <Container
       sx={{
@@ -135,7 +139,12 @@ export default function ItemCard(props) {
                 >
                   {props.price}
                 </Typography>
-                <QuantitySelector minValue={1} maxValue={10} />
+                <QuantitySelector
+                  minValue={1}
+                  maxValue={10}
+                  quantity={props.quantity}
+                  handleQuantityChange={handleQuantityChange}
+                />
               </Stack>
             </CardContent>
           </Grid>
@@ -147,8 +156,7 @@ export default function ItemCard(props) {
             <CardContent>
               <IconButton
                 size="small"
-                // aria-label="Add to Cart"
-                //onClick={handleAddToCart} Define click handler function
+                // onClick={handleDeleteCart}
                 sx={{
                   position: "absolute",
                   bottom: isMobile ? 7 : 5,

@@ -1,6 +1,7 @@
 import { Cart } from "../model/cartModel.js";
 import { Grocery } from "../model/groceryModel.js";
 
+// modify to accept itemId and quantity
 const addToCart = async (req, res) => {
     const { userId, items } = req.body;
   
@@ -30,6 +31,8 @@ const addToCart = async (req, res) => {
         .json({ message: "An error occurred while adding to the cart." });
     }
   }
+
+  // changing quantity or deleting the whole item
   
   //get cart based on userID
   const getCart = async (req, res) => {

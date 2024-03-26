@@ -12,25 +12,126 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Ratings from "./ratings";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import PropTypes from "prop-types";
+import { alpha } from "@mui/material/styles";
+import List from "@mui/material/List";
+import QuantitySelector from "./QuantitySelector";
+import CustomButton from "../common/CustomButton";
+import { useAuth } from "../../hooks/AuthProvider";
+import axios from "axios";
+
+function SimpleDialog(props) {
+  const { user } = useAuth();
+  const { onClose, open, itemId } = props;
+  const [quantity, setQuantity] = React.useState(1);
+
+  const handleClose = () => {
+    onClose();
+  };
+
+  const handleAddToCart = async (value) => {
+    try {
+      const response = await axios.post("http://localhost:3000/addToCart", {
+        userId: user.userId,
+        items: itemId,
+        quantity: quantity,
+      });
+      // add SnackBar for if response.ok
+      if (!response.ok) {
+        throw new Error("Failed to add item to cart");
+      }
+      console.log("Item added to cart successfully");
+      handleClose();
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    }
+  };
+
+  return (
+    <Dialog onClose={handleClose} open={open}>
+      <DialogTitle
+        sx={{
+          fontFamily: "nunito, sans-serif",
+          fontSize: { xs: "1.3rem", sm: "1.5rem" },
+          fontWeight: "bold",
+          textAlign: "left",
+        }}
+      >
+        Select Item Quantity
+      </DialogTitle>
+      <List sx={{ pt: 0 }}>
+        <Stack spacing={2}>
+          <QuantitySelector
+            minValue={1}
+            maxValue={10}
+            quantity={quantity}
+            onQuantityChange={setQuantity}
+          />
+          <Box
+            sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}
+          >
+            <CustomButton
+              onClick={handleAddToCart}
+              sx={{
+                borderRadius: "999px",
+                borderBlockColor: "transparent",
+                backgroundColor: "#64CF94", // Custom background color
+                color: "#FFF", // Custom text color
+                fontFamily: "nunito, sans-serif",
+                fontWeight: "700",
+                fontSize: { xs: "0.7rem", sm: "0.8rem" },
+                width: { xs: "110px", sm: "150px" },
+                padding: { xs: "4px 7px", sm: "5px 8px" },
+                boxShadow: "0px",
+                mr: "10px",
+                mb: "5px",
+                "&:hover": {
+                  backgroundColor: alpha("#64CF94", 0.8),
+                },
+                "&:focus": { outline: "none" },
+              }}
+            >
+              Add to Cart
+            </CustomButton>
+          </Box>
+        </Stack>
+      </List>
+    </Dialog>
+  );
+}
+
+SimpleDialog.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+};
 
 export default function ItemCard(props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = (value) => {
+    setOpen(false);
+  };
 
   return (
     <Card
       sx={{
         position: "relative",
-        maxWidth: isMobile ? 150 : 275,
+        maxWidth: isMobile ? 160 : 275,
         borderRadius: "8px",
-        mb: "1rem"
+        mb: "1rem",
       }}
     >
       {/* Custom image based on merchant uploads */}
       <CardMedia
         sx={{
           height: isMobile ? 125 : 225,
-          width: isMobile ? 150 : 275,
+          width: isMobile ? 160 : 275,
         }}
         image={props.itemImageURL}
         // image="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg"
@@ -79,12 +180,15 @@ export default function ItemCard(props) {
           }}
         >
           {/* Need change default value accordingly */}
-          <Ratings defaultValue={props.itemRating} size="small" isMobile={isMobile} />
+          <Ratings
+            defaultValue={props.itemRating}
+            size={isMobile ? "small" : "large"}
+            isMobile={isMobile}
+          />
         </CardContent>
         <IconButton
           size="small"
-          // aria-label="Add to Cart"
-          //onClick={handleAddToCart} Define click handler function
+          onClick={handleClickOpen}
           sx={{
             position: "absolute",
             bottom: isMobile ? 8 : 5,
@@ -101,6 +205,7 @@ export default function ItemCard(props) {
             style={{ width: "100%", height: "100%" }}
           />
         </IconButton>
+        <SimpleDialog itemId={props._id} open={open} onClose={handleClose} />
       </Stack>
     </Card>
   );
