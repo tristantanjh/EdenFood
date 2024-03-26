@@ -3,7 +3,7 @@ import { Grocery } from "../model/groceryModel.js";
 
 
 const addToCart = async (req, res) => {
-  const { userId, groceryId, quantity } = req.body;
+  const { userId, groceryId, quantity } = req.query;
 
   try {
     // Find the user's cart
@@ -45,7 +45,7 @@ const addToCart = async (req, res) => {
   //get cart based on userID
   const getCart = async (req, res) => {
     try {
-      const userId = req.params.userId;
+      const userId = req.query.userId;
   
       // Find the user's cart and populate it with groceries
       const userCart = await Cart.findOne({ user: userId }).populate('items.grocery');
@@ -67,7 +67,7 @@ const addToCart = async (req, res) => {
   //this is completely remove the item 
   const removeFromCart = async (req, res) => {
     try {
-      const { userId, groceryId } = req.body;
+      const { userId, groceryId } = req.query;
       let cart = await Cart.findOne({ user: userId });
   
       if (!cart) {
@@ -92,7 +92,7 @@ const addToCart = async (req, res) => {
   //change value --> decrement/increment by 1
   const decrementGroceryQuantity = async (req, res) => {
     try {
-      const { cartId, groceryId } = req.body;
+      const { cartId, groceryId } = req.query;
   
       let cart = await Cart.findById(cartId);
   
@@ -129,7 +129,7 @@ const addToCart = async (req, res) => {
 
   const incrementGroceryQuantity = async (req, res) => {
     try {
-      const { cartId, groceryId } = req.body;
+      const { cartId, groceryId } = req.query;
   
       let cart = await Cart.findById(cartId);
   

@@ -40,7 +40,8 @@ const createListing = async (req, res) => {
 
 const getListingByGroceryId = async (req, res) => {
   try {
-    const groceryId = req.params.groceryId;
+    const { groceryId } = req.query;
+    
     const grocery = await Grocery.findById(groceryId);
 
     if (!grocery) {
@@ -58,7 +59,8 @@ const getListingByGroceryId = async (req, res) => {
 
 const getListingsByCategory = async (req, res) => {
   try {
-    const category = req.params.category;
+    const { category } = req.query;
+    
     const groceries = await Grocery.find({ category: category });
 
     if (groceries.length === 0) {
@@ -77,7 +79,8 @@ const getListingsByCategory = async (req, res) => {
 // get grocery by userId
 const getListingsByUserId = async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const { userId } = req.query;
+    
     const groceries = await Grocery.find({ user: userId });
 
     res.json(groceries);
@@ -87,21 +90,29 @@ const getListingsByUserId = async (req, res) => {
   }
 };
 
-//get all
+//get all filter the user own listing 
 
 const getAllGroceries = async (req, res) => {
   try {
     const groceries = await Grocery.find();
+    const userId = req.query.userId;
+
+    const currUser = await User.find({ user: userId });
+
+    if (!currUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
     if (groceries.length === 0) {
       return res.status(404).json({ message: "No groceries found" });
     }
-    res.json(groceries);
+
+    const filteredGroceries = groceries.filter(grocery => grocery.user !== userId);
+
+    res.json(filteredGroceries);
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ message: "An error occurred while fetching groceries" });
+    res.status(500).json({ message: "An error occurred while fetching groceries" });
   }
 };
 
