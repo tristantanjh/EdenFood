@@ -9,14 +9,14 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import Face from "@mui/icons-material/Face";
-import EditIcon from "@mui/icons-material/Edit";
-import ReplyIcon from "@mui/icons-material/Reply";
 
 const ProfileHeader = () => {
   const [value, setValue] = useState(5);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down(414));
+  const navigateTo = "/editProfile";
 
   return (
     <Box
@@ -114,27 +114,29 @@ const ProfileHeader = () => {
           </Stack>
         </Grid>
         <Grid item sx={{ mt: 15.5 }}>
-          <IconButton
-            sx={{
-              bgcolor: "#64CF94",
-              borderRadius: "50%",
-              width: isSmallScreen ? 35 : 45,
-              height: isSmallScreen ? 35 : 45,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              "&:focus": { outline: "none" },
-            }}
-          >
-            <img
-              src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1711185761/edit_vfsklg.png"
-              alt="Edit button"
-              style={{
-                width: isSmallScreen ? 12 : 15,
-                height: isSmallScreen ? 12 : 15,
+          <Link to={navigateTo} style={{ textDecoration: "none" }}>
+            <IconButton
+              sx={{
+                bgcolor: "#64CF94",
+                borderRadius: "50%",
+                width: isSmallScreen ? 35 : 45,
+                height: isSmallScreen ? 35 : 45,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                "&:focus": { outline: "none" },
               }}
-            />
-          </IconButton>
+            >
+              <img
+                src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1711185761/edit_vfsklg.png"
+                alt="Edit button"
+                style={{
+                  width: isSmallScreen ? 12 : 15,
+                  height: isSmallScreen ? 12 : 15,
+                }}
+              />
+            </IconButton>
+          </Link>
           <IconButton
             sx={{
               mt: 0.5,

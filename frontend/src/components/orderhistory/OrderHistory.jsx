@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from 'react';
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBarSecondary from "../AppBarSecondary.jsx";
 import Footer from "../Footer.jsx";
@@ -11,7 +11,11 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import { styled } from "@mui/material/styles";
+import { styled, useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useAuth } from "../../hooks/AuthProvider";
+import axios from "axios";
+
 
 const Accordion = styled(MuiAccordion)({
   "&.Mui-expanded": {
@@ -25,51 +29,84 @@ const Accordion = styled(MuiAccordion)({
   },
 });
 
-const orders = [
-  {
-    orderID: "1024",
-    orderDate: "07/03/2024",
-    orderStatus: "To Collect",
-    orderPrice: "5.95",
-    merchantName: "King Koi",
-    merchantImageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708501388/istockphoto-691338444-612x612-removebg-preview_ffo3vb.png",
-    items: [
-      {
-        itemName: "Norwegian Salmon (100g)",
-        itemImageURL:
-          "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-        itemQuantity: "2",
-      },
-      {
-        itemName: "Wakanda Meat (100g)",
-        itemImageURL:
-          "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708348046/samples/man-portrait.jpg",
-        itemQuantity: "10",
-      },
-    ],
-  },
-  {
-    orderID: "1025",
-    orderDate: "10/03/2024",
-    orderStatus: "Collected",
-    orderPrice: "10.00",
-    merchantName: "Queen Koi",
-    merchantImageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708501388/istockphoto-691338444-612x612-removebg-preview_ffo3vb.png",
-    items: [
-      {
-        itemName: "Norwegian Salmon (100g)",
-        itemImageURL:
-          "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-        itemQuantity: "1",
-      },
-    ],
-  },
-];
+// const orders = [
+//   {
+//     orderID: "1024",
+//     orderDate: "07/03/2024",
+//     orderStatus: "To Collect",
+//     orderPrice: "5.95",
+//     merchantName: "King Koi",
+//     merchantImageURL:
+//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708501388/istockphoto-691338444-612x612-removebg-preview_ffo3vb.png",
+//     items: [
+//       {
+//         itemName: "Norwegian Salmon (100g)",
+//         itemImageURL:
+//           "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
+//         itemQuantity: "2",
+//       },
+//       {
+//         itemName: "Wakanda Meat (100g)",
+//         itemImageURL:
+//           "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708348046/samples/man-portrait.jpg",
+//         itemQuantity: "10",
+//       },
+//     ],
+//   },
+//   {
+//     orderID: "1025",
+//     orderDate: "10/03/2024",
+//     orderStatus: "Collected",
+//     orderPrice: "10.00",
+//     merchantName: "Queen Koi",
+//     merchantImageURL:
+//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708501388/istockphoto-691338444-612x612-removebg-preview_ffo3vb.png",
+//     items: [
+//       {
+//         itemName: "Norwegian Salmon (100g)",
+//         itemImageURL:
+//           "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
+//         itemQuantity: "1",
+//       },
+//     ],
+//   },
+// ];
 
 export default function OrderHistory() {
+  const theme = useTheme();
   const [expanded, setExpanded] = React.useState("panel0");
+  const { user } = useAuth();
+  const [orders, setOrders] = React.useState([]);
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/getOrdersWithUserId", {
+        params: { userId: user.id },
+      })
+      .then((res) => {
+        console.log(res.data.orders);
+        setOrders(res.data.orders);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       "http://localhost:3000/getOrdersWithUserId",
+  //       { params: { userId: user.id } }
+  //     );
+  //     console.log(response.data.orders);
+  //     orders = response.data.orders;
+  //   } catch (error) {
+  //     // Handle error
+  //     console.error(error);
+  //   }
+  // };
 
   const handleChange = (panel) => (event, newExpanded) => {
     console.log(panel);
@@ -124,12 +161,11 @@ export default function OrderHistory() {
                   sx={{
                     fontSize: { xs: "14px", md: "18px" },
                     fontWeight: "bold",
-                    mr: "auto",
+                    mr: { xs: "40px", md: "auto" },
                     color: "#FFF",
                   }}
                 >
-                  Order ID: {order.orderID}
-                  {index}
+                  ID: {isMobile ? order._id : order._id}
                 </Typography>
                 <Typography
                   sx={{
@@ -140,17 +176,16 @@ export default function OrderHistory() {
                     color: "#FFF",
                   }}
                 >
-                  Order Date: {order.orderDate}
+                  Date: {order.createdAt.substring(0, 10).replace(/-/g, "/")}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <OrderHistoryOrder
                   key={index}
-                  merchantLogoURL={order.merchantImageURL}
-                  merchantName={order.merchantName}
-                  orderStatus={order.orderStatus}
-                  orderAmount={order.orderPrice}
-                  items={order.items}
+                  merchant={order.merchant}
+                  orderStatus={order.status}
+                  orderAmount={order.amount}
+                  items={order.groceries}
                 />
               </AccordionDetails>
             </Accordion>

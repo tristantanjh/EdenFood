@@ -27,7 +27,8 @@ const addToWishList = async (req, res) => {
 
 //get wish list based on userid
 const getWishList = async (req, res) => {
-  const userId = req.params.userId;
+  const userId = req.query.userId;
+
 
   try {
     // Validate userId is a valid MongoDB ObjectId
