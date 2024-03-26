@@ -1,6 +1,7 @@
 import { Cart } from "../model/cartModel.js";
 import { Grocery } from "../model/groceryModel.js";
 
+// modify to accept itemId and quantity
 const addToCart = async (req, res) => {
   const { userId, groceryId, quantity } = req.body;
 

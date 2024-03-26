@@ -73,16 +73,24 @@ const router = createBrowserRouter([
             element: <Listing />,
           },
           {
+            path: "/shoppingCart",
+            element: <ShoppingCart />,
+          },
+          {
+            path: "/editProfile",
+            element: <EditProfilePage />,
+          },
+          {
+            path: "/shoppingCart",
+            element: <ShoppingCart />,
+          },
+          {
             path: "/editProfile",
             element: <EditProfilePage />,
           },
         ],
       },
     ],
-  },
-  {
-    path: "/shoppingCart",
-    element: <ShoppingCart />,
   },
 ]);
 

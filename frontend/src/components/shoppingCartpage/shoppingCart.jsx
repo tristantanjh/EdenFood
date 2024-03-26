@@ -6,6 +6,12 @@ import CartItem from "./CartItem.jsx";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useAuth } from "../../hooks/AuthProvider";
+import axios from "axios";
+import CustomButton from "../common/CustomButton";
+import { useEffect } from "react";
+import { alpha } from "@mui/material";
 
 const items = [
   {
@@ -27,6 +33,25 @@ const items = [
 ];
 
 export default function ShoppingCart() {
+  const { user } = useAuth();
+  const [groceries, setGroceries] = React.useState([]);
+  // pass in params as item price and quantity
+  const [totalPrice, setTotalPrice] = React.useState(groceries.totalPrice);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/getCart", {
+        params: { userId: user.id },
+      })
+      // backend method to get total price
+      .then((res) => {
+        console.log(res.data.allGroceries);
+        setGroceries(res.data.allGroceries);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
     <div>
       <CssBaseline />
@@ -51,30 +76,78 @@ export default function ShoppingCart() {
             backgroundColor: "#FAFFF4",
           }}
         >
-          <Typography
-            variant="h2"
-            component="h2"
-            sx={{
-              fontFamily: "nunito, sans-serif",
-              fontSize: { xs: "2rem", sm: "3rem" },
-              fontWeight: "bold",
-              textAlign: "left",
-              pl: { xs: 2 },
-              pb: 5,
-            }}
-          >
-            Your Shopping Cart
-          </Typography>
-          {items.map((item, index) => (
-            <CartItem
-              key={index}
-              price={item.itemPrice}
-              imageURL={item.itemImageURL}
-              title={item.itemName}
-              placementDate={item.itemPlacementDate}
-              freshness={item.itemFreshness}
-            />
-          ))}
+          {items.length > 0 ? (
+            <>
+              <Typography
+                variant="h2"
+                component="h2"
+                sx={{
+                  fontFamily: "nunito, sans-serif",
+                  fontSize: { xs: "2rem", sm: "3rem" },
+                  fontWeight: "bold",
+                  textAlign: "left",
+                  pl: { xs: 2 },
+                  pb: 5,
+                }}
+              >
+                Your Shopping Cart
+              </Typography>
+              {items.map((grocery, index) => (
+                <CartItem
+                  key={index}
+                  price={grocery.itemPrice}
+                  imageURL={grocery.itemImageURL}
+                  title={grocery.itemName}
+                  freshness={grocery.itemFreshness}
+                  setTotalPrice={setTotalPrice}
+                  // placementDate={item.itemPlacementDate} DELETE
+                />
+              ))}
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
+              >
+                {/* Total Price Component */}
+                <CustomButton
+                  // onClick={checkOut(itemChanges)}
+                  sx={{
+                    borderRadius: "999px",
+                    borderBlockColor: "transparent",
+                    backgroundColor: "#64CF94",
+                    color: "#FFF",
+                    fontFamily: "nunito, sans-serif",
+                    fontWeight: "700",
+                    fontSize: { xs: "0.74rem", sm: "1.10rem" },
+                    width: { xs: "90px", sm: "160px" },
+                    padding: { xs: "5px 11px", sm: "8px 15px" },
+                    mr: { xs: 2, sm: 7.6, md: 10 },
+                    boxShadow: "0px",
+                    "&:hover": {
+                      backgroundColor: alpha("#64CF94", 0.8),
+                    },
+                    "&:focus": { outline: "none" },
+                  }}
+                >
+                  Checkout
+                </CustomButton>
+              </Box>
+            </>
+          ) : (
+            <Typography
+              sx={{
+                fontFamily: "nunito, sans-serif",
+                fontSize: { xs: "2rem", sm: "3rem" },
+                fontWeight: "bold",
+                textAlign: "center",
+                width: "100%", // Ensures it centers in the container
+              }}
+            >
+              Your Cart is Empty
+            </Typography>
+          )}
         </Container>
       </Box>
       <Footer />

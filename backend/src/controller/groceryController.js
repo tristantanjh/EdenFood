@@ -84,7 +84,11 @@ const getListingsByUserId = async (req, res) => {
     
     const groceries = await Grocery.find({ user: userId });
 
-    res.json(groceries);
+    if (groceries.length > 0) {
+      res.status(200).json({ groceries });
+    } else {
+      res.status(200).json({ message: "No listings found for the user." });
+    }
   } catch (err) {
     console.error("Error fetching groceries by category:", err);
     res.status(500).json({ message: "Internal server error" });
