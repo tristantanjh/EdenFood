@@ -1,4 +1,5 @@
 import { Grocery } from "../model/groceryModel.js";
+import { User } from "../model/userModel.js";
 
 const createListing = async (req, res) => {
   const {
@@ -9,7 +10,7 @@ const createListing = async (req, res) => {
     user,
     category,
     instruction,
-    fresheness,
+    freshness,
     quantity,
   } = req.body;
 
@@ -22,7 +23,7 @@ const createListing = async (req, res) => {
       user,
       category,
       instruction,
-      fresheness,
+      freshness,
       quantity,
     });
 
