@@ -15,26 +15,7 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 
-// const categories = [
-//   {
-//     value: "All",
-//     label: "All",
-//   },
-//   {
-//     value: "Fruits & Vegetables",
-//     label: "Fruits & Vegetables",
-//   },
-//   {
-//     value: "Meat",
-//     label: "Meat",
-//   },
-//   {
-//     value: "Halal",
-//     label: "Halal",
-//   },
-// ];
-
-export default function SearchBar() {
+export default function SearchBar({ onSearch }) {
   const inputProps = {
     textField: {
       width: 300,
@@ -134,6 +115,13 @@ export default function SearchBar() {
       },
     },
   });
+
+  const handleSearch = (e) => {
+    const query = e.target.value;
+    console.log(query);
+    onSearch(query); 
+  };
+
   return (
     <Box
       id="hero"
@@ -192,6 +180,10 @@ export default function SearchBar() {
               sx={{
                 width: "100%",
                 fontFamily: "open sans, sans-serif",
+              }}
+              onChange={(e) => {
+                console.log("in child: " + e.target.value);
+                onSearch(e.target.value)
               }}
             />
           </ThemeProvider>

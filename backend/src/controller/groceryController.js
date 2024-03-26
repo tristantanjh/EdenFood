@@ -97,20 +97,34 @@ const getAllGroceries = async (req, res) => {
   try {
     const groceries = await Grocery.find();
     const userId = req.query.userId;
+    const filteredCategories = req.query.categories[0].split(", ");
+    // console.log(filteredCategories);
 
     const currUser = await User.find({ user: userId });
 
     if (!currUser) {
+      console.log("User not found");
       return res.status(404).json({ message: "User not found" });
     }
 
     if (groceries.length === 0) {
+      console.log("No groceries avail");
       return res.status(404).json({ message: "No groceries found" });
     }
 
-    const filteredGroceries = groceries.filter(grocery => grocery.user !== userId);
+    const filteredGroceries = groceries.filter(grocery => grocery.user.toString() !== userId);
+    const result = [];
 
-    res.json(filteredGroceries);
+    for (let i = 0; i < filteredCategories.length; i++) {
+      let categoryObject = { categoryName: filteredCategories[i], categoryItems: [] };
+      result.push(categoryObject);
+    }
+
+    filteredGroceries.map(grocery => result[filteredCategories.indexOf(grocery.category)].categoryItems.push(grocery));
+
+    // console.log(result);
+
+    res.json(result);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "An error occurred while fetching groceries" });
