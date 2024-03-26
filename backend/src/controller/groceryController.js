@@ -1,7 +1,17 @@
 import { Grocery } from "../model/groceryModel.js";
 
 const createListing = async (req, res) => {
-  const { name, description, imageURL, price, user, category, instruction, fresheness, quantity } = req.body;
+  const {
+    name,
+    description,
+    imageURL,
+    price,
+    user,
+    category,
+    instruction,
+    fresheness,
+    quantity,
+  } = req.body;
 
   try {
     const newGrocery = new Grocery({
@@ -15,7 +25,6 @@ const createListing = async (req, res) => {
       fresheness,
       quantity,
     });
-
 
     const savedGrocery = await newGrocery.save();
     res.status(201).json(savedGrocery);
@@ -45,7 +54,7 @@ const getListingByGroceryId = async (req, res) => {
   }
 };
 
-//get by category 
+//get by category
 
 const getListingsByCategory = async (req, res) => {
   try {
@@ -53,8 +62,23 @@ const getListingsByCategory = async (req, res) => {
     const groceries = await Grocery.find({ category: category });
 
     if (groceries.length === 0) {
-      return res.status(404).json({ message: "No groceries found for the specified category" });
+      return res
+        .status(404)
+        .json({ message: "No groceries found for the specified category" });
     }
+
+    res.json(groceries);
+  } catch (err) {
+    console.error("Error fetching groceries by category:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// get grocery by userId
+const getListingsByUserId = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const groceries = await Grocery.find({ user: userId });
 
     res.json(groceries);
   } catch (err) {
@@ -75,8 +99,16 @@ const getAllGroceries = async (req, res) => {
     res.json(groceries);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "An error occurred while fetching groceries" });
+    res
+      .status(500)
+      .json({ message: "An error occurred while fetching groceries" });
   }
 };
 
-export { createListing, getListingByGroceryId, getListingsByCategory, getAllGroceries };
+export {
+  createListing,
+  getListingByGroceryId,
+  getListingsByCategory,
+  getListingsByUserId,
+  getAllGroceries,
+};

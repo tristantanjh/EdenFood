@@ -1,21 +1,22 @@
 import express from "express";
 
-import { 
-  addToCart, 
-  getCart, 
-  removeFromCart, 
-  incrementGroceryQuantity, 
-  decrementGroceryQuantity,
- } from "../controller/cartController.js";
 import {
-  createListing, 
-  getListingByGroceryId, 
-  getListingsByCategory, 
+  addToCart,
+  getCart,
+  removeFromCart,
+  incrementGroceryQuantity,
+  decrementGroceryQuantity,
+} from "../controller/cartController.js";
+import {
+  createListing,
+  getListingByGroceryId,
+  getListingsByCategory,
+  getListingsByUserId,
   getAllGroceries,
 } from "../controller/groceryController.js";
-import { 
-  checkoutOrder, 
-  getOrdersWithUserId
+import {
+  checkoutOrder,
+  getOrdersWithUserId,
 } from "../controller/orderController.js";
 
 import {
@@ -34,6 +35,7 @@ import {
   getReview,
   deleteReview,
 } from "../controller/reviewController.js";
+import { get } from "https";
 
 const APIrouter = express.Router();
 
@@ -49,7 +51,7 @@ APIrouter.post("/addToWishlist", addToWishList);
 
 APIrouter.post("/checkoutOrder", checkoutOrder);
 
-APIrouter.get("/getOrdersWithUserId",getOrdersWithUserId)
+APIrouter.get("/getOrdersWithUserId", getOrdersWithUserId);
 
 APIrouter.post("/leaveReview/:groceryId", leaveReview);
 
@@ -58,6 +60,8 @@ APIrouter.get("/logout", logOut);
 APIrouter.get("/getCart/:userId", getCart);
 
 APIrouter.get("/getListingByGroceryId/:groceryId", getListingByGroceryId);
+
+APIrouter.get("/getListingByUserId/:userId", getListingsByUserId);
 
 APIrouter.get("/reviews/:groceryId", getReview);
 
