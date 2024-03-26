@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import QuantitySelector from "../common/QuantitySelector.jsx";
+// import QuantitySelector from "../common/QuantitySelector.jsx";
 
 const categories = [
   {
@@ -148,7 +148,14 @@ export default function Explore() {
           }}
         >
           {categories.map((category) => (
-            <div style={{ marginRight: "auto", marginBottom: "1rem", maxHeight: isMobile ? '43vh' : '60vh', overflow: 'auto'}}>
+            <div
+              style={{
+                marginRight: "auto",
+                marginBottom: "1rem",
+                maxHeight: isMobile ? "43vh" : "60vh",
+                overflow: "auto",
+              }}
+            >
               <Typography
                 sx={{
                   fontSize: "30px",
@@ -159,13 +166,10 @@ export default function Explore() {
               >
                 {category.categoryName}
               </Typography>
-              <Grid container spacing={ isMobile ? 1 : 1 }>
+              <Grid container spacing={isMobile ? 1 : 1}>
                 {category.categoryItems.map((item, index) => (
                   <Grid item container justifyContent="center" xs md>
-                    <ItemCard
-                      key={index}
-                      {...item}
-                    />
+                    <ItemCard key={index} {...item} />
                   </Grid>
                 ))}
               </Grid>

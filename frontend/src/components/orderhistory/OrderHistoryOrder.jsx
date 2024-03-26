@@ -42,7 +42,7 @@ export default function OrderHistoryOrder(props) {
                 height: { xs: 30, md: 50 }, 
                 width: { xs: 30, md: 50 },
             }}
-            image={props.merchantLogoURL}
+            image={props.merchant.profilePic}
             // image="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708501388/istockphoto-691338444-612x612-removebg-preview_ffo3vb.png"
             title="Listing Photo"
           />
@@ -50,7 +50,7 @@ export default function OrderHistoryOrder(props) {
 
         <Typography sx={{ fontSize: { xs: "15px", md: "20px" }, fontWeight: "bold", ml: { xs: ".5rem", md: "1rem" } }}>
           {/* King Koi */}
-          {props.merchantName}
+          {props.merchant.username}
         </Typography>
 
         <Typography
@@ -70,9 +70,9 @@ export default function OrderHistoryOrder(props) {
       {props.items.map((item, index) => (
         <OrderHistoryItem
           key={index}
-          imageURL={item.itemImageURL}
-          title={item.itemName}
-          quantity={item.itemQuantity}
+          imageURL={item.grocery.imageURL}
+          title={item.grocery.name}
+          quantity={item.quantity}
         />
       ))}
 
