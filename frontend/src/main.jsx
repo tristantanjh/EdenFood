@@ -74,12 +74,21 @@ const router = createBrowserRouter([
           },
           {
 <<<<<<< HEAD
+<<<<<<< HEAD
             path: "/shoppingCart",
             element: <ShoppingCart />,
 =======
             path: "/editProfile",
             element: <EditProfilePage />,
 >>>>>>> 340291260b184a1373e9c42dcd5addfad47fc17b
+=======
+            path: "/shoppingCart",
+            element: <ShoppingCart />,
+          },
+          {
+            path: "/editProfile",
+            element: <EditProfilePage />,
+>>>>>>> lukeDev
           },
         ],
       },

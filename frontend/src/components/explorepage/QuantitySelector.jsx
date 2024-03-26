@@ -6,35 +6,41 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import Box from "@mui/material/Box";
 
-const QuantitySelector = ({ children, minValue, maxValue, ...props }) => {
+const QuantitySelector = ({
+  children,
+  minValue,
+  maxValue,
+  quantity,
+  onQuantityChange,
+  ...props
+}) => {
   const [count, setCount] = useState(minValue);
 
   const handleIncrementCounter = () => {
     if (count < maxValue) {
-      const newCount = count + 1;
-      setCount(newCount);
-      handleQuantityChange(newCount);
-      // updateCartIncrement()
+      setCount((prevState) => prevState + 1);
+    }
+    if (quantity > minValue) {
+      onQuantityChange(quantity + 1);
     }
   };
 
   const handleDecrementCounter = () => {
     if (count > minValue) {
-      const newCount = count - 1;
-      setCount(newCount);
-      handleQuantityChange(newCount);
-      // updateCartDecrement()
+      setCount((prevState) => prevState - 1);
+    }
+    if (quantity > minValue) {
+      onQuantityChange(quantity - 1);
     }
   };
-
   return (
     <ButtonGroup size="small" exclusive>
       <Button
         onClick={handleDecrementCounter}
         sx={{
-          minWidth: { xs: "10px", sm: "23px" },
-          minHeight: { xs: "10px", sm: "23px" },
-          marginRight: { xs: "-20px", sm: "0px" },
+          minWidth: "23px",
+          minHeight: "23px",
+          marginRight: "0px",
           pl: { xs: 0.28, sm: 0.8 },
           pr: { xs: 0.28, sm: 0.8 },
           pt: { xs: 0.2, sm: 0.6 },
@@ -54,8 +60,8 @@ const QuantitySelector = ({ children, minValue, maxValue, ...props }) => {
       >
         <RemoveOutlinedIcon
           sx={{
-            width: { xs: "8px", sm: "16px" },
-            height: { xs: "8px", sm: "16px" },
+            width: "16px",
+            height: "16px",
           }}
         />
       </Button>
@@ -64,7 +70,7 @@ const QuantitySelector = ({ children, minValue, maxValue, ...props }) => {
         sx={{
           fontFamily: "nunito, sans-serif",
           fontWeight: "bold",
-          fontSize: { xs: "9px", sm: "16px" },
+          fontSize: "16px",
           marginTop: { xs: "-7px", sm: "-4px" },
           "&.Mui-disabled": {
             color: "#000000",
@@ -76,9 +82,9 @@ const QuantitySelector = ({ children, minValue, maxValue, ...props }) => {
       <Button
         onClick={handleIncrementCounter}
         sx={{
-          minWidth: { xs: "10px", sm: "23px" },
-          minHeight: { xs: "10px", sm: "23px" },
-          marginLeft: { xs: "-20px", sm: "0px" },
+          minWidth: "23px",
+          minHeight: "23px",
+          marginLeft: "0px",
           pl: { xs: 0.28, sm: 0.8 },
           pr: { xs: 0.28, sm: 0.8 },
           pt: { xs: 0.2, sm: 0.6 },
@@ -98,8 +104,8 @@ const QuantitySelector = ({ children, minValue, maxValue, ...props }) => {
       >
         <AddOutlinedIcon
           sx={{
-            width: { xs: "8px", sm: "16px" },
-            height: { xs: "8px", sm: "16px" },
+            width: "16px",
+            height: "16px",
           }}
         />
       </Button>
