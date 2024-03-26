@@ -6,10 +6,12 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ProfileHeader from "./ProfileHeader.jsx";
 import ProfileDescriptionTab from "./ProfileDescriptionTab.jsx";
+import { useAuth } from "../../hooks/AuthProvider";
 
 export default function Profile() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const { user } = useAuth();
 
   return (
     <Box
@@ -29,8 +31,8 @@ export default function Profile() {
           pb: { xs: 6, sm: 12 },
         }}
       >
-        <ProfileHeader />
-        <ProfileDescriptionTab />
+        <ProfileHeader user={user} />
+        <ProfileDescriptionTab user={user} />
       </Container>
     </Box>
   );

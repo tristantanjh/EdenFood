@@ -24,6 +24,7 @@ import {
   logOut,
   createUser,
   getEmail,
+  getUserWithId,
   getProfilePic,
 } from "../controller/userController.js";
 import {
@@ -84,5 +85,7 @@ APIrouter.post("/decrementGroceryQuantity", decrementGroceryQuantity);
 APIrouter.get("/getListingsByCategory", getListingsByCategory);
 
 APIrouter.get("/getAllOtherGroceries", getAllGroceries);
+
+APIrouter.get("/getUserWithId/", getUserWithId);
 
 export { APIrouter };
