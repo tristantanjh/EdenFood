@@ -4,6 +4,7 @@ import {
   createHashRouter,
   RouterProvider,
   Navigate,
+  Router,
 } from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import "./index.css";
@@ -20,7 +21,7 @@ import AuthLayout from "./layout/AuthLayout.jsx";
 import ProtectedLayout from "./layout/ProtectedLayout.jsx";
 import PublicLayout from "./layout/PublicLayout.jsx";
 import Profile from "./components/profilepage/ProfilePage.jsx";
-import Info from "./components/checkout/info/Info.jsx";
+import Pickup from "./components/checkout/pickup/Pickup.jsx";
 import Confirmation from "./components/checkout/confirmation/Confirmation.jsx";
 
 const router = createBrowserRouter([
@@ -63,18 +64,20 @@ const router = createBrowserRouter([
           },
           {
             path: "/checkout",
-            element: <CheckoutLayout />,
+            element: (
+                  <CheckoutLayout />
+            ),
             children: [
               {
                 index: true,
-                element: <Navigate to="info" />,
+                element: <Navigate to="pickup" />,
               },
               {
-                path: "info",
-                element: <Info />, 
+                path: "pickup",
+                element: <Pickup />,
               },
               {
-                path: "confirmation", 
+                path: "confirmation",
                 element: <Confirmation />,
               },
             ],
