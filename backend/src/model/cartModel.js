@@ -21,6 +21,11 @@ const cartSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  totalPrice: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
   items: [cartItemSchema], // Use the subdocument schema here
 });
 

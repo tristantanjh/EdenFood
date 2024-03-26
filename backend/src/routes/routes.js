@@ -1,9 +1,17 @@
 import express from "express";
 
-import { addToCart, getCart } from "../controller/cartController.js";
+import { 
+  addToCart, 
+  getCart, 
+  removeFromCart, 
+  incrementGroceryQuantity, 
+  decrementGroceryQuantity,
+ } from "../controller/cartController.js";
 import {
-  createListing,
-  getListingByGroceryId,
+  createListing, 
+  getListingByGroceryId, 
+  getListingsByCategory, 
+  getAllGroceries,
 } from "../controller/groceryController.js";
 import { 
   checkoutOrder, 

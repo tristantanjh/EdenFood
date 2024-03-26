@@ -1,7 +1,7 @@
 import { Grocery } from "../model/groceryModel.js";
 
 const createListing = async (req, res) => {
-  const { name, description, imageURL, price, user, category, instruction, fresheness } = req.body;
+  const { name, description, imageURL, price, user, category, instruction, fresheness, quantity } = req.body;
 
   try {
     const newGrocery = new Grocery({
@@ -12,7 +12,8 @@ const createListing = async (req, res) => {
       user,
       category,
       instruction,
-      freshness,
+      fresheness,
+      quantity,
     });
 
 
