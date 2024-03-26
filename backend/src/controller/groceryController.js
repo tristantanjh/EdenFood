@@ -1,7 +1,7 @@
 import { Grocery } from "../model/groceryModel.js";
 
 const createListing = async (req, res) => {
-  const { name, description, imageURL, price, user, categories } = req.body;
+  const { name, description, imageURL, price, user, category, instruction, fresheness } = req.body;
 
   try {
     const newGrocery = new Grocery({
@@ -10,8 +10,14 @@ const createListing = async (req, res) => {
       imageURL,
       price,
       user,
-      categories,
+      category,
+      instruction,
+      freshness,
     });
+
+    //instruction -> string
+    //recipe -> string
+    //freshness -> int 
 
     const savedGrocery = await newGrocery.save();
     res.status(201).json(savedGrocery);
@@ -42,5 +48,9 @@ const getListingByGroceryId = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+//get by category 
+
+//get by name 
 
 export { createListing, getListingByGroceryId };
