@@ -15,9 +15,6 @@ const createListing = async (req, res) => {
       freshness,
     });
 
-    //instruction -> string
-    //recipe -> string
-    //freshness -> int 
 
     const savedGrocery = await newGrocery.save();
     res.status(201).json(savedGrocery);
@@ -29,13 +26,11 @@ const createListing = async (req, res) => {
   }
 };
 
-//get all listing based on user id
+//get all listing based on grocery id
 
 const getListingByGroceryId = async (req, res) => {
   try {
     const groceryId = req.params.groceryId;
-
-    // Find the grocery by its ID
     const grocery = await Grocery.findById(groceryId);
 
     if (!grocery) {
@@ -51,6 +46,36 @@ const getListingByGroceryId = async (req, res) => {
 
 //get by category 
 
-//get by name 
+const getListingsByCategory = async (req, res) => {
+  try {
+    const category = req.params.category;
+    const groceries = await Grocery.find({ category: category });
 
-export { createListing, getListingByGroceryId };
+    if (groceries.length === 0) {
+      return res.status(404).json({ message: "No groceries found for the specified category" });
+    }
+
+    res.json(groceries);
+  } catch (err) {
+    console.error("Error fetching groceries by category:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+//get all
+
+const getAllGroceries = async (req, res) => {
+  try {
+    const groceries = await Grocery.find();
+
+    if (groceries.length === 0) {
+      return res.status(404).json({ message: "No groceries found" });
+    }
+    res.json(groceries);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred while fetching groceries" });
+  }
+};
+
+export { createListing, getListingByGroceryId, getListingsByCategory, getAllGroceries };
