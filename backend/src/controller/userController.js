@@ -89,7 +89,7 @@ const logOut = (req, res) => {
 
 const getEmail = async (req, res) => {
   try {
-    const username = req.params.username;
+    const { username } = req.query;
     const user = await User.findOne({ username: username });
 
     if (user) {
@@ -104,7 +104,7 @@ const getEmail = async (req, res) => {
 
 const getProfilePic = async (req, res) => {
   try {
-    const username = req.params.username;
+    const { username } = req.query;
     const user = await User.findOne({ username: username });
 
     if (user && user.profilePic) {

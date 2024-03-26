@@ -22,8 +22,20 @@ const grocerySchema = new mongoose.Schema({
     ref: "User",
     required: true
   },
-  categories: {
-    type: [String], // Array of strings
+  category: {
+    type: String, 
+    required: true
+  },
+  instruction: {
+    type: String, 
+    required: true
+  },
+  freshness: {
+    type: Number, 
+    required: true
+  },
+  quantity: {
+    type: Number, 
     required: true
   },
   reviews: [{
@@ -31,6 +43,7 @@ const grocerySchema = new mongoose.Schema({
     ref: "Review"
   }]
 });
+
 
 const Grocery = mongoose.model("Grocery", grocerySchema);
 

@@ -20,6 +20,7 @@ import ProtectedLayout from "./layout/ProtectedLayout.jsx";
 import PublicLayout from "./layout/PublicLayout.jsx";
 import Profile from "./components/profilepage/ProfilePage.jsx";
 import ShoppingCart from "./components/shoppingCartpage/shoppingCart.jsx";
+import EditProfilePage from "./components/editProfilepage/EditProfile.jsx";
 
 const router = createBrowserRouter([
   {
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
           {
             path: "/shoppingCart",
             element: <ShoppingCart />,
+          },
+          {
+            path: "/editProfile",
+            element: <EditProfilePage />,
           },
         ],
       },

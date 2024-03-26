@@ -1,13 +1,22 @@
 import express from "express";
 
-import { addToCart, getCart } from "../controller/cartController.js";
+import {
+  addToCart,
+  getCart,
+  removeFromCart,
+  incrementGroceryQuantity,
+  decrementGroceryQuantity,
+} from "../controller/cartController.js";
 import {
   createListing,
   getListingByGroceryId,
+  getListingsByCategory,
+  getListingsByUserId,
+  getAllGroceries,
 } from "../controller/groceryController.js";
-import { 
-  checkoutOrder, 
-  getOrdersWithUserId
+import {
+  checkoutOrder,
+  getOrdersWithUserId,
 } from "../controller/orderController.js";
 
 import {
@@ -26,6 +35,7 @@ import {
   getReview,
   deleteReview,
 } from "../controller/reviewController.js";
+import { get } from "https";
 
 const APIrouter = express.Router();
 
@@ -41,24 +51,38 @@ APIrouter.post("/addToWishlist", addToWishList);
 
 APIrouter.post("/checkoutOrder", checkoutOrder);
 
-APIrouter.get("/getOrdersWithUserId",getOrdersWithUserId)
+APIrouter.get("/getOrdersWithUserId", getOrdersWithUserId);
 
-APIrouter.post("/leaveReview/:groceryId", leaveReview);
+APIrouter.post("/leaveReview", leaveReview);
 
 APIrouter.get("/logout", logOut);
 
 APIrouter.get("/getCart", getCart);
 
-APIrouter.get("/getListingByGroceryId/:groceryId", getListingByGroceryId);
+APIrouter.get("/getListingByGroceryId", getListingByGroceryId);
 
-APIrouter.get("/reviews/:groceryId", getReview);
+APIrouter.get("/getListingByUserId", getListingsByUserId);
 
-APIrouter.delete("/review/:id", deleteReview);
+APIrouter.get("/reviews", getReview);
 
-APIrouter.get("/user/email/:username", getEmail);
+APIrouter.delete("/review", deleteReview);
 
-APIrouter.get("/user/profile-pic/:username", getProfilePic);
+APIrouter.get("/user/email", getEmail);
 
-APIrouter.get("/wishlist/:userId", getWishList);
+APIrouter.get("/user/profile-pic", getProfilePic);
+
+APIrouter.get("/wishlist", getWishList);
+
+///untested
+
+APIrouter.delete("/removeFromCart",removeFromCart);
+
+APIrouter.post("/incrementGroceryQuantity", incrementGroceryQuantity);
+
+APIrouter.post("/decrementGroceryQuantity", decrementGroceryQuantity);
+
+APIrouter.get("/getListingsByCategory", getListingsByCategory);
+
+APIrouter.get("/getAllOtherGroceries", getAllGroceries);
 
 export { APIrouter };
