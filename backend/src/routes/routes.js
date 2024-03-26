@@ -24,6 +24,7 @@ import {
   logOut,
   createUser,
   getEmail,
+  getUserWithId,
   getProfilePic,
 } from "../controller/userController.js";
 import {
@@ -53,17 +54,17 @@ APIrouter.post("/checkoutOrder", checkoutOrder);
 
 APIrouter.get("/getOrdersWithUserId", getOrdersWithUserId);
 
-APIrouter.post("/leaveReview/:groceryId", leaveReview);
+APIrouter.post("/leaveReview/", leaveReview);
 
 APIrouter.get("/logout", logOut);
 
-APIrouter.get("/getCart/:userId", getCart);
+APIrouter.get("/getCart/", getCart);
 
 APIrouter.get("/getListingByGroceryId/:groceryId", getListingByGroceryId);
 
-APIrouter.get("/getListingByUserId/:userId", getListingsByUserId);
+APIrouter.get("/getListingsByUserId/", getListingsByUserId);
 
-APIrouter.get("/reviews/:groceryId", getReview);
+APIrouter.get("/reviews/", getReview);
 
 APIrouter.delete("/review/:id", deleteReview);
 
@@ -72,5 +73,7 @@ APIrouter.get("/user/email/:username", getEmail);
 APIrouter.get("/user/profile-pic/:username", getProfilePic);
 
 APIrouter.get("/wishlist/:userId", getWishList);
+
+APIrouter.get("/getUserWithId/", getUserWithId);
 
 export { APIrouter };

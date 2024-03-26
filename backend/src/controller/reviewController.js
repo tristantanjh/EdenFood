@@ -2,7 +2,7 @@ import { Review } from "../model/reviewModel.js";
 
 const leaveReview = async (req, res) => {
   try {
-    const groceryId = req.params.groceryId;
+    const groceryId = req.query.groceryId;
     const { rating, description } = req.body;
 
     if (!groceryId || !rating || !description) {
@@ -27,7 +27,7 @@ const leaveReview = async (req, res) => {
 //get review --> groceryID
 const getReview = async (req, res) => {
   try {
-    const groceryId = req.params.groceryId;
+    const groceryId = req.query.groceryId;
     const reviews = await Review.find({ groceryId: groceryId });
     if (reviews.length) {
       res.status(200).json(reviews);

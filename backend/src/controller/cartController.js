@@ -45,7 +45,7 @@ const addToCart = async (req, res) => {
   //get cart based on userID
   const getCart = async (req, res) => {
     try {
-      const userId = req.params.userId;
+      const userId = req.query.userId;
   
       // Find the user's cart and populate it with groceries
       const userCart = await Cart.findOne({ user: userId }).populate('items.grocery');

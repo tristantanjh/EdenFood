@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import MuiTabs from "@mui/material/Tabs";
 import MuiTab from "@mui/material/Tab";
@@ -14,97 +14,100 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import AddIcon from "@mui/icons-material/Add";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
-const items = [
-  {
-    itemImageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-    itemName: "Norwegian Salmon (100g)",
-    itemFreshness: "3",
-    itemPrice: "5.95",
-    itemRating: "3",
-  },
-  {
-    itemImageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-    itemName: "British Salmon (100g)",
-    itemFreshness: "2",
-    itemPrice: "10.95",
-    itemRating: "5",
-  },
-  {
-    itemImageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-    itemName: "Singapore Salmon (100g)",
-    itemFreshness: "5",
-    itemPrice: "15.95",
-    itemRating: "2",
-  },
-  {
-    itemImageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-    itemName: "African Salmon (100g)",
-    itemFreshness: "3",
-    itemPrice: "0.95",
-    itemRating: "1",
-  },
-  {
-    itemImageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-    itemName: "Norwegian Salmon (100g)",
-    itemFreshness: "3",
-    itemPrice: "5.95",
-    itemRating: "3",
-  },
-  {
-    itemImageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-    itemName: "British Salmon (100g)",
-    itemFreshness: "2",
-    itemPrice: "10.95",
-    itemRating: "5",
-  },
-  {
-    itemImageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-    itemName: "Singapore Salmon (100g)",
-    itemFreshness: "5",
-    itemPrice: "15.95",
-    itemRating: "2",
-  },
-  {
-    itemImageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-    itemName: "African Salmon (100g)",
-    itemFreshness: "3",
-    itemPrice: "0.95",
-    itemRating: "1",
-  },
-  {
-    itemImageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1710778183/broccoli_xxtddq.jpg",
-    itemName: "Malaysian Broccoli (50g)",
-    itemFreshness: "3",
-    itemPrice: "5.95",
-    itemRating: "3",
-  },
-  {
-    itemImageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1710778183/broccoli_xxtddq.jpg",
-    itemName: "Thailand Broccoli (100g)",
-    itemFreshness: "7",
-    itemPrice: "7.95",
-    itemRating: "5",
-  },
-  {
-    itemImageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1710778183/broccoli_xxtddq.jpg",
-    itemName: "Malaysian Broccoli (50g)",
-    itemFreshness: "3",
-    itemPrice: "5.95",
-    itemRating: "3",
-  },
-];
+
+// const items = [
+//   {
+//     itemImageURL:
+//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
+//     itemName: "Norwegian Salmon (100g)",
+//     itemFreshness: "3",
+//     itemPrice: "5.95",
+//     itemRating: "3",
+//   },
+//   {
+//     itemImageURL:
+//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
+//     itemName: "British Salmon (100g)",
+//     itemFreshness: "2",
+//     itemPrice: "10.95",
+//     itemRating: "5",
+//   },
+//   {
+//     itemImageURL:
+//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
+//     itemName: "Singapore Salmon (100g)",
+//     itemFreshness: "5",
+//     itemPrice: "15.95",
+//     itemRating: "2",
+//   },
+//   {
+//     itemImageURL:
+//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
+//     itemName: "African Salmon (100g)",
+//     itemFreshness: "3",
+//     itemPrice: "0.95",
+//     itemRating: "1",
+//   },
+//   {
+//     itemImageURL:
+//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
+//     itemName: "Norwegian Salmon (100g)",
+//     itemFreshness: "3",
+//     itemPrice: "5.95",
+//     itemRating: "3",
+//   },
+//   {
+//     itemImageURL:
+//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
+//     itemName: "British Salmon (100g)",
+//     itemFreshness: "2",
+//     itemPrice: "10.95",
+//     itemRating: "5",
+//   },
+//   {
+//     itemImageURL:
+//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
+//     itemName: "Singapore Salmon (100g)",
+//     itemFreshness: "5",
+//     itemPrice: "15.95",
+//     itemRating: "2",
+//   },
+//   {
+//     itemImageURL:
+//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
+//     itemName: "African Salmon (100g)",
+//     itemFreshness: "3",
+//     itemPrice: "0.95",
+//     itemRating: "1",
+//   },
+//   {
+//     itemImageURL:
+//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1710778183/broccoli_xxtddq.jpg",
+//     itemName: "Malaysian Broccoli (50g)",
+//     itemFreshness: "3",
+//     itemPrice: "5.95",
+//     itemRating: "3",
+//   },
+//   {
+//     itemImageURL:
+//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1710778183/broccoli_xxtddq.jpg",
+//     itemName: "Thailand Broccoli (100g)",
+//     itemFreshness: "7",
+//     itemPrice: "7.95",
+//     itemRating: "5",
+//   },
+//   {
+//     itemImageURL:
+//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1710778183/broccoli_xxtddq.jpg",
+//     itemName: "Malaysian Broccoli (50g)",
+//     itemFreshness: "3",
+//     itemPrice: "5.95",
+//     itemRating: "3",
+//   },
+// ];
 
 const orders = [
   {
@@ -202,14 +205,33 @@ const Tabs = styled(MuiTabs)({
   },
 });
 
-export default function ProfileDescriptionTab() {
+export default function ProfileDescriptionTab(props) {
   const theme = useTheme();
+  const user = props.user;
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [value, setValue] = React.useState(0);
+  const [listings, setListings] = React.useState([]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/getListingsByUserId", {
+        params: { userId: user.id },
+      })
+      .then((res) => {
+        if (res.data.groceries) {
+          setListings(res.data.groceries);
+        } else {
+          setListings([]);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <Box
@@ -309,25 +331,46 @@ export default function ProfileDescriptionTab() {
                   ml: isMobile ? "18%" : "3%",
                 }}
               >
-                <Button
-                  sx={{
-                    backgroundColor: "#64CF94",
-                    borderColor: "#64CF94",
-                    color: "#FFFFFF",
-                    borderRadius: 15,
-                    fontSize: isMobile ? 10 : 15,
-                    width: isMobile ? 90 : 150,
-                  }}
-                >
-                  Add New <AddIcon sx={{ ml: isMobile ? 0.5 : 1 }} />
-                </Button>
+                <Link to="/addListing">
+                  <Button
+                    sx={{
+                      backgroundColor: "#64CF94",
+                      borderColor: "#64CF94",
+                      color: "#FFFFFF",
+                      borderRadius: 15,
+                      fontSize: isMobile ? 10 : 15,
+                      width: isMobile ? 90 : 150,
+                    }}
+                  >
+                    Add New <AddIcon sx={{ ml: isMobile ? 0.5 : 1 }} />
+                  </Button>
+                </Link>
               </Box>
               <Grid container spacing={isMobile ? 1 : 1}>
-                {items.map((item, index) => (
-                  <Grid item container justifyContent="center" xs md>
-                    <ItemCard key={index} {...item} />
-                  </Grid>
-                ))}
+                {listings.length > 0 ? (
+                  listings.map((listing, index) => (
+                    <Grid
+                      item
+                      container
+                      justifyContent="center"
+                      xs
+                      md
+                      key={index}
+                    >
+                      <ItemCard
+                        imageURL={listing.imageURL}
+                        name={listing.name}
+                        freshness={listing.freshness}
+                        price={listing.price}
+                        id = {listing._id}
+                      />
+                    </Grid>
+                  ))
+                ) : (
+                  <div style={{ textAlign: "center" }}>
+                    No listings available
+                  </div>
+                )}
               </Grid>
             </div>
           </Container>
