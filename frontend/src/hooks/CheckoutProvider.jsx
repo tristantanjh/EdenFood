@@ -7,7 +7,7 @@ const CheckoutContext = createContext();
 export const CheckoutProvider = ({ children }) => {
     const [selectedLocationLocalStorage, setSelectedLocationLocalStorage] = useLocalStorage('selectedLocationLocalStorage', '');
 
-    const handleLocationChange = (event) => {
+    const handleLocationChangeLocalStorage = (event) => {
         const { value, checked } = event.target;
         if (checked) {
             setSelectedLocationLocalStorage(value); // Update selected location in localStorage
@@ -20,7 +20,7 @@ export const CheckoutProvider = ({ children }) => {
         () => ({
             selectedLocationLocalStorage,
             setSelectedLocationLocalStorage,
-            handleLocationChange,
+            handleLocationChangeLocalStorage,
         }),
         [selectedLocationLocalStorage]
     );

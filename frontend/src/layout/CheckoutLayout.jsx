@@ -7,61 +7,14 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import { Grid, Divider } from "@mui/material";
 import { CheckoutProvider } from "../hooks/CheckoutProvider";
-
-const exampleGroceries = [
-  {
-    _id: "610f72f4b214f2d2e8e25a2a",
-    name: "Apple",
-    description: "Fresh and juicy apple",
-    imageURL: "https://example.com/apple.jpg",
-    price: 1.99,
-    user: "610f72f4b214f2d2e8e25a1f", // User ID
-    categories: ["Fruits"],
-    reviews: ["611f72f4b214f2d2e8e25a1a", "611f72f4b214f2d2e8e25a1b"],
-  },
-  {
-    _id: "610f72f4b214f2d2e8e25a2b",
-    name: "Banana",
-    description: "Yellow and tasty banana",
-    imageURL: "https://example.com/banana.jpg",
-    price: 0.99,
-    user: "610f72f4b214f2d2e8e25a1f", // User ID
-    categories: ["Fruits"],
-    reviews: ["611f72f4b214f2d2e8e25a1c"],
-  },
-  {
-    _id: "610f72f4b214f2d2e8e25a2c",
-    name: "Mango",
-    description: "Sweet and delicious mango",
-    imageURL: "https://example.com/mango.jpg",
-    price: 2.49,
-    user: "610f72f4b214f2d2e8e25a1f", // User ID
-    categories: ["Fruits"],
-    reviews: ["611f72f4b214f2d2e8e25a1d"],
-  },
-];
-
-const exampleCartData = {
-  user: "610f72f4b214f2d2e8e25a1f", // User ID
-  items: [
-    {
-      grocery: "610f72f4b214f2d2e8e25a2a", // Apple
-      quantity: 2,
-    },
-    {
-      grocery: "610f72f4b214f2d2e8e25a2b", // Banana
-      quantity: 1,
-    },
-    {
-      grocery: "610f72f4b214f2d2e8e25a2c", // Mango
-      quantity: 3,
-    },
-  ],
-};
+import CartItemsSection from "../components/checkout/CartItemsSection";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function CheckoutLayout() {
   // const { activeStep } = useCheckout(); // Access setActiveStep from context
+  const isMobile = useMediaQuery("(max-width: 960px)");
   const [activeStep, setActiveStep] = React.useState(0);
   const location = useLocation();
   useEffect(() => {
@@ -75,46 +28,129 @@ export default function CheckoutLayout() {
 
   const steps = ["Pickup Details", "Confirmation"]; // Define your steps here based on your route
 
-  return (
-    <div style={{ backgroundColor: "#FAFFF4", height: "100vh" }}>
-      <CheckoutProvider>
-      <CssBaseline />
-      <AppBarSecondary />
-      <Box
-        sx={{
-          height: { xs: "100px", sm: "128px" },
-        }}
-      />
-      <Stepper
-        activeStep={activeStep}
-        alternativeLabel
-        style={{ backgroundColor: "transparent" }}
-      >
-        {steps.map((label, index) => (
-          <Step key={label}>
-            <StepLabel
-              StepIconProps={{
-                style: {
-                  color: index <= activeStep ? "#076365" : "#BEBEBE", // Change font color of the step
-                },
-              }}
-            >
-              <Typography
-                sx={{ fontFamily: "nunito, sans-serif", fontSize: "16px" }}
+  return isMobile ? (
+    <CheckoutProvider>
+      <div style={{ backgroundColor: "#FAFFF4", height: "100vh" }}>
+        <CssBaseline />
+        <AppBarSecondary />
+        <Box
+          sx={{
+            height: { xs: "100px", sm: "128px" },
+          }}
+        />
+        <Stepper
+          activeStep={activeStep}
+          alternativeLabel
+          style={{ backgroundColor: "transparent" }}
+        >
+          {steps.map((label, index) => (
+            <Step key={label}>
+              <StepLabel
+                StepIconProps={{
+                  style: {
+                    color: index <= activeStep ? "#076365" : "#BEBEBE", // Change font color of the step
+                  },
+                }}
               >
-                {label}
-              </Typography>
-            </StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-      <Box
-        sx={{
-          pb: 4,
-        }}
-      />
-      <Outlet />
-      </CheckoutProvider>
-    </div>
+                <Typography
+                  sx={{ fontFamily: "nunito, sans-serif", fontSize: "16px" }}
+                >
+                  {label}
+                </Typography>
+              </StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        <Outlet />
+        <Box
+          sx={{
+            pt: 4,
+          }}
+        >
+          <Divider />
+          <Typography
+            sx={{
+              pt: 4,
+              pb: 4,
+              fontFamily: "open sans, sans-serif",
+              fontSize: "20px",
+              fontWeight: 700,
+              color: "#181B13",
+              marginLeft: 2.3,
+            }}
+          >
+            Order Summary
+          </Typography>
+          <CartItemsSection />
+        </Box>
+      </div>
+    </CheckoutProvider>
+  ) : (
+    <CheckoutProvider>
+      <div style={{ backgroundColor: "#FAFFF4", height: "100vh" }}>
+        <CssBaseline />
+        <AppBarSecondary />
+        <Box
+          sx={{
+            height: { xs: "100px", sm: "100x" },
+          }}
+        />
+        <Divider flexItem />
+        <Box
+          sx={{
+            height: { xs: "100px", sm: "48px" },
+          }}
+        />
+        <Box p={2} display="flex" flexDirection="row" alignItems="center">
+          <Box flex={1.5} pr={8}>
+            <CartItemsSection />
+          </Box>
+          {/* <Divider orientation="vertical" flexItem /> */}
+          <Box flex={3} pl={2}>
+            <Box pb={2}>
+              <Stepper
+                activeStep={activeStep}
+                alternativeLabel
+                style={{ backgroundColor: "transparent" }}
+              >
+                {steps.map((label, index) => (
+                  <Step key={label}>
+                    <StepLabel
+                      StepIconProps={{
+                        style: {
+                          color: index <= activeStep ? "#076365" : "#BEBEBE", // Change font color of the step
+                        },
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontFamily: "nunito, sans-serif",
+                          fontSize: "16px",
+                        }}
+                      >
+                        {label}
+                      </Typography>
+                    </StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+            </Box>
+            {/* Render Outlet component here */}
+            <Outlet />
+          </Box>
+        </Box>
+        <Divider
+          orientation="vertical"
+          style={{
+            position: "absolute",
+            top: "100px",
+            bottom: "0",
+            left: "calc(33.33% + 1px)",
+            zIndex: 1,
+            maxHeight: "calc(100vh - 100px)",
+          }}
+        />{" "}
+      </div>
+    </CheckoutProvider>
   );
 }

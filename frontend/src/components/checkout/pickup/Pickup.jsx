@@ -13,8 +13,10 @@ import {
   ListItem,
   ListItemText,
   Container,
+  Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const regions = ["North", "Northeast", "East", "West", "Central"];
 const pickupLocations = [
@@ -63,6 +65,8 @@ const pickupLocations = [
 export default function Shipping() {
   const [selectedRegion, setSelectedRegion] = useState("North");
   const [selectedLocation, setSelectedLocation] = useState("");
+  const isMobile = useMediaQuery("(max-width:600px)");
+  // const { selectedLocationLocalStorage, handleLocationChangeLocalStorage } = useCheckout();
 
   const navigate = useNavigate();
 
@@ -74,7 +78,7 @@ export default function Shipping() {
   const handleLocationChange = (event) => {
     const location = event.target.value;
     setSelectedLocation((prevLocation) =>
-      prevLocation === location ? '' : location
+      prevLocation === location ? "" : location
     );
   };
 
@@ -85,16 +89,33 @@ export default function Shipping() {
   return (
     <Container maxWidth="sm" style={{ marginTop: 40 }}>
       <FormControl fullWidth>
-        <InputLabel id="region-select-label">Select Region</InputLabel>
+        <Typography
+          variant="body1"
+          sx={{
+            fontFamily: "nunito, sans-serif",
+            marginBottom: "8px",
+          }}
+        >
+          Select Region:
+        </Typography>
         <Select
           labelId="region-select-label"
           id="region-select"
           value={selectedRegion}
           onChange={handleRegionChange}
-          label="Select Region"
+          color="success"
+          sx={{
+            fontFamily: "nunito, sans-serif",
+          }}
         >
           {regions.map((region) => (
-            <MenuItem key={region} value={region}>
+            <MenuItem
+              key={region}
+              value={region}
+              sx={{
+                fontFamily: "nunito, sans-serif",
+              }}
+            >
               {region}
             </MenuItem>
           ))}
@@ -102,24 +123,52 @@ export default function Shipping() {
       </FormControl>
       <List style={{ marginTop: 16 }}>
         <List subheader={<li />}>
-          <ListItemText primary="Choose Pickup Location:" />
+          <Typography
+            variant="body1"
+            sx={{ fontFamily: "nunito, sans-serif", marginLeft: "8px" }}
+          >
+            Choose Pickup Location:
+          </Typography>
         </List>
         {pickupLocations
           .find((item) => item.region === selectedRegion)
           ?.locations.map((location) => (
-            <label key={location} style={{ display: 'block' }}>
+            <label key={location} style={{ display: "block" }}>
               <ListItem disablePadding>
                 <Checkbox
                   checked={selectedLocation === location}
                   onChange={handleLocationChange}
                   value={location}
+                  sx={{
+                    "& .MuiSvgIcon-root": {
+                      color: "#388e3c", // Change checkbox color to your desired color
+                    },
+                  }}
                 />
-                <ListItemText primary={location} />
+                <Typography
+                  variant="body1"
+                  sx={{ fontFamily: "nunito, sans-serif", marginLeft: "8px" }}
+                >
+                  {location}
+                </Typography>
               </ListItem>
             </label>
           ))}
       </List>
-      <Button variant="contained" color="primary" onClick={handleSubmit}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleSubmit}
+        sx={{
+          fontFamily: "open sans, sans-serif",
+          backgroundColor: "#076365",
+          color: "#FAFFF4",
+          borderRadius: "30px",
+          "&:hover": { backgroundColor: "#076365" },
+          marginTop: { xs: 2, sm: 1 },
+          width: "100%",
+        }}
+      >
         Next Page
       </Button>
     </Container>
