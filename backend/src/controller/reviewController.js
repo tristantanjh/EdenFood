@@ -33,7 +33,7 @@ const getReview = async (req, res) => {
       res.status(200).json(reviews);
     } else {
       res
-        .status(404)
+        .status(200)
         .json({ message: "No reviews found for the specified groceryID." });
     }
   } catch (error) {

@@ -53,29 +53,46 @@ export default function Explore() {
   }, []);
 
   const onSearch = (query) => {
-    console.log("before set: " + query);
     const newResults = originalGroceries;
-    // if (query === "") {
-    //   setSearchResults(newResults);
-    // } else {
-    const filteredResults = newResults.map((category) => ({
+    const searchResults = newResults.map((category) => ({
       ...category,
       categoryItems: category.categoryItems.filter((item) =>
         item.name.includes(query)
       ),
     }));
-    console.log(filteredResults);
-    setSearchResults(filteredResults);
-    console.log("after set: " + searchQuery);
-    // }
+    if (filterValue == "All Categories") {
+      setSearchResults(searchResults);
+    } else {
+      const filteredResults = searchResults.filter((category) =>
+        category.categoryName.includes(filterValue)
+      );
+      setSearchResults(filteredResults);
+    }
+    setSearchQuery(query);
   };
 
   const onFilter = (filterValue) => {
     if (filterValue == "All Categories") {
-      setSearchResults(originalGroceries);
+      // All category + search query
+      const searchResults = originalGroceries.map((category) => ({
+        ...category,
+        categoryItems: category.categoryItems.filter((item) =>
+          item.name.includes(searchQuery)
+        ),
+      }));
+      setSearchResults(searchResults);
     } else {
+      // Selected category + search query
       const newResults = originalGroceries;
-      const filteredResults = newResults.filter((category) =>
+      // Filter by search query
+      const searchResults = newResults.map((category) => ({
+        ...category,
+        categoryItems: category.categoryItems.filter((item) =>
+          item.name.includes(searchQuery)
+        ),
+      }));
+      // Filter by selected category
+      const filteredResults = searchResults.filter((category) =>
         category.categoryName.includes(filterValue)
       );
       setSearchResults(filteredResults);

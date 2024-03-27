@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -21,6 +21,7 @@ import QuantitySelector from "./QuantitySelector";
 import CustomButton from "../common/CustomButton";
 import { useAuth } from "../../hooks/AuthProvider";
 import axios from "axios";
+import averageRating from "../../utils/averageRating";
 
 function SimpleDialog(props) {
   const { user } = useAuth();
@@ -110,13 +111,24 @@ SimpleDialog.propTypes = {
 export default function ItemCard(props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [rating, setRating] = useState(null);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = (value) => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    const fetchRating = async () => {
+      const avgRating = await averageRating(props._id);
+      setRating(avgRating);
+    };
+  
+    fetchRating();
+  }, [rating]);
 
   return (
     <Card
@@ -179,9 +191,8 @@ export default function ItemCard(props) {
             mt: isMobile ? -3.5 : -3,
           }}
         >
-          {/* Need change default value accordingly */}
           <Ratings
-            defaultValue={props.itemRating}
+            value={rating}
             size={isMobile ? "small" : "large"}
             isMobile={isMobile}
           />

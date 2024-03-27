@@ -6,11 +6,16 @@ export const averageRating = async (groceryId) => {
       params: { groceryId: groceryId },
     });
     const reviews = response.data;
-    let totalRating = 0;
-    reviews.forEach((review) => {
-      totalRating += review.rating;
-    });
-    return totalRating / reviews.length;
+    if (reviews.length > 0) {
+      let totalRating = 0;
+      reviews.forEach((review) => {
+        totalRating += review.rating;
+      });
+      return totalRating / reviews.length;
+    } else {
+      return 0;
+    }
+    
   } catch (error) {
     console.error(error);
   }
