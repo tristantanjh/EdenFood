@@ -12,6 +12,7 @@ import axios from "axios";
 import CustomButton from "../common/CustomButton";
 import { useEffect } from "react";
 import { alpha } from "@mui/material";
+import Stack from "@mui/material/Stack";
 
 const items = [
   {
@@ -36,17 +37,19 @@ export default function ShoppingCart() {
   const { user } = useAuth();
   const [groceries, setGroceries] = React.useState([]);
   // pass in params as item price and quantity
-  const [totalPrice, setTotalPrice] = React.useState(groceries.totalPrice);
+  const [totalPrice, setTotalPrice] = React.useState(0);
 
   useEffect(() => {
     axios
       .get("http://localhost:3000/getCart", {
         params: { userId: user.id },
       })
-      // backend method to get total price
       .then((res) => {
-        console.log(res.data.allGroceries);
-        setGroceries(res.data.allGroceries);
+        console.log(res.data.items);
+        const groceriesData = res.data?.items || [];
+        const totalPrice = res.data?.totalPrice || 0;
+        setGroceries(groceriesData);
+        setTotalPrice(totalPrice);
       })
       .catch((err) => {
         console.log(err);
@@ -76,7 +79,7 @@ export default function ShoppingCart() {
             backgroundColor: "#FAFFF4",
           }}
         >
-          {items.length > 0 ? (
+          {groceries.length > 0 ? (
             <>
               <Typography
                 variant="h2"
@@ -92,25 +95,41 @@ export default function ShoppingCart() {
               >
                 Your Shopping Cart
               </Typography>
-              {items.map((grocery, index) => (
+              {groceries.map((grocery, index) => (
                 <CartItem
                   key={index}
-                  price={grocery.itemPrice}
-                  imageURL={grocery.itemImageURL}
-                  title={grocery.itemName}
-                  freshness={grocery.itemFreshness}
+                  price={grocery.grocery.price}
+                  imageURL={grocery.grocery.imageURL}
+                  title={grocery.grocery.name}
+                  freshness={grocery.grocery.freshness}
                   setTotalPrice={setTotalPrice}
                   // placementDate={item.itemPlacementDate} DELETE
                 />
               ))}
+
               <Box
                 sx={{
                   width: "100%",
                   display: "flex",
                   justifyContent: "flex-end",
+                  alignItems: "center",
+                  marginBottom: 2,
                 }}
               >
-                {/* Total Price Component */}
+                <Typography
+                  variant="h2"
+                  component="h2"
+                  sx={{
+                    fontFamily: "nunito, sans-serif",
+                    fontSize: { xs: "1rem", sm: "1.4rem" },
+                    fontWeight: "bold",
+                    textAlign: "left",
+                    marginTop: 0.4,
+                    marginRight: 2,
+                  }}
+                >
+                  Total Price: {totalPrice}
+                </Typography>
                 <CustomButton
                   // onClick={checkOut(itemChanges)}
                   sx={{
@@ -122,8 +141,8 @@ export default function ShoppingCart() {
                     fontWeight: "700",
                     fontSize: { xs: "0.74rem", sm: "1.10rem" },
                     width: { xs: "90px", sm: "160px" },
+                    marginRight: { xs: 2, sm: 5, md: 10 },
                     padding: { xs: "5px 11px", sm: "8px 15px" },
-                    mr: { xs: 2, sm: 7.6, md: 10 },
                     boxShadow: "0px",
                     "&:hover": {
                       backgroundColor: alpha("#64CF94", 0.8),

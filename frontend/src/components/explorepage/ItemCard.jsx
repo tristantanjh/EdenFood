@@ -25,7 +25,7 @@ import averageRating from "../../utils/averageRating";
 
 function SimpleDialog(props) {
   const { user } = useAuth();
-  const { onClose, open, itemId } = props;
+  const { onClose, open, groceryId } = props;
   const [quantity, setQuantity] = React.useState(1);
 
   const handleClose = () => {
@@ -35,8 +35,8 @@ function SimpleDialog(props) {
   const handleAddToCart = async (value) => {
     try {
       const response = await axios.post("http://localhost:3000/addToCart", {
-        userId: user.userId,
-        items: itemId,
+        userId: user.id,
+        groceryId: "6602cad65bc973dc6f8d9013",
         quantity: quantity,
       });
       // add SnackBar for if response.ok
@@ -216,7 +216,7 @@ export default function ItemCard(props) {
             style={{ width: "100%", height: "100%" }}
           />
         </IconButton>
-        <SimpleDialog itemId={props._id} open={open} onClose={handleClose} />
+        <SimpleDialog open={open} onClose={handleClose} groceryId={props._id} />
       </Stack>
     </Card>
   );

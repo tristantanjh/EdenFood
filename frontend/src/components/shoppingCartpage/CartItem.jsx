@@ -15,7 +15,7 @@ import Stack from "@mui/material/Stack";
 import QuantitySelector from "./QuantitySelector";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 
-export default function ItemCard(props) {
+export default function CartItem(props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const handleQuantityChange = (newQuantity) => {
