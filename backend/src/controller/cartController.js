@@ -4,6 +4,9 @@ import { Grocery } from "../model/groceryModel.js";
 // modify to accept itemId and quantity
 const addToCart = async (req, res) => {
   const { userId, groceryId, quantity } = req.body;
+  console.log(userId);
+  console.log(groceryId);
+  console.log(quantity);
 
   try {
     // Find the user's cart
@@ -41,6 +44,7 @@ const addToCart = async (req, res) => {
     res.status(200).json(savedCart);
   } catch (error) {
     console.error(error);
+
     res
       .status(500)
       .json({ message: "An error occurred while adding to the cart." });
@@ -62,7 +66,7 @@ const getCart = async (req, res) => {
     }
 
     // Extract all groceries from the cart items
-    const allGroceries = userCart.items.map((item) => item.grocery);
+    // const allGroceries = userCart.items.map((item) => item.grocery);
 
     res.json(userCart);
   } catch (err) {
