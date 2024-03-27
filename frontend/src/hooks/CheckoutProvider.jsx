@@ -1,31 +1,37 @@
 // CheckoutContext.js
-import React, { createContext, useContext, useState, useMemo } from 'react';
-import useLocalStorage from './useLocalStorage';
+import React, { createContext, useContext, useState, useMemo } from "react";
+import useLocalStorage from "./useLocalStorage";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutContext = createContext();
 
 export const CheckoutProvider = ({ children }) => {
-    const [selectedLocationLocalStorage, setSelectedLocationLocalStorage] = useLocalStorage('selectedLocationLocalStorage', '');
+  const navigation = useNavigate();
+  const [selectedLocationLocalStorage, setSelectedLocationLocalStorage] =
+    useLocalStorage("selectedLocationLocalStorage", '');
 
-    const handleLocationChangeLocalStorage = (event) => {
-        const { value, checked } = event.target;
-        if (checked) {
-            setSelectedLocationLocalStorage(value); // Update selected location in localStorage
-        } else {
-            setSelectedLocationLocalStorage(''); // Clear selected location if unchecked
-        }
-      };
+  const handleLocationChangeLocalStorage = async (location) => {
+    setSelectedLocationLocalStorage(location); // Update selected location in localStorage
+    console.log("Location changed to: ", location)
+    navigation("/checkout/confirmation");
+  };
 
-    const value = useMemo(
-        () => ({
-            selectedLocationLocalStorage,
-            setSelectedLocationLocalStorage,
-            handleLocationChangeLocalStorage,
-        }),
-        [selectedLocationLocalStorage]
-    );
+  const value = useMemo(
+    () => ({
+      selectedLocationLocalStorage,
+      setSelectedLocationLocalStorage,
+      handleLocationChangeLocalStorage,
+    }),
+    [selectedLocationLocalStorage]
+  );
 
-    return <CheckoutContext.Provider value={value}>{children}</CheckoutContext.Provider>;
+  return (
+    <CheckoutContext.Provider value={value}>
+      {children}
+    </CheckoutContext.Provider>
+  );
 };
 
-export const useCheckout = () => useContext(CheckoutContext);
+export const useCheckout = () => {
+  return useContext(CheckoutContext);
+};

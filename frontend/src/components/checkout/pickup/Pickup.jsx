@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCheckout } from "../../../hooks/CheckoutProvider";
 import {
   FormControl,
@@ -14,8 +14,11 @@ import {
   ListItemText,
   Container,
   Typography,
+  Snackbar,
+  SnackbarContent,
+  IconButton,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Close } from "@mui/icons-material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const regions = ["North", "Northeast", "East", "West", "Central"];
@@ -66,9 +69,23 @@ export default function Shipping() {
   const [selectedRegion, setSelectedRegion] = useState("North");
   const [selectedLocation, setSelectedLocation] = useState("");
   const isMobile = useMediaQuery("(max-width:600px)");
-  // const { selectedLocationLocalStorage, handleLocationChangeLocalStorage } = useCheckout();
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const { selectedLocationLocalStorage, handleLocationChangeLocalStorage } =
+    useCheckout();
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (selectedLocationLocalStorage) {
+      setSelectedLocation(selectedLocationLocalStorage);
+      const foundRegion = pickupLocations.find((region) =>
+        region.locations.includes(selectedLocationLocalStorage)
+      );
+
+      if (foundRegion) {
+        setSelectedRegion(foundRegion.region);
+      }
+    }
+  }, []);
 
   const handleRegionChange = (event) => {
     setSelectedRegion(event.target.value);
@@ -82,12 +99,53 @@ export default function Shipping() {
     );
   };
 
+  const handleOpenSnackbar = (message) => {
+    setSnackbarMessage(message);
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
   const handleSubmit = () => {
-    navigate("/checkout/confirmation");
+    if (!selectedLocation && !isMobile) {
+      handleOpenSnackbar("Please choose a pickup location!");
+      return;
+    } else if (!selectedLocation && isMobile) {
+      window.alert("Please select a location."); // Use the native phone alert
+      return;
+    }
+
+    handleLocationChangeLocalStorage(selectedLocation);
   };
 
   return (
-    <Container maxWidth="sm" style={{ marginTop: 40 }}>
+    <Container maxWidth="sm" style={{ marginTop: 40, height: "350px" }}>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <SnackbarContent
+          sx={{ backgroundColor: "#CE0000" }} // Customize background color for error messages
+          message={snackbarMessage}
+          action={
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={handleCloseSnackbar}
+            >
+              <Close />
+            </IconButton>
+          }
+        />
+      </Snackbar>
       <FormControl fullWidth>
         <Typography
           variant="body1"
@@ -163,7 +221,7 @@ export default function Shipping() {
           fontFamily: "open sans, sans-serif",
           backgroundColor: "#076365",
           color: "#FAFFF4",
-          borderRadius: "30px",
+          borderRadius: "5px",
           "&:hover": { backgroundColor: "#076365" },
           marginTop: { xs: 2, sm: 1 },
           width: "100%",

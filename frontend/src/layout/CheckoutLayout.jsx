@@ -96,13 +96,20 @@ export default function CheckoutLayout() {
           }}
         />
         <Divider flexItem />
-        <Box
-          sx={{
-            height: { xs: "100px", sm: "48px" },
-          }}
-        />
         <Box p={2} display="flex" flexDirection="row" alignItems="center">
           <Box flex={1.5} pr={8}>
+          <Typography
+            sx={{
+              py: 4,
+              fontFamily: "open sans, sans-serif",
+              fontSize: "20px",
+              fontWeight: 700,
+              color: "#181B13",
+              marginLeft: 6,
+            }}
+          >
+            Order Summary
+          </Typography>
             <CartItemsSection />
           </Box>
           {/* <Divider orientation="vertical" flexItem /> */}

@@ -86,8 +86,8 @@ export default function CartItemsSection() {
     (acc, item) => acc + item.quantity * item.price, 0);
 
   return (
-    <div style={{ padding: "0 0 2rem 0" }}>
-      {" "}
+    <div style={{ padding: "0 0 2rem 0", maxHeight: "600px" }}>
+
       {cartItems.map((item) => (
         <ItemCard
           key={item.grocery}

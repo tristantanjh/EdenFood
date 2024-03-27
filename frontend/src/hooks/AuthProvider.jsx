@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
   //placeholder function to authenticate user
   const login = async (data) => {
     setUser(data);
+    console.log(data)
     navigation("/explore");
   };
 
