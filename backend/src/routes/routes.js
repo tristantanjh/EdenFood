@@ -62,7 +62,7 @@ APIrouter.get("/getCart", getCart);
 
 APIrouter.get("/getListingByGroceryId", getListingByGroceryId);
 
-APIrouter.get("/getListingByUserId", getListingsByUserId);
+APIrouter.get("/getListingsByUserId", getListingsByUserId);
 
 APIrouter.get("/reviews", getReview);
 

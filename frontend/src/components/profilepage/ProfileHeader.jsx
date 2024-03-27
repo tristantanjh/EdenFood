@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Face from "@mui/icons-material/Face";
+import { useAuth } from "../../hooks/AuthProvider";
 
 const ProfileHeader = (props) => {
   const [user, setUser] = useState("");
@@ -23,10 +23,11 @@ const ProfileHeader = (props) => {
   useEffect(() => {
     axios
       .get("http://localhost:3000/getUserWithId", {
-        params: { userId: props.id },
+        params: { userId: props.user.id },
       })
       .then((res) => {
         setUser(res.data.user);
+        console.log(user.profilePic);
       })
       .catch((err) => {
         console.log(err);

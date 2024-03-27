@@ -89,7 +89,7 @@ const logOut = (req, res) => {
 const getUserWithId = async (req, res) => {
   try {
     const userId = req.query.userId;
-    const user = await User.findOne({ user: userId });
+    const user = await User.findOne({ _id: userId });
 
     if (user) {
       res.status(200).json({ user });

@@ -37,8 +37,6 @@ export default function ItemCard(props) {
     fetchRating();
   }, [rating]);
 
-  console.log(rating);
-
   return (
     <Card
       sx={{
@@ -101,11 +99,7 @@ export default function ItemCard(props) {
           }}
         >
           {/* Need change default value accordingly */}
-          <Ratings
-            value={rating}
-            size="small"
-            isMobile={isMobile}
-          />
+          <Ratings value={rating} size="small" isMobile={isMobile} />
         </CardContent>
       </Stack>
     </Card>
