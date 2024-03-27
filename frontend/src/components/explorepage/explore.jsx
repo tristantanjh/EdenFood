@@ -12,116 +12,11 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 import { useAuth } from "../../hooks/AuthProvider";
-// import QuantitySelector from "../common/QuantitySelector.jsx";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
+import Paper from "@mui/material/Paper";
 
-const categories = [
-  {
-    categoryName: "Meat",
-    categoryItems: [
-      {
-        itemImageURL:
-          "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-        itemName: "Norwegian Salmon (100g)",
-        itemFreshness: "3",
-        itemPrice: "5.95",
-        itemRating: "3",
-      },
-      {
-        itemImageURL:
-          "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-        itemName: "British Salmon (100g)",
-        itemFreshness: "2",
-        itemPrice: "10.95",
-        itemRating: "5",
-      },
-      {
-        itemImageURL:
-          "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-        itemName: "Singapore Salmon (100g)",
-        itemFreshness: "5",
-        itemPrice: "15.95",
-        itemRating: "2",
-      },
-      {
-        itemImageURL:
-          "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-        itemName: "African Salmon (100g)",
-        itemFreshness: "3",
-        itemPrice: "0.95",
-        itemRating: "1",
-      },
-      {
-        itemImageURL:
-          "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-        itemName: "Norwegian Salmon (100g)",
-        itemFreshness: "3",
-        itemPrice: "5.95",
-        itemRating: "3",
-      },
-      {
-        itemImageURL:
-          "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-        itemName: "British Salmon (100g)",
-        itemFreshness: "2",
-        itemPrice: "10.95",
-        itemRating: "5",
-      },
-      {
-        itemImageURL:
-          "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-        itemName: "Singapore Salmon (100g)",
-        itemFreshness: "5",
-        itemPrice: "15.95",
-        itemRating: "2",
-      },
-      {
-        itemImageURL:
-          "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-        itemName: "African Salmon (100g)",
-        itemFreshness: "3",
-        itemPrice: "0.95",
-        itemRating: "1",
-      },
-    ],
-  },
-  {
-    categoryName: "Vegetables",
-    categoryItems: [
-      {
-        itemImageURL:
-          "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1710778183/broccoli_xxtddq.jpg",
-        itemName: "Malaysian Broccoli (50g)",
-        itemFreshness: "3",
-        itemPrice: "5.95",
-        itemRating: "3",
-      },
-      {
-        itemImageURL:
-          "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1710778183/broccoli_xxtddq.jpg",
-        itemName: "Thailand Broccoli (100g)",
-        itemFreshness: "7",
-        itemPrice: "7.95",
-        itemRating: "5",
-      },
-      {
-        itemImageURL:
-          "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1710778183/broccoli_xxtddq.jpg",
-        itemName: "Malaysian Broccoli (50g)",
-        itemFreshness: "3",
-        itemPrice: "5.95",
-        itemRating: "3",
-      },
-      // {
-      //   itemImageURL:
-      //     "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1710778183/broccoli_xxtddq.jpg",
-      //   itemName: "Thailand Broccoli (100g)",
-      //   itemFreshness: "7",
-      //   itemPrice: "7.95",
-      //   itemRating: "5",
-      // },
-    ],
-  },
-];
+const options = ["All Categories", "Fruits", "Vegetables", "Meats"];
 
 export default function Explore() {
   const theme = useTheme();
@@ -132,6 +27,7 @@ export default function Explore() {
   const [error, setError] = useState("");
   const { user } = useAuth();
   const [originalGroceries, setOriginalGroceries] = useState([]);
+  const [filterValue, setFilterValue] = React.useState(options[0]);
 
   const cat = ["Fruits, Vegetables, Meats"];
 
@@ -162,14 +58,28 @@ export default function Explore() {
     // if (query === "") {
     //   setSearchResults(newResults);
     // } else {
-      const filteredResults = newResults.map(category => ({
-        ...category,
-        categoryItems: category.categoryItems.filter(item => item.name.includes(query))
-      }));
-      console.log(filteredResults);
-      setSearchResults(filteredResults);
-      console.log("after set: " + searchQuery);
+    const filteredResults = newResults.map((category) => ({
+      ...category,
+      categoryItems: category.categoryItems.filter((item) =>
+        item.name.includes(query)
+      ),
+    }));
+    console.log(filteredResults);
+    setSearchResults(filteredResults);
+    console.log("after set: " + searchQuery);
     // }
+  };
+
+  const onFilter = (filterValue) => {
+    if (filterValue == "All Categories") {
+      setSearchResults(originalGroceries);
+    } else {
+      const newResults = originalGroceries;
+      const filteredResults = newResults.filter((category) =>
+        category.categoryName.includes(filterValue)
+      );
+      setSearchResults(filteredResults);
+    }
   };
 
   return (
@@ -194,6 +104,50 @@ export default function Explore() {
             pb: { xs: 6, sm: 12 },
           }}
         >
+          <Autocomplete
+            value={filterValue}
+            defaultValue={options[0]}
+            onChange={(event, newValue) => {
+              setFilterValue(newValue);
+              onFilter(newValue);
+            }}
+            id="controllable-states-demo"
+            options={options}
+            renderOption={(props, option) => (
+              <Box style={{ fontSize: "15px" }} {...props}>
+                {option}
+              </Box>
+            )}
+            sx={{
+              width: 200,
+              mr: "auto",
+              mb: "2rem",
+              "& .MuiAutocomplete-input": {
+                fontSize: { xs: "15px", md: "16px" },
+                color: "rgba(0, 0, 0, 0.7)",
+              },
+              // "&.MuiAutocomplete-root .MuiOutlinedInput-root": {
+              //   pt: "3px",
+              //   pb: "3px",
+              // },
+              "& + .MuiAutocomplete-popper .MuiAutocomplete-option:hover": {
+                backgroundColor: "hotpink",
+              },
+            }}
+            renderInput={(params) => (
+              <TextField {...params} label="Select Category" />
+            )}
+            PaperComponent={(props) => (
+              <Paper
+                sx={{
+                  background: "#FAFFF4",
+                  color: "rgba(0, 0, 0, 0.7)",
+                  fontSize: "25px",
+                }}
+                {...props}
+              />
+            )}
+          />
           {searchResults.map((category) =>
             category.categoryItems.length > 0 ? (
               <div

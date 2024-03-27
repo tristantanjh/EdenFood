@@ -101,8 +101,8 @@ const getAllGroceries = async (req, res) => {
   try {
     const groceries = await Grocery.find();
     const userId = req.query.userId;
+    
     const filteredCategories = req.query.categories[0].split(", ");
-    // console.log(filteredCategories);
 
     const currUser = await User.find({ user: userId });
 
