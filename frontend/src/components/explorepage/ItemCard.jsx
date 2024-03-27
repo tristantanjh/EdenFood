@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -21,10 +21,11 @@ import QuantitySelector from "./QuantitySelector";
 import CustomButton from "../common/CustomButton";
 import { useAuth } from "../../hooks/AuthProvider";
 import axios from "axios";
+import averageRating from "../../utils/averageRating";
 
 function SimpleDialog(props) {
   const { user } = useAuth();
-  const { onClose, open, itemId } = props;
+  const { onClose, open, groceryId } = props;
   const [quantity, setQuantity] = React.useState(1);
 
   const handleClose = () => {
@@ -34,8 +35,8 @@ function SimpleDialog(props) {
   const handleAddToCart = async (value) => {
     try {
       const response = await axios.post("http://localhost:3000/addToCart", {
-        userId: user.userId,
-        items: itemId,
+        userId: user.id,
+        groceryId: "6602cad65bc973dc6f8d9013",
         quantity: quantity,
       });
       // add SnackBar for if response.ok
@@ -110,13 +111,24 @@ SimpleDialog.propTypes = {
 export default function ItemCard(props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [rating, setRating] = useState(null);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = (value) => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    const fetchRating = async () => {
+      const avgRating = await averageRating(props._id);
+      setRating(avgRating);
+    };
+  
+    fetchRating();
+  }, [rating]);
 
   return (
     <Card
@@ -133,7 +145,7 @@ export default function ItemCard(props) {
           height: isMobile ? 125 : 225,
           width: isMobile ? 160 : 275,
         }}
-        image={props.itemImageURL}
+        image={props.imageURL}
         // image="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg"
         alt="Product Image"
         title="Listing Photo"
@@ -153,7 +165,7 @@ export default function ItemCard(props) {
             mb: 0.2,
           }}
         >
-          {props.itemName}
+          {props.name}
           {/* Norwegian Salmon (100g) */}
         </Typography>
         {/* Custom number of days based on merchant uploads */}
@@ -162,7 +174,7 @@ export default function ItemCard(props) {
           color="text.secondary"
           fontFamily="open sans, sans-serif"
         >
-          {props.itemFreshness} day freshness
+          {props.freshness} day freshness
         </Typography>
         {/* Custom price based on merchant uploads */}
         <Typography
@@ -170,7 +182,7 @@ export default function ItemCard(props) {
           fontFamily="nunito, sans-serif"
           sx={{ mt: -0.7, fontSize: isMobile ? 18 : 22 }}
         >
-          S${props.itemPrice}
+          S${props.price}
         </Typography>
       </CardContent>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
@@ -179,9 +191,8 @@ export default function ItemCard(props) {
             mt: isMobile ? -3.5 : -3,
           }}
         >
-          {/* Need change default value accordingly */}
           <Ratings
-            defaultValue={props.itemRating}
+            value={rating}
             size={isMobile ? "small" : "large"}
             isMobile={isMobile}
           />
@@ -205,7 +216,7 @@ export default function ItemCard(props) {
             style={{ width: "100%", height: "100%" }}
           />
         </IconButton>
-        <SimpleDialog itemId={props._id} open={open} onClose={handleClose} />
+        <SimpleDialog open={open} onClose={handleClose} groceryId={props._id} />
       </Stack>
     </Card>
   );

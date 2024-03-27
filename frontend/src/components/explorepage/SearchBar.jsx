@@ -15,26 +15,7 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 
-// const categories = [
-//   {
-//     value: "All",
-//     label: "All",
-//   },
-//   {
-//     value: "Fruits & Vegetables",
-//     label: "Fruits & Vegetables",
-//   },
-//   {
-//     value: "Meat",
-//     label: "Meat",
-//   },
-//   {
-//     value: "Halal",
-//     label: "Halal",
-//   },
-// ];
-
-export default function SearchBar() {
+export default function SearchBar({ onSearch }) {
   const inputProps = {
     textField: {
       width: 300,
@@ -134,6 +115,13 @@ export default function SearchBar() {
       },
     },
   });
+
+  const handleSearch = (e) => {
+    const query = e.target.value;
+    console.log(query);
+    onSearch(query); 
+  };
+
   return (
     <Box
       id="hero"
@@ -149,8 +137,8 @@ export default function SearchBar() {
           flexDirection: { xs: "column", md: "row" },
           alignItems: "center",
           justifyContent: "center",
-          pt: { xs: 12, sm: 14 },
-          pb: { xs: 2, sm: 4 },
+          pt: { xs: 12, md: 14 },
+          pb: { xs: 1, md: 2 },
         }}
       >
         {/* <ThemeProvider theme={customTheme}>
@@ -175,7 +163,7 @@ export default function SearchBar() {
               ))}
             </TextField>
           </ThemeProvider> */}
-        <Stack direction="row" sx={{ width: { xs: "95%", sm: "100%" }, ml: { xs: ".5rem", sm: "" } }}>
+        <Stack direction="row" sx={{ width: { xs: "95%", sm: "100%" } }}>
           <ThemeProvider theme={customTheme}>
             <TextField
               id="outlined-search-food-produce"
@@ -192,6 +180,10 @@ export default function SearchBar() {
               sx={{
                 width: "100%",
                 fontFamily: "open sans, sans-serif",
+              }}
+              onChange={(e) => {
+                console.log("in child: " + e.target.value)
+                onSearch(e.target.value)
               }}
             />
           </ThemeProvider>

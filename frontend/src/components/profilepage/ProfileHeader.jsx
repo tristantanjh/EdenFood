@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -8,15 +8,31 @@ import {
   Stack,
   useTheme,
   useMediaQuery,
+  Avatar,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import Face from "@mui/icons-material/Face";
+import axios from "axios";
+import { useAuth } from "../../hooks/AuthProvider";
 
-const ProfileHeader = () => {
-  const [value, setValue] = useState(5);
+const ProfileHeader = (props) => {
+  const [user, setUser] = useState("");
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down(414));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const navigateTo = "/editProfile";
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/getUserWithId", {
+        params: { userId: props.user.id },
+      })
+      .then((res) => {
+        setUser(res.data.user);
+        console.log(user.profilePic);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <Box
@@ -32,28 +48,15 @@ const ProfileHeader = () => {
         alignItems="center"
         justifyContent="center"
       >
-        <Grid item>
-          <Box
+        <Grid item sx={{ mt: 15 }}>
+          <Avatar
+            alt="Remy Sharp"
+            src={user.profilePic}
             sx={{
-              mt: 15.5,
-              bgcolor: "grey.300",
-              borderRadius: "50%",
-              width: isSmallScreen ? "55px" : "80px",
-              height: isSmallScreen ? "55px" : "80px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              border: 1,
-              borderColor: "grey.500",
+              width: isSmallScreen ? "3.5rem" : "5rem",
+              height: isSmallScreen ? "3.5rem" : "5rem",
             }}
-          >
-            <Face
-              sx={{
-                width: isSmallScreen ? "40px" : "50px",
-                height: isSmallScreen ? "40px" : "50px",
-              }}
-            />
-          </Box>
+          />
         </Grid>
         <Grid item sx={{ mt: 15 }}>
           <Typography
@@ -63,7 +66,7 @@ const ProfileHeader = () => {
               fontWeight: "bold",
             }}
           >
-            Username
+            {user.username}
           </Typography>
           <Typography
             sx={{
@@ -72,7 +75,7 @@ const ProfileHeader = () => {
             }}
             gutterBottom
           >
-            username@gmail.com
+            {user.email}
           </Typography>
           <Stack direction="row" spacing={1}>
             <Button

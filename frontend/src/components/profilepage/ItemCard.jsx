@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -12,6 +12,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Ratings from "./Ratings.jsx";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
+import averageRating from "../../utils/averageRating";
 
 const bull = (
   <Box
@@ -24,7 +25,17 @@ const bull = (
 
 export default function ItemCard(props) {
   const theme = useTheme();
+  const [rating, setRating] = useState(null);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  useEffect(() => {
+    const fetchRating = async () => {
+      const avgRating = await averageRating(props.id);
+      setRating(avgRating);
+    };
+
+    fetchRating();
+  }, [rating]);
 
   return (
     <Card
@@ -41,7 +52,7 @@ export default function ItemCard(props) {
           height: isMobile ? 125 : 225,
           width: isMobile ? 150 : 275,
         }}
-        image={props.itemImageURL}
+        image={props.imageURL}
         // image="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg"
         alt="Product Image"
         title="Listing Photo"
@@ -61,7 +72,7 @@ export default function ItemCard(props) {
             mb: 0.2,
           }}
         >
-          {props.itemName}
+          {props.name}
           {/* Norwegian Salmon (100g) */}
         </Typography>
         {/* Custom number of days based on merchant uploads */}
@@ -70,7 +81,7 @@ export default function ItemCard(props) {
           color="text.secondary"
           fontFamily="open sans, sans-serif"
         >
-          {props.itemFreshness} day freshness
+          {props.freshness} day freshness
         </Typography>
         {/* Custom price based on merchant uploads */}
         <Typography
@@ -78,7 +89,7 @@ export default function ItemCard(props) {
           fontFamily="nunito, sans-serif"
           sx={{ mt: -0.7, fontSize: isMobile ? 18 : 22 }}
         >
-          S${props.itemPrice}
+          S${props.price}
         </Typography>
       </CardContent>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
@@ -88,11 +99,7 @@ export default function ItemCard(props) {
           }}
         >
           {/* Need change default value accordingly */}
-          <Ratings
-            defaultValue={props.itemRating}
-            size="small"
-            isMobile={isMobile}
-          />
+          <Ratings value={rating} size="small" isMobile={isMobile} />
         </CardContent>
       </Stack>
     </Card>
