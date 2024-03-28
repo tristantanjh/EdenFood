@@ -145,7 +145,7 @@ export default function ItemCard(props) {
           height: isMobile ? 125 : 225,
           width: isMobile ? 160 : 275,
         }}
-        image={props.imageURL}
+        image={props.imageURL[0]}
         // image="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg"
         alt="Product Image"
         title="Listing Photo"

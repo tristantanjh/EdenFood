@@ -5,30 +5,34 @@ import CloudinaryUploadWidget from "../CloudinaryUploadWidget";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function UploadImage() {
+export default function UploadImage({ onImageChange }) {
   const [imageURLs, setImageURLs] = useState([]);
   const isMobile = useMediaQuery("(max-width:600px)");
 
   function handleOnUpload(error, result, widget) {
     if (error) {
       console.log(error);
-      widget.close({
-        quiet: true,
-      });
+      widget.close({ quiet: true });
       return;
     }
     swal("Success", "Media uploaded", "success");
 
     if (result.event === "success") {
       console.log("Uploaded to: ", result.info.secure_url);
-      setImageURLs((prevURLs) => [...prevURLs, result?.info?.secure_url]);
+      setImageURLs((prevURLs) => {
+        const updatedURLs = [...prevURLs, result?.info?.secure_url];
+        onImageChange(updatedURLs);
+        return updatedURLs;
+      });
     }
   }
 
-  const handleRemoveImage = (indexToRemove) => {
-    setImageURLs((currentImages) =>
-      currentImages.filter((_, index) => index !== indexToRemove)
-    );
+  const handleRemoveImage = (urlToRemove) => {
+    setImageURLs((currentImages) => {
+      const updatedURLs = currentImages.filter((url) => url !== urlToRemove);
+      onImageChange(updatedURLs);
+      return updatedURLs;
+    });
   };
 
   return (
@@ -76,7 +80,7 @@ export default function UploadImage() {
                 backgroundColor: "rgba(200, 200, 200, 0.8)",
               },
             }}
-            onClick={() => handleRemoveImage(index)}
+            onClick={() => handleRemoveImage(url)}
           >
             <CloseIcon color="action" />
           </Box>

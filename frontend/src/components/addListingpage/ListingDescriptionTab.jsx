@@ -54,11 +54,24 @@ const Tabs = styled(MuiTabs)({
   },
 });
 
-export default function ListingDescriptionTab() {
+export default function ListingDescriptionTab({
+  onDescriptionChange,
+  onInstructionChange,
+  initialDescription,
+  initialInstructions,
+}) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleDescriptionInputChange = (event) => {
+    onDescriptionChange(event.target.value);
+  };
+
+  const handleInstructionInputChange = (event) => {
+    onInstructionChange(event.target.value);
   };
 
   return (
@@ -137,12 +150,14 @@ export default function ListingDescriptionTab() {
             multiline
             rows={6}
             placeholder="(Insert Item Description here)"
+            defaultValue={initialDescription}
+            onChange={handleDescriptionInputChange}
             sx={{ width: "140%", margin: "0.3%" }}
           />
         </Container>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-      <Container
+        <Container
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -154,12 +169,14 @@ export default function ListingDescriptionTab() {
             multiline
             rows={6}
             placeholder="(Insert Instructions here)"
+            defaultValue={initialInstructions}
+            onChange={handleInstructionInputChange}
             sx={{ width: "140%", margin: "0.3%" }}
           />
         </Container>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-      <Container
+        <Container
           sx={{
             display: "flex",
             flexDirection: "column",

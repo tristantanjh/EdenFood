@@ -67,9 +67,9 @@ const CloudinaryUploadWidget = ({ children, onUpload }) => {
       // context: {alt: "user_uploaded"}, //add the given context data to the uploaded files
       // clientAllowedFormats: ["images"], //restrict uploading to image files only
       // maxImageFileSize: 2000000,  //restrict file size to less than 2MB
-      maxImageWidth: 150, //Scales the image before uploading
+      maxImageWidth: 750, //Scales the image before uploading
       minImageWidth: 150,
-      maxImageHeight: 150,
+      maxImageHeight: 750,
       minImageHeight: 150,
     };
 
