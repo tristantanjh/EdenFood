@@ -16,12 +16,15 @@ import UploadImage from "./UploadImage";
 import ListingDescriptionTab from "./ListingDescriptionTab";
 import axios from "axios"; // Ensure axios is imported if you're using it for API calls
 import { useAuth } from "../../hooks/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 export default function ListingDetails() {
   const theme = useTheme();
   const { user } = useAuth();
+  const navigate = useNavigate();
+
   const [errors, setErrors] = useState({
-    name: "",
+    title: "",
     freshness: "",
     category: "",
     price: "",
@@ -30,12 +33,13 @@ export default function ListingDetails() {
     description: "",
     instruction: "",
   });
+
   const [formData, setFormData] = useState({
-    name: "",
+    title: "",
     description: "",
-    imageURL: "",
+    imageURL: [],
     price: 0,
-    user: user,
+    user: user.id,
     category: "",
     instruction: "",
     freshness: "",
@@ -58,7 +62,14 @@ export default function ListingDetails() {
   const handleInstructionChange = (instruction) => {
     setFormData((prevState) => ({
       ...prevState,
-      instruction: instruction, 
+      instruction: instruction,
+    }));
+  };
+
+  const handleImageChange = (updatedImageURLs, action) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      imageURL: updatedImageURLs,
     }));
   };
 
@@ -115,14 +126,22 @@ export default function ListingDetails() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    const { title, ...restOfData } = formData;
+
+    const transformedData = {
+      name: title,
+      ...restOfData,
+    };
+    console.log(transformedData);
+
     if (validateForm()) {
       try {
         const response = await axios.post(
           "http://localhost:3000/createGrocery",
-          formData
+          transformedData
         );
         console.log(response.data);
-        history.push("/profile");
+        navigate("/profile");
       } catch (error) {
         console.error(
           "Error creating listing:",
@@ -209,7 +228,7 @@ export default function ListingDetails() {
               onChange={handleChange}
               error={Boolean(errors.quantity)}
             />
-            <UploadImage />
+            <UploadImage onImageChange={handleImageChange} />
             <ListingDescriptionTab
               onDescriptionChange={handleDescriptionChange}
               onInstructionChange={handleInstructionChange}
