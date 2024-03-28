@@ -68,9 +68,9 @@ const CloudinaryUploadWidget = ({ children, onUpload }) => {
       // clientAllowedFormats: ["images"], //restrict uploading to image files only
       // maxImageFileSize: 2000000,  //restrict file size to less than 2MB
       maxImageWidth: 750, //Scales the image before uploading
-      minImageWidth: 150,
-      maxImageHeight: 750,
-      minImageHeight: 150,
+      minImageWidth: 750,
+      maxImageHeight: 1000,
+      minImageHeight: 1000,
     };
 
     return cloudinary?.createUploadWidget(options, function (error, result) {
