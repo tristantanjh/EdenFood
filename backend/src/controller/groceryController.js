@@ -95,7 +95,8 @@ const getListingsByUserId = async (req, res) => {
   }
 };
 
-//get all filter the user own listing 
+
+//filter out freshness < current date
 
 const getAllGroceries = async (req, res) => {
   try {
@@ -116,7 +117,9 @@ const getAllGroceries = async (req, res) => {
       return res.status(404).json({ message: "No groceries found" });
     }
 
-    const filteredGroceries = groceries.filter(grocery => grocery.user.toString() !== userId);
+    const currentDate = new Date();
+    const filteredGroceriesWithFreshness = groceries.filter(grocery => grocery.freshness >= currentDate);
+    const filteredGroceries = filteredGroceriesWithFreshness.filter(grocery => grocery.user.toString() !== userId);
     const result = [];
 
     for (let i = 0; i < filteredCategories.length; i++) {
