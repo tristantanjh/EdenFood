@@ -4,6 +4,8 @@ import { useCheckout } from "../../../hooks/CheckoutProvider";
 import { useAuth } from "../../../hooks/AuthProvider";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useNavigate } from "react-router-dom";
+import Paypal from "./Paypal";
+import swal from "sweetalert";
 
 export default function Confirmation() {
   const { selectedLocationLocalStorage } = useCheckout();
@@ -13,7 +15,8 @@ export default function Confirmation() {
 
   const handlePayPalPayment = () => {
     // Add logic for PayPal payment here
-    console.log("Processing PayPal payment...");
+    navigate("/orderhistory");
+    swal("Success", "Payment Successful", "success");
   };
 
   const handleGoBack = () => {
@@ -28,6 +31,7 @@ export default function Confirmation() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        mt: { xs: 7, sm: 1 },
       }}
     >
       <Typography
@@ -64,29 +68,25 @@ export default function Confirmation() {
         {selectedLocationLocalStorage}
       </Typography>
       <div style={{ display: "flex", marginTop: "32px", gap: "16px" }}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleGoBack}
-          sx={{
-            fontFamily: "open sans, sans-serif",
-            backgroundColor: "#076365",
-            color: "#FAFFF4",
-            borderRadius: "5px",
-            "&:hover": { backgroundColor: "#076365" },
-            marginTop: { xs: 2, sm: 1 },
-          }}
-        >
-          previous page
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handlePayPalPayment}
-        >
-          Proceed to PayPal Payment
-        </Button>
+        <Paypal handlePayPalPayment={handlePayPalPayment} />
       </div>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleGoBack}
+        sx={{
+          fontFamily: "open sans, sans-serif",
+          backgroundColor: "#076365",
+          color: "#FAFFF4",
+          borderRadius: "5px",
+          "&:hover": { backgroundColor: "#076365" },
+          marginTop: { xs: 2, sm: 2 },
+          marginBottom: { xs: 5, sm: 0 },
+          width: "200px"
+        }}
+      >
+        previous page
+      </Button>
     </Container>
   );
 }
