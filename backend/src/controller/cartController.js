@@ -1,6 +1,21 @@
 import { Cart } from "../model/cartModel.js";
 import { Grocery } from "../model/groceryModel.js";
 
+const deleteCart = async (req, res) => {
+  try {
+    const userId = req.query.userId;
+    const result = await Cart.deleteOne({ user: userId });
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "Cart not found." });
+    }
+
+    return res.status(200).json({ message: "Cart deleted successfully." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred while deleting the cart." });
+  }
+};
+
 // modify to accept itemId and quantity
 const addToCart = async (req, res) => {
   const { userId, groceryId, quantity } = req.body;
@@ -192,4 +207,5 @@ export {
   removeFromCart,
   incrementGroceryQuantity,
   decrementGroceryQuantity,
+  deleteCart,
 };

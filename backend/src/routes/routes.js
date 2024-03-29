@@ -6,6 +6,7 @@ import {
   removeFromCart,
   incrementGroceryQuantity,
   decrementGroceryQuantity,
+  deleteCart,
 } from "../controller/cartController.js";
 
 import {
@@ -101,5 +102,7 @@ APIrouter.patch("/editPassword/:userId", editPassword);
 APIrouter.get("/getSales/", getSales);
 
 APIrouter.post("/createSale", createSale);
+
+APIrouter.delete("/deleteCart", deleteCart);
 
 export { APIrouter };

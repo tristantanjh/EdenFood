@@ -1,19 +1,9 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
+import React, {useState, useEffect} from "react";
 import Typography from "@mui/material/Typography";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import IconButton from "@mui/material/IconButton";
-import Stack from "@mui/material/Stack";
-import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import CartItem from "./CartItem";
+import axios from "axios";
+import { useAuth } from "../../hooks/AuthProvider";
+import { getCart } from "../../utils/getCart";
 
 const exampleGroceries = [
   {
@@ -25,6 +15,7 @@ const exampleGroceries = [
     price: 1.99,
     user: "610f72f4b214f2d2e8e25a1f", // User ID
     categories: ["Fruits"],
+    freshness: "2 days",
     reviews: ["611f72f4b214f2d2e8e25a1a", "611f72f4b214f2d2e8e25a1b"],
   },
   {
@@ -36,6 +27,7 @@ const exampleGroceries = [
     price: 0.99,
     user: "610f72f4b214f2d2e8e25a1f", // User ID
     categories: ["Fruits"],
+    freshness: "4 days",
     reviews: ["611f72f4b214f2d2e8e25a1c"],
   },
   {
@@ -47,12 +39,14 @@ const exampleGroceries = [
     price: 2.49,
     user: "610f72f4b214f2d2e8e25a1f", // User ID
     categories: ["Fruits"],
+    freshness: "6 days",
     reviews: ["611f72f4b214f2d2e8e25a1d"],
   },
 ];
 
 const exampleCartData = {
   user: "610f72f4b214f2d2e8e25a1f", // User ID
+  totalPrice: 12.44,
   items: [
     {
       grocery: "610f72f4b214f2d2e8e25a2a", // Apple
@@ -70,13 +64,17 @@ const exampleCartData = {
 };
 
 export default function CartItemsSection() {
+  const { user } = useAuth();
+  const [cart, setCart] = useState([]);
+
+
   const cartItems = exampleCartData.items.map((cartItem) => {
     const grocery = exampleGroceries.find(
       (item) => item._id === cartItem.grocery
     );
     return {
       ...cartItem,
-      id: grocery?.id,
+      id: grocery?._id,
       name: grocery?.name,
       imageURL: grocery?.imageURL,
       price: grocery?.price,
@@ -84,10 +82,18 @@ export default function CartItemsSection() {
     };
   });
 
-  const totalPrice = cartItems.reduce(
-    (acc, item) => acc + item.quantity * item.price,
-    0
-  );
+  useEffect(() => {
+    const cart = async () => {
+      setCart(await getCart(user.id));
+    };
+
+    cart();
+  }, []);
+
+  // const totalPrice = cartItems.reduce(
+  //   (acc, item) => acc + item.quantity * item.price,
+  //   0
+  // );
 
   return (
     <div style={{ padding: "0 0 2rem 0", maxHeight: "600px" }}>
@@ -139,7 +145,7 @@ export default function CartItemsSection() {
           >
             SGD
           </span>
-          ${totalPrice.toFixed(2)}
+          ${exampleCartData.totalPrice.toFixed(2)}
         </span>
       </Typography>
     </div>

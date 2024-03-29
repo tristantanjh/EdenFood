@@ -35,21 +35,6 @@ export default function CartItem(props) {
     }
   };
   const timeLeftString = calculateTimeLeft();
-  const handleRemoveItem = async (value) => {
-    try {
-      const response = await axios.delete(
-        "http://localhost:3000/removeFromCart",
-        {
-          params: { userId: user.id, groceryId: props.groceryId },
-        }
-      );
-      // add SnackBar for if response.ok
-      console.log("Item successfully deleted");
-      window.location.reload();
-    } catch (error) {
-      console.error("Error deleting grocery: ", error);
-    }
-  };
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
