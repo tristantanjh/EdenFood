@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import ItemDescriptionTab from "../itempage/ItemDescriptionTab.jsx";
 import ProductAvailability from "../itempage/ProductAvailability.jsx";
@@ -15,10 +15,50 @@ import Grid from "@mui/material/Grid";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Paper from "@mui/material/Paper";
 import CloudinaryUploadWidget from "../CloudinaryUploadWidget.jsx";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "../../hooks/AuthProvider";
 
 export default function ItemDescription() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const { _id } = useParams();
+  const { user } = useAuth();
+  const [isMerchant, setIsMerchant] = useState(false);
+  const [selectedItem, setSelectedItem] = useState({});
+  const [merchant, setMerchant] = useState({});
+  const [reviewsLength, setReviewsLength] = useState(0);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/getListingByGroceryId", {
+        params: { groceryId: _id },
+      })
+      .then((res) => {
+        if (res.data.user._id === user.id) {
+          // console.log("is merchant");
+          setIsMerchant(true);
+        } else {
+          // console.log("not merchant");
+        }
+        setReviewsLength(res.data.reviews.length);
+        setSelectedItem(res.data);
+        axios
+          .get("http://localhost:3000/getUserWithId", {
+            params: { userId: res.data.user._id },
+          })
+          .then((res) => {
+            // console.log(res.data.user);
+            setMerchant(res.data.user);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <div>
@@ -40,7 +80,11 @@ export default function ItemDescription() {
             ...(isSmallScreen && { padding: "3%" }),
           }}
         >
-          <ItemShop />
+          <ItemShop 
+            selectedItem={selectedItem}
+            merchant={merchant}
+            reviewLength={reviewsLength}
+          />
           {!isSmallScreen && (
             <AspectRatio
               sx={{
@@ -63,7 +107,7 @@ export default function ItemDescription() {
                   height: "60%",
                   width: "60%",
                 }}
-                src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg"
+                src={selectedItem.imageURL}
                 alt="Eden Food Background Image."
               />
             </AspectRatio>
@@ -77,50 +121,7 @@ export default function ItemDescription() {
               mt: "1.5rem",
               mb: { xs: 0, md: "1.5rem" },
             }}
-          >
-            <CustomButton
-              sx={{
-                borderRadius: "15px",
-                borderBlockColor: "transparent",
-                backgroundColor: "#64CF94", // Custom background color
-                color: "#FFF", // Custom text color,
-                textTransform: "none",
-                fontFamily: "nunito, sans-serif",
-                fontWeight: "800",
-                fontSize: { xs: ".8rem", md: "1.2rem" },
-                width: { xs: "50px", md: "80px" },
-                padding: "4px 4px",
-                "&:hover": {
-                  backgroundColor: alpha("#64CF94", 0.8),
-                },
-                "&:focus": { outline: "none" },
-                mr: { xs: ".5rem", md: "1.5rem" },
-                ml: { xs: "3rem", md: "1rem" },
-              }}
-            >
-              Edit
-            </CustomButton>
-            <CustomButton
-              sx={{
-                borderRadius: "15px",
-                borderBlockColor: "transparent",
-                backgroundColor: "#64CF94", // Custom background color
-                color: "#FFF", // Custom text color,
-                textTransform: "none",
-                fontFamily: "nunito, sans-serif",
-                fontWeight: "800",
-                fontSize: { xs: ".8rem", md: "1.2rem" },
-                width: { xs: "60px", md: "100px" },
-                padding: "4px 4px",
-                "&:hover": {
-                  backgroundColor: alpha("#64CF94", 0.8),
-                },
-                "&:focus": { outline: "none" },
-              }}
-            >
-              Delete
-            </CustomButton>
-          </Container>
+          ></Container>
         </Grid>
         <Grid xs={12} sm={12} md={5}>
           <Container
@@ -130,8 +131,8 @@ export default function ItemDescription() {
               },
             }}
           >
-            <ItemDescriptionTab />
-            <ProductAvailability />
+            <ItemDescriptionTab {...selectedItem} />
+            <ProductAvailability {...selectedItem} />
 
             {/* Bottom buttons */}
             <Box
@@ -164,30 +165,54 @@ export default function ItemDescription() {
                     },
                   }}
                 >
-                  S$15.00
+                  S${selectedItem.price}
                 </Typography>
                 <div>
-                  <CustomButton
-                    sx={{
-                      borderRadius: "15px",
-                      borderBlockColor: "transparent",
-                      backgroundColor: "#64CF94", // Custom background color
-                      color: "#FFF", // Custom text color,
-                      textTransform: "none",
-                      fontFamily: "nunito, sans-serif",
-                      fontWeight: "900",
-                      fontSize: "1rem",
-                      width: "140px",
-                      padding: "5px 5px",
-                      // boxShadow: "0px",
-                      "&:hover": {
-                        backgroundColor: alpha("#64CF94", 0.8),
-                      },
-                      "&:focus": { outline: "none" },
-                    }}
-                  >
-                    Add To Cart
-                  </CustomButton>
+                  {isMerchant ? (
+                    <CustomButton
+                      sx={{
+                        borderRadius: "15px",
+                        borderBlockColor: "transparent",
+                        backgroundColor: "#64CF94", // Custom background color
+                        color: "#FFF", // Custom text color,
+                        textTransform: "none",
+                        fontFamily: "nunito, sans-serif",
+                        fontWeight: "900",
+                        fontSize: "1rem",
+                        width: "100px",
+                        padding: "5px 5px",
+                        // boxShadow: "0px",
+                        "&:hover": {
+                          backgroundColor: alpha("#64CF94", 0.8),
+                        },
+                        "&:focus": { outline: "none" },
+                      }}
+                    >
+                      Delete
+                    </CustomButton>
+                  ) : (
+                    <CustomButton
+                      sx={{
+                        borderRadius: "15px",
+                        borderBlockColor: "transparent",
+                        backgroundColor: "#64CF94", // Custom background color
+                        color: "#FFF", // Custom text color,
+                        textTransform: "none",
+                        fontFamily: "nunito, sans-serif",
+                        fontWeight: "900",
+                        fontSize: "1rem",
+                        width: "140px",
+                        padding: "5px 5px",
+                        // boxShadow: "0px",
+                        "&:hover": {
+                          backgroundColor: alpha("#64CF94", 0.8),
+                        },
+                        "&:focus": { outline: "none" },
+                      }}
+                    >
+                      Add To Cart
+                    </CustomButton>
+                  )}
                   <Button
                     sx={{
                       color: "#000000",

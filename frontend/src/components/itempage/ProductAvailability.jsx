@@ -53,10 +53,11 @@ const CardContent = styled(MuiCardContent)({
   },
 });
 
-export default function ProductAvailability() {
+export default function ProductAvailability({ quantity }) {
   const [alignment, setAlignment] = React.useState("1");
 
   const handleChange = (event, newAlignment) => {
+    console.log(newAlignment)
     setAlignment(newAlignment);
   };
 
@@ -80,7 +81,6 @@ export default function ProductAvailability() {
         }}
       >
         <Card variant="outlined" sx={{ minWidth: 27, borderRadius: "10px", borderWidth: "2px" }}>
-          {/* Custom image based on merchant uploads */}
           <CardContent sx={{ p: 1, pl: 3 }}>
             <Typography
               variant="h6"
@@ -110,9 +110,10 @@ export default function ProductAvailability() {
               exclusive
               onChange={handleChange}
             >
-              {items.map((item) => (
+              {items.map((item, index) => (
+                  
                   <ToggleButton
-                    value={item.index}
+                    value={index + 1}
                     sx={{
                       color: item.quantity == 0 ? "rgba(0, 0, 0, 0.54)" : "#000000",
                       p: "5px",
@@ -146,7 +147,7 @@ export default function ProductAvailability() {
                         }}
                       >
                         {item.quantity > 0
-                          ? `${item.quantity} left`
+                          ? `${quantity} left`
                           : "Unavailable"}
                       </Typography>
                     </div>

@@ -22,6 +22,8 @@ import CustomButton from "../common/CustomButton";
 import { useAuth } from "../../hooks/AuthProvider";
 import axios from "axios";
 import averageRating from "../../utils/averageRating";
+import { useNavigate } from "react-router-dom";
+
 
 function SimpleDialog(props) {
   const { user } = useAuth();
@@ -113,12 +115,18 @@ export default function ItemCard(props) {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [open, setOpen] = useState(false);
   const [rating, setRating] = useState(null);
+  const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = (value) => {
     setOpen(false);
+  };
+
+  const handleViewItem = (id) => {
+    console.log(id);
+    navigate("/item/" + id); 
   };
 
   useEffect(() => {
@@ -199,11 +207,29 @@ export default function ItemCard(props) {
         </CardContent>
         <IconButton
           size="small"
+          onClick={() => handleViewItem(props._id)}
+          sx={{
+            position: "absolute",
+            bottom: isMobile ? 35 : 3.5,
+            right: isMobile ? -8 : 40,
+            width: isMobile ? 60 : 75,
+            height: isMobile ? 43 : 54,
+            "&:focus": { outline: "none" },
+          }}
+        >
+          <img
+            src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1711698641/search_icon_emhzzk.png"
+            alt="View details"
+            style={{ width: "100%", height: "100%" }}
+          />
+        </IconButton>
+        <IconButton
+          size="small"
           onClick={handleClickOpen}
           sx={{
             position: "absolute",
-            bottom: isMobile ? 8 : 5,
-            right: isMobile ? 8 : 5,
+            bottom: isMobile ? 2 : 5,
+            right: isMobile ? 2 : 5,
             mt: -4.5,
             width: isMobile ? 40 : 50,
             height: isMobile ? 40 : 50,

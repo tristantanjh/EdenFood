@@ -29,49 +29,6 @@ const Accordion = styled(MuiAccordion)({
   },
 });
 
-// const orders = [
-//   {
-//     orderID: "1024",
-//     orderDate: "07/03/2024",
-//     orderStatus: "To Collect",
-//     orderPrice: "5.95",
-//     merchantName: "King Koi",
-//     merchantImageURL:
-//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708501388/istockphoto-691338444-612x612-removebg-preview_ffo3vb.png",
-//     items: [
-//       {
-//         itemName: "Norwegian Salmon (100g)",
-//         itemImageURL:
-//           "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-//         itemQuantity: "2",
-//       },
-//       {
-//         itemName: "Wakanda Meat (100g)",
-//         itemImageURL:
-//           "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708348046/samples/man-portrait.jpg",
-//         itemQuantity: "10",
-//       },
-//     ],
-//   },
-//   {
-//     orderID: "1025",
-//     orderDate: "10/03/2024",
-//     orderStatus: "Collected",
-//     orderPrice: "10.00",
-//     merchantName: "Queen Koi",
-//     merchantImageURL:
-//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708501388/istockphoto-691338444-612x612-removebg-preview_ffo3vb.png",
-//     items: [
-//       {
-//         itemName: "Norwegian Salmon (100g)",
-//         itemImageURL:
-//           "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-//         itemQuantity: "1",
-//       },
-//     ],
-//   },
-// ];
-
 export default function OrderHistory() {
   const theme = useTheme();
   const [expanded, setExpanded] = React.useState("panel0");

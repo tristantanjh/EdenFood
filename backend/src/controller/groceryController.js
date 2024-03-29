@@ -41,9 +41,9 @@ const createListing = async (req, res) => {
 
 const getListingByGroceryId = async (req, res) => {
   try {
-    const { groceryId } = req.query;
+    const groceryId = req.query.groceryId;
     
-    const grocery = await Grocery.findById(groceryId);
+    const grocery = await Grocery.findById(groceryId).populate("user").populate("reviews");
 
     if (!grocery) {
       return res.status(404).json({ message: "Grocery not found" });

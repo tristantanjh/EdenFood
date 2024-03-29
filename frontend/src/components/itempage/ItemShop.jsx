@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -11,11 +11,24 @@ import {
 import SetMealIcon from "@mui/icons-material/SetMeal";
 import CustomButton from "../common/CustomButton";
 import { alpha } from "@mui/material";
+import averageRating from "../../utils/averageRating";
 
-const ItemShop = () => {
+const ItemShop = (props) => {
   const [value, setValue] = useState(5);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down(414));
+  const [rating, setRating] = useState(1);
+
+  useEffect(() => {
+    const fetchRating = async () => {
+      // console.log(props.itemId);
+      const avgRating = await averageRating(props.selectedItem._id);
+      // console.log(avgRating);
+      setRating(avgRating);
+    };
+  
+    fetchRating();
+  }, [rating]);
 
   return (
     <Box
@@ -38,16 +51,16 @@ const ItemShop = () => {
               fontWeight: "bold",
             }}
           >
-            Milk Fish (100g)
+            {props.selectedItem.name} (100g)
           </Typography>
           <Typography
             sx={{ fontStyle: "italic", fontSize: "1.2rem" }}
             gutterBottom
           >
-            from King Koi
+            from {props.merchant.username}
           </Typography>
           <Typography variant="body2" sx={{ fontStyle: "italic" }} gutterBottom>
-            Freshness: 3 Days Left
+            Freshness: {props.selectedItem.freshness} Days Left
           </Typography>
           <Box
             sx={{
@@ -56,17 +69,17 @@ const ItemShop = () => {
               mb: 2,
             }}
           >
-            <Rating name="read-only" value={value} readOnly />
+            <Rating name="read-only" value={rating} readOnly />
             <Typography variant="body2" component="span" sx={{ ml: 1 }}>
-              {value.toFixed(1)} | 400 Reviews
+              {rating.toFixed(1)} | {props.reviewLength} Reviews
             </Typography>
           </Box>
         </Grid>
         <Grid item>
           <Box
             sx={{
-              mt: isSmallScreen ? 0 : 12.5,
-              mb: 2,
+              mt: isSmallScreen ? 0 : 14,
+              // mb: 1,
               bgcolor: "grey.300",
               borderRadius: "50%",
               width: "80px",
@@ -80,7 +93,7 @@ const ItemShop = () => {
           >
             <SetMealIcon sx={{ width: "50px", height: "50px" }} />
           </Box>
-          <Link href="www.google.com"> View Location </Link>
+          {/* <Link href="www.google.com"> View Location </Link> */}
         </Grid>
       </Grid>
     </Box>
