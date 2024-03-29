@@ -17,7 +17,6 @@ export default function CartItem(props) {
   const currentDate = new Date();
   const calculateTimeLeft = () => {
     const difference = expiryDate - currentDate;
-    console.log(difference);
 
     if (difference > 0) {
       const days = Math.floor(difference / (1000 * 60 * 60 * 24));

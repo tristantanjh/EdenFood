@@ -13,7 +13,6 @@ export const CheckoutProvider = ({ children }) => {
   const handleLocationChangeLocalStorage = async (location) => {
     setSelectedLocationLocalStorage(location); // Update selected location in localStorage
     console.log("Location changed to: ", location)
-    navigation("/checkout/confirmation");
   };
 
   const value = useMemo(

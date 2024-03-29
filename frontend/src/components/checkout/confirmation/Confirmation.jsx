@@ -11,7 +11,7 @@ import axios from "axios";
 
 export default function Confirmation() {
   const { selectedLocationLocalStorage } = useCheckout();
-  const { user } = useAuth();
+  const { user, sessionId } = useAuth();
   const isMobile = useMediaQuery("(max-width:600px)");
   const [cart, setCart] = useState([]);
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ export default function Confirmation() {
   };
 
   const handleGoBack = () => {
-    navigate("/checkout/pickup"); // Navigate back to the previous page
+    navigate("/checkout/" + sessionId + "/pickup"); // Navigate back to the previous page
   };
 
   const setCartFromBackend = async () => {

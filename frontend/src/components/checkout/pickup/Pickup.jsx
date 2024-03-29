@@ -20,6 +20,8 @@ import {
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../hooks/AuthProvider";
 
 const regions = ["North", "Northeast", "East", "West", "Central"];
 const pickupLocations = [
@@ -73,6 +75,8 @@ export default function Shipping() {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const { selectedLocationLocalStorage, handleLocationChangeLocalStorage } =
     useCheckout();
+  const navigation = useNavigate();
+  const { sessionId } = useAuth();
 
   useEffect(() => {
     if (selectedLocationLocalStorage) {
@@ -118,6 +122,7 @@ export default function Shipping() {
     }
 
     handleLocationChangeLocalStorage(selectedLocation);
+    navigation("/checkout/" + sessionId + "/confirmation");
   };
 
   return (

@@ -30,6 +30,11 @@ function AppBarSecondary() {
   const [open, setOpen] = React.useState(false);
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const { sessionId } = useAuth();
+
+  const navigateCheckout = () => {
+    navigate("/checkout/" + sessionId);
+  }
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -71,7 +76,7 @@ function AppBarSecondary() {
           boxShadow: 0,
           bgcolor: "#FAFFF4",
           backgroundImage: "none",
-          pb: 2.5,
+          pb: 5,
         }}
       >
         <Container maxWidth="lg">
@@ -216,6 +221,34 @@ function AppBarSecondary() {
                   </MenuItem>
               </Box>
             </Box>
+            <Button
+              color="primary"
+              variant="text"
+              size="small"
+              component="a"
+              onClick={navigateCheckout}
+              sx={{
+                display: { xs: "none", md: "flex" },
+                width: "100%",
+                fontFamily: "nunito, sans-serif",
+                backgroundColor: "#64CF94",
+                color: "#FFF",
+                fontFamily: "nunito, sans-serif",
+                fontWeight: "700",
+                fontSize: "1rem",
+                width: "125px",
+                padding: "3px",
+                borderRadius: "15px",
+                minWidth: "70px",
+                "&:hover": {
+                  backgroundColor: alpha("#64CF94", 0.6),
+                  color: "#FFF",
+                },
+                mt: { xs: 2, md: 3 },
+              }}
+            >
+              Checkout
+            </Button>
             <Button
               color="primary"
               variant="text"

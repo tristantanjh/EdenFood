@@ -28,7 +28,7 @@ const addToCart = async (req, res) => {
       cart = new Cart({ user: userId, items: [] });
     }
 
-    const grocery = await Grocery.findById(groceryId);
+    const grocery = await Grocery.findOne({ _id: groceryId });
     if (!grocery) {
       return res.status(404).json({ message: "Grocery not found" });
     }

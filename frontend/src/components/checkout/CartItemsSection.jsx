@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+} from "@mui/material";
 import CartItem from "./CartItem";
 import axios from "axios";
 import { useAuth } from "../../hooks/AuthProvider";
 import { getCart } from "../../utils/getCart";
+import { useNavigate } from "react-router-dom";
 
 const currentDate = new Date();
 const oneDayAhead = new Date(currentDate.setDate(currentDate.getDate() + 1));
@@ -63,7 +71,7 @@ const exampleGroceries = [
 
 const exampleCartData = {
   user: "610f72f4b214f2d2e8e25a1f", // User ID
-  totalPrice: 12.44,
+  totalPrice: 19.91,
   items: [
     {
       grocery: "610f72f4b214f2d2e8e25a2a", // Apple
@@ -84,9 +92,13 @@ const exampleCartData = {
   ],
 };
 
+const emptyList = [];
+
 export default function CartItemsSection() {
   const { user } = useAuth();
   const [cart, setCart] = useState([]);
+  const navigate = useNavigate();
+  const [openModal, setOpenModal] = useState(false);
 
   const cartItems = exampleCartData.items.map((cartItem) => {
     const grocery = exampleGroceries.find(
@@ -102,24 +114,30 @@ export default function CartItemsSection() {
     };
   });
 
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    navigate("/explore"); // Navigate to the home page
+  };
+
   useEffect(() => {
     const cart = async () => {
       setCart(await getCart(user.id));
     };
 
     cart();
-  }, []);
 
-  // const totalPrice = cartItems.reduce(
-  //   (acc, item) => acc + item.quantity * item.price,
-  //   0
-  // );
+    if (cart.length === 0) {
+      handleOpenModal();
+    }
+  });
 
   return (
     <div>
-      <div
-        style={{ maxHeight: "580px", overflowY: "auto" }}
-      >
+      <div style={{ maxHeight: "580px", overflowY: "auto" }}>
         {cartItems.map((item, index) => (
           <CartItem
             key={index}
@@ -144,7 +162,7 @@ export default function CartItemsSection() {
           display: "flex",
           justifyContent: "space-between", // Align items horizontally
           alignItems: "center", // Align items vertically
-          paddingBottom: {xs: "2rem", sm: "2rem"}, 
+          paddingBottom: { xs: "2rem", sm: "2rem" },
         }}
       >
         <span
@@ -173,6 +191,55 @@ export default function CartItemsSection() {
           ${exampleCartData.totalPrice.toFixed(2)}
         </span>
       </Typography>
+      <Modal
+        open={openModal}
+        onClose={handleCloseModal}
+        message="Support your favorite local farmers by adding some produce to your cart!"
+      />
     </div>
   );
 }
+
+const Modal = ({ open, onClose, message }) => {
+  return (
+    <Dialog open={open} onClose={onClose} disableEscapeKeyDown>
+      <DialogTitle
+        sx={{
+          fontFamily: "open sans, sans-serif",
+          fontWeight: 700,
+          fontSize: "24px",
+          color: "#181B13",
+        }}
+      >
+        Your Cart is Empty
+      </DialogTitle>
+      <DialogContent
+        sx={{
+          fontFamily: "nunito, sans-serif",
+          fontSize: "18px",
+          color: "#181B13",
+        }}
+      >
+        {message}
+      </DialogContent>
+      <DialogActions>
+        <Button
+          onClick={onClose}
+          sx={{
+            fontFamily: "open sans, sans-serif",
+            backgroundColor: "#076365",
+            color: "#FAFFF4",
+            borderRadius: "5px",
+            "&:hover": { backgroundColor: "#076365" },
+            width: "100%",
+            marginLeft: "10px",
+            marginRight: "10px",
+            marginBottom: "10px",
+          }}
+        >
+          Let's Go!
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
