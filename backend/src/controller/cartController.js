@@ -4,9 +4,6 @@ import { Grocery } from "../model/groceryModel.js";
 // modify to accept itemId and quantity
 const addToCart = async (req, res) => {
   const { userId, groceryId, quantity } = req.body;
-  console.log(userId);
-  console.log(groceryId);
-  console.log(quantity);
 
   try {
     // Find the user's cart
@@ -79,6 +76,7 @@ const getCart = async (req, res) => {
 const removeFromCart = async (req, res) => {
   try {
     const { userId, groceryId } = req.query;
+
     let cart = await Cart.findOne({ user: userId });
 
     if (!cart) {
@@ -86,10 +84,9 @@ const removeFromCart = async (req, res) => {
     }
 
     const item = cart.items.find((item) => item.grocery.equals(groceryId));
-
+    let grocery = await Grocery.findById(item.grocery);
+    cart.totalPrice -= grocery.price * item.quantity;
     cart.items = cart.items.filter((item) => !item.grocery.equals(groceryId));
-
-    cart.totalPrice -= item.price * item.quantity;
 
     const updatedCart = await cart.save();
 
@@ -108,7 +105,7 @@ const decrementGroceryQuantity = async (req, res) => {
     const { cartId, groceryId } = req.body;
 
     let cart = await Cart.findById(cartId);
-
+    const grocery = await Grocery.findById(groceryId);
     if (!cart) {
       return res.status(404).json({ message: "Cart not found" });
     }
@@ -122,7 +119,7 @@ const decrementGroceryQuantity = async (req, res) => {
     if (!grocery) {
       return res.status(404).json({ message: "Grocery not found" });
     }
-    const grocery = await Grocery.findById(groceryId);
+    
 
     // Decrement the quantity of the item by 1
     if (item.quantity > 1) {
@@ -150,6 +147,7 @@ const incrementGroceryQuantity = async (req, res) => {
     const { cartId, groceryId } = req.body;
 
     let cart = await Cart.findById(cartId);
+    
 
     if (!cart) {
       return res.status(404).json({ message: "Cart not found" });

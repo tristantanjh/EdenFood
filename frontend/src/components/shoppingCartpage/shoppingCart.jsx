@@ -14,28 +14,28 @@ import { useEffect } from "react";
 import { alpha } from "@mui/material";
 import Stack from "@mui/material/Stack";
 
-const items = [
-  {
-    itemPrice: "$5.95",
-    itemName: "Norwegian Salmon (100g)",
-    itemImageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-    itemPlacementDate: "14 February",
-    itemFreshness: "3",
-  },
-  {
-    itemPrice: "$5.95",
-    itemName: "Wakanda Meat (100g)",
-    itemImageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708348046/samples/man-portrait.jpg",
-    itemPlacementDate: "14 February",
-    itemFreshness: "3",
-  },
-];
+// const items = [
+//   {
+//     itemPrice: "$5.95",
+//     itemName: "Norwegian Salmon (100g)",
+//     itemImageURL:
+//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
+//     itemPlacementDate: "14 February",
+//     itemFreshness: "3",
+//   },
+//   {
+//     itemPrice: "$5.95",
+//     itemName: "Wakanda Meat (100g)",
+//     itemImageURL:
+//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708348046/samples/man-portrait.jpg",
+//     itemPlacementDate: "14 February",
+//     itemFreshness: "3",
+//   },
+// ];
 
 export default function ShoppingCart() {
   const { user } = useAuth();
-  const [groceries, setGroceries] = React.useState([]);
+  const [items, setGroceries] = React.useState([]);
   // pass in params as item price and quantity
   const [totalPrice, setTotalPrice] = React.useState(0);
 
@@ -46,9 +46,9 @@ export default function ShoppingCart() {
       })
       .then((res) => {
         console.log(res.data.items);
-        const groceriesData = res.data?.items || [];
-        const totalPrice = res.data?.totalPrice || 0;
-        setGroceries(groceriesData);
+        const itemsData = res.data?.items || [];
+        const totalPrice = parseFloat((res.data?.totalPrice || 0).toFixed(1));
+        setGroceries(itemsData);
         setTotalPrice(totalPrice);
       })
       .catch((err) => {
@@ -79,7 +79,7 @@ export default function ShoppingCart() {
             backgroundColor: "#FAFFF4",
           }}
         >
-          {groceries.length > 0 ? (
+          {items.length > 0 ? (
             <>
               <Typography
                 variant="h2"
@@ -95,15 +95,16 @@ export default function ShoppingCart() {
               >
                 Your Shopping Cart
               </Typography>
-              {groceries.map((grocery, index) => (
+              {items.map((item, index) => (
                 <CartItem
                   key={index}
-                  price={grocery.grocery.price}
-                  imageURL={grocery.grocery.imageURL}
-                  title={grocery.grocery.name}
-                  freshness={grocery.grocery.freshness}
+                  groceryId={item.grocery.id}
+                  price={item.grocery.price}
+                  imageURL={item.grocery.imageURL}
+                  title={item.grocery.name}
+                  freshness={item.grocery.freshness}
+                  currentQuantity={item.quantity}
                   setTotalPrice={setTotalPrice}
-                  // placementDate={item.itemPlacementDate} DELETE
                 />
               ))}
 
@@ -128,15 +129,15 @@ export default function ShoppingCart() {
                     marginRight: 2,
                   }}
                 >
-                  Total Price: {totalPrice}
+                  Total Price: ${totalPrice}
                 </Typography>
                 <CustomButton
                   // onClick={checkOut(itemChanges)}
                   sx={{
                     borderRadius: "999px",
                     borderBlockColor: "transparent",
-                    backgroundColor: "#64CF94",
-                    color: "#FFF",
+                    backgroundColor: "#076365",
+                    color: "#FAFFF4",
                     fontFamily: "nunito, sans-serif",
                     fontWeight: "700",
                     fontSize: { xs: "0.74rem", sm: "1.10rem" },
@@ -145,7 +146,7 @@ export default function ShoppingCart() {
                     padding: { xs: "5px 11px", sm: "8px 15px" },
                     boxShadow: "0px",
                     "&:hover": {
-                      backgroundColor: alpha("#64CF94", 0.8),
+                      backgroundColor: alpha("#076365", 0.8),
                     },
                     "&:focus": { outline: "none" },
                   }}

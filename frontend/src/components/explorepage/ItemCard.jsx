@@ -36,7 +36,7 @@ function SimpleDialog(props) {
     try {
       const response = await axios.post("http://localhost:3000/addToCart", {
         userId: user.id,
-        groceryId: "6602cad65bc973dc6f8d9013",
+        groceryId: props.groceryId,
         quantity: quantity,
       });
       // add SnackBar for if response.ok
@@ -126,7 +126,7 @@ export default function ItemCard(props) {
       const avgRating = await averageRating(props._id);
       setRating(avgRating);
     };
-  
+
     fetchRating();
   }, [rating]);
 
