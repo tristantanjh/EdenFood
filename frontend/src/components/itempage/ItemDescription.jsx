@@ -33,6 +33,7 @@ export default function ItemDescription() {
   const [merchant, setMerchant] = useState({});
   const [reviewsLength, setReviewsLength] = useState(0);
   const [imageURL, setImageURL] = useState([]);
+  const [freshness, setFreshness] = useState("");
 
   useEffect(() => {
     axios
@@ -48,6 +49,7 @@ export default function ItemDescription() {
         }
         setImageURL(res.data.imageURL);
         setReviewsLength(res.data.reviews.length);
+        setFreshness(res.data.freshness);
         setSelectedItem(res.data);
         axios
           .get("http://localhost:3000/getUserWithId", {
@@ -90,6 +92,7 @@ export default function ItemDescription() {
             selectedItem={selectedItem}
             merchant={merchant}
             reviewLength={reviewsLength}
+            freshness={freshness}
           />
           <Swiper
             // install Swiper modules

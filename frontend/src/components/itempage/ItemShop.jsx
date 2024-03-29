@@ -60,7 +60,7 @@ const ItemShop = (props) => {
             from {props.merchant.username}
           </Typography>
           <Typography variant="body2" sx={{ fontStyle: "italic" }} gutterBottom>
-            Freshness: {props.selectedItem.freshness} Days Left
+            Expires: {props.freshness.substring(0, 10).replace(/-/g, "/")} 
           </Typography>
           <Box
             sx={{

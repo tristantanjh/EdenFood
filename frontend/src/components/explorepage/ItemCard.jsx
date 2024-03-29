@@ -182,7 +182,7 @@ export default function ItemCard(props) {
           color="text.secondary"
           fontFamily="open sans, sans-serif"
         >
-          {props.freshness} day freshness
+          Expires {props.freshness.substring(0, 10).replace(/-/g, "/")} 
         </Typography>
         {/* Custom price based on merchant uploads */}
         <Typography
