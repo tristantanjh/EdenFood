@@ -21,11 +21,7 @@ import {
   getOrdersWithUserId,
 } from "../controller/orderController.js";
 
-import {
-  getSales,
-  createSale,
-} from "../controller/saleController.js";
-
+import { getSales, createSale } from "../controller/saleController.js";
 
 import {
   authenticateUser,
@@ -34,6 +30,8 @@ import {
   getEmail,
   getUserWithId,
   getProfilePic,
+  editProfile,
+  editPassword,
 } from "../controller/userController.js";
 
 import {
@@ -84,7 +82,7 @@ APIrouter.get("/user/profile-pic", getProfilePic);
 
 APIrouter.get("/wishlist", getWishList);
 
-APIrouter.delete("/removeFromCart",removeFromCart);
+APIrouter.delete("/removeFromCart", removeFromCart);
 
 APIrouter.post("/incrementGroceryQuantity", incrementGroceryQuantity);
 
@@ -95,6 +93,10 @@ APIrouter.get("/getListingsByCategory", getListingsByCategory);
 APIrouter.get("/getAllOtherGroceries", getAllGroceries);
 
 APIrouter.get("/getUserWithId/", getUserWithId);
+
+APIrouter.patch("/editProfile/:userId", editProfile);
+
+APIrouter.patch("/editPassword/:userId", editPassword);
 
 APIrouter.get("/getSales/", getSales);
 
