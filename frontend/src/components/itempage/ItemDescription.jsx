@@ -3,7 +3,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import ItemDescriptionTab from "../itempage/ItemDescriptionTab.jsx";
 import ProductAvailability from "../itempage/ProductAvailability.jsx";
 import ItemShop from "./ItemShop.jsx";
-import { useTheme, useMediaQuery } from "@mui/material";
+import { useTheme, useMediaQuery, CardMedia } from "@mui/material";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -18,6 +18,10 @@ import CloudinaryUploadWidget from "../CloudinaryUploadWidget.jsx";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../../hooks/AuthProvider";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 export default function ItemDescription() {
   const theme = useTheme();
@@ -28,6 +32,7 @@ export default function ItemDescription() {
   const [selectedItem, setSelectedItem] = useState({});
   const [merchant, setMerchant] = useState({});
   const [reviewsLength, setReviewsLength] = useState(0);
+  const [imageURL, setImageURL] = useState([]);
 
   useEffect(() => {
     axios
@@ -41,6 +46,7 @@ export default function ItemDescription() {
         } else {
           // console.log("not merchant");
         }
+        setImageURL(res.data.imageURL);
         setReviewsLength(res.data.reviews.length);
         setSelectedItem(res.data);
         axios
@@ -80,12 +86,50 @@ export default function ItemDescription() {
             ...(isSmallScreen && { padding: "3%" }),
           }}
         >
-          <ItemShop 
+          <ItemShop
             selectedItem={selectedItem}
             merchant={merchant}
             reviewLength={reviewsLength}
           />
-          {!isSmallScreen && (
+          <Swiper
+            // install Swiper modules
+            modules={[Navigation, Pagination, Scrollbar, A11y]}
+            navigation
+            pagination={{ clickable: true }}
+          >
+            {imageURL.map((image, index) => {
+              return (
+                <SwiperSlide key={index}>
+                  <AspectRatio
+                    sx={{
+                      position: "relative",
+                      top: { xs: "10rem", md: "16rem" },
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                      width: { xs: 200, md: 375 },
+                    }}
+                    ratio="3/4"
+                  >
+                    <Box
+                      id="image"
+                      component="img"
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        height: "60%",
+                        width: "60%",
+                      }}
+                      src={image}
+                      alt="Eden Food Background Image."
+                    />
+                  </AspectRatio>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+          {/* {!isSmallScreen && (
             <AspectRatio
               sx={{
                 position: "relative",
@@ -111,7 +155,7 @@ export default function ItemDescription() {
                 alt="Eden Food Background Image."
               />
             </AspectRatio>
-          )}
+          )} */}
           <Container
             sx={{
               display: "flex",

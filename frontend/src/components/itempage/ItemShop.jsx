@@ -26,7 +26,7 @@ const ItemShop = (props) => {
       // console.log(avgRating);
       setRating(avgRating);
     };
-  
+
     fetchRating();
   }, [rating]);
 
@@ -75,26 +75,30 @@ const ItemShop = (props) => {
             </Typography>
           </Box>
         </Grid>
-        <Grid item>
-          <Box
-            sx={{
-              mt: isSmallScreen ? 0 : 14,
-              // mb: 1,
-              bgcolor: "grey.300",
-              borderRadius: "50%",
-              width: "80px",
-              height: "80px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              border: 1,
-              borderColor: "grey.500",
-            }}
-          >
-            <SetMealIcon sx={{ width: "50px", height: "50px" }} />
-          </Box>
-          {/* <Link href="www.google.com"> View Location </Link> */}
-        </Grid>
+        {isSmallScreen ? (
+          ""
+        ) : (
+          <Grid item>
+            <Box
+              sx={{
+                mt: isSmallScreen ? 0 : 14,
+                // mb: 1,
+                bgcolor: "grey.300",
+                borderRadius: "50%",
+                width: "80px",
+                height: "80px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                border: 1,
+                borderColor: "grey.500",
+              }}
+            >
+              <SetMealIcon sx={{ width: "50px", height: "50px" }} />
+            </Box>
+            {/* <Link href="www.google.com"> View Location </Link> */}
+          </Grid>
+        )}
       </Grid>
     </Box>
   );

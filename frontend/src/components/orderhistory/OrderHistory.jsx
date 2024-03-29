@@ -51,20 +51,6 @@ export default function OrderHistory() {
       });
   }, []);
 
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       "http://localhost:3000/getOrdersWithUserId",
-  //       { params: { userId: user.id } }
-  //     );
-  //     console.log(response.data.orders);
-  //     orders = response.data.orders;
-  //   } catch (error) {
-  //     // Handle error
-  //     console.error(error);
-  //   }
-  // };
-
   const handleChange = (panel) => (event, newExpanded) => {
     console.log(panel);
     console.log(newExpanded);
