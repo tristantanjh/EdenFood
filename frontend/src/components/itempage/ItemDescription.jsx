@@ -129,33 +129,6 @@ export default function ItemDescription() {
               );
             })}
           </Swiper>
-          {/* {!isSmallScreen && (
-            <AspectRatio
-              sx={{
-                position: "relative",
-                top: "30%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                width: 375,
-              }}
-              ratio="3/4"
-            >
-              <Box
-                id="image"
-                component="img"
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: "60%",
-                  width: "60%",
-                }}
-                src={selectedItem.imageURL}
-                alt="Eden Food Background Image."
-              />
-            </AspectRatio>
-          )} */}
           <Container
             sx={{
               display: "flex",
@@ -257,7 +230,10 @@ export default function ItemDescription() {
                       Add To Cart
                     </CustomButton>
                   )}
-                  <Button
+                  {isMerchant ? (
+                    ""
+                  ) : (
+                    <Button
                     sx={{
                       color: "#000000",
                       "&.MuiButton-root": {
@@ -268,6 +244,7 @@ export default function ItemDescription() {
                   >
                     <FavoriteBorderIcon />
                   </Button>
+                  )}
                 </div>
               </Container>
             </Box>

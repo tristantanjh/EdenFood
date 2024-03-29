@@ -13,6 +13,7 @@ import Ratings from "./Ratings.jsx";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import averageRating from "../../utils/averageRating";
+import { useNavigate } from "react-router-dom";
 
 const bull = (
   <Box
@@ -27,6 +28,8 @@ export default function ItemCard(props) {
   const theme = useTheme();
   const [rating, setRating] = useState(null);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchRating = async () => {
@@ -37,11 +40,16 @@ export default function ItemCard(props) {
     fetchRating();
   }, [rating]);
 
+  const handleViewItem = (id) => {
+    console.log(id);
+    navigate("/item/" + id); 
+  };
+
   return (
     <Card
       sx={{
         position: "relative",
-        maxWidth: isMobile ? 150 : 275,
+        maxWidth: isMobile ? 175 : 275,
         borderRadius: "8px",
         mb: "1rem",
       }}
@@ -50,7 +58,7 @@ export default function ItemCard(props) {
       <CardMedia
         sx={{
           height: isMobile ? 125 : 225,
-          width: isMobile ? 150 : 275,
+          width: isMobile ? 175 : 275,
         }}
         image={props.imageURL[0]}
         // image="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg"
@@ -101,6 +109,24 @@ export default function ItemCard(props) {
           {/* Need change default value accordingly */}
           <Ratings value={rating} size="small" isMobile={isMobile} />
         </CardContent>
+        <IconButton
+          size="small"
+          onClick={() => handleViewItem(props.id)}
+          sx={{
+            position: "absolute",
+            bottom: isMobile ? 5 : 5,
+            right: isMobile ? 2 : 0,
+            width: isMobile ? 60 : 75,
+            height: isMobile ? 43 : 54,
+            "&:focus": { outline: "none" },
+          }}
+        >
+          <img
+            src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1711698641/search_icon_emhzzk.png"
+            alt="View details"
+            style={{ width: "100%", height: "100%" }}
+          />
+        </IconButton>
       </Stack>
     </Card>
   );
