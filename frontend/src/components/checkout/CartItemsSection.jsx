@@ -13,7 +13,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
-import ItemCard from "./ItemCard";
+import CartItem from "./CartItem";
 
 const exampleGroceries = [
   {
@@ -76,24 +76,29 @@ export default function CartItemsSection() {
     );
     return {
       ...cartItem,
+      id: grocery?.id,
       name: grocery?.name,
       imageURL: grocery?.imageURL,
       price: grocery?.price,
+      freshness: grocery?.freshness,
     };
   });
 
   const totalPrice = cartItems.reduce(
-    (acc, item) => acc + item.quantity * item.price, 0);
+    (acc, item) => acc + item.quantity * item.price,
+    0
+  );
 
   return (
     <div style={{ padding: "0 0 2rem 0", maxHeight: "600px" }}>
-
-      {cartItems.map((item) => (
-        <ItemCard
-          key={item.grocery}
-          title={item.name}
-          imageURL={item.imageURL}
+      {cartItems.map((item, index) => (
+        <CartItem
+          key={index}
+          groceryId={item.id}
           price={item.price}
+          imageURL={item.imageURL}
+          title={item.name}
+          freshness={item.freshness}
           quantity={item.quantity}
         />
       ))}

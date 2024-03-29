@@ -14,7 +14,7 @@ import { useAuth } from "../../hooks/AuthProvider";
 import axios from "axios";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
-import QuantitySelector from "./QuantitySelector";
+// import QuantitySelector from "./QuantitySelector";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 
 export default function CartItem(props) {
@@ -113,7 +113,7 @@ export default function CartItem(props) {
                   position: "absolute",
                   top: "10%",
                   left: "35%",
-                  fontSize: isMobile ? 21 : 32,
+                  fontSize: isMobile ? 21 : 36,
                   fontWeight: 550,
                   maxWidth: isMobile ? "200px" : "500px",
                   display: "inline-block",
@@ -131,7 +131,7 @@ export default function CartItem(props) {
                   top: "42%",
                   left: "35%",
                   mb: 0.5,
-                  fontSize: isMobile ? 12 : 18,
+                  fontSize: isMobile ? 12 : 21,
                 }}
                 color="text.secondary"
                 fontFamily="open sans, sans-serif"
@@ -140,29 +140,45 @@ export default function CartItem(props) {
               </Typography>
 
               {/* Custom price based on merchant uploads */}
+
+              <Typography
+                color="text.secondary"
+                fontFamily="nunito, sans-serif"
+                fontWeight={800}
+                sx={{
+                  position: "absolute",
+                  top: "74%",
+                  left: "35%",
+                  fontSize: isMobile ? 14 : 21,
+                }}
+              >
+                Quantity: {props.quantity}
+              </Typography>
               <Stack
                 direction="row"
-                spacing={2}
-                justifyContent="space-between"
-                alignItems="flex-start"
-                sx={{ position: "absolute", top: "70%", left: "35%" }}
+                alignItems="flex-end"
+                spacing={1}
+                sx={{ position: "absolute", top: "72%", left: "63%" }}
               >
                 <Typography
                   fontWeight={800}
                   fontFamily="nunito, sans-serif"
                   sx={{
-                    fontSize: isMobile ? 16 : 24,
+                    fontSize: isMobile ? 16 : 28,
                   }}
                 >
                   ${props.price}
                 </Typography>
-                <QuantitySelector
-                  minValue={1}
-                  currentValue={props.currentQuantity}
-                  maxValue={20}
-                  itemPrice={props.price}
-                  setTotalPrice={props.setTotalPrice}
-                />
+                <Typography
+                  fontWeight={500}
+                  fontFamily="nunito, sans-serif"
+                  sx={{
+                    fontSize: isMobile ? 16 : 28,
+                  }}
+                >
+                  {" "}
+                  / per unit
+                </Typography>
               </Stack>
             </CardContent>
           </Grid>
@@ -170,28 +186,7 @@ export default function CartItem(props) {
             item
             xs={2}
             sx={{ pf: "20px", display: "flex", justifyContent: "flex-end" }}
-          >
-            <CardContent>
-              <IconButton
-                size="small"
-                onClick={handleRemoveItem}
-                sx={{
-                  position: "absolute",
-                  bottom: isMobile ? 7 : 5,
-                  right: isMobile ? 7 : 5,
-                  mt: -4.5,
-                  width: isMobile ? 25 : 60,
-                  height: isMobile ? 25 : 60,
-                  "&:focus": { outline: "none" },
-                }}
-              >
-                <DeleteForeverRoundedIcon
-                  color="error"
-                  sx={{ fontSize: isMobile ? 20 : 40 }}
-                />
-              </IconButton>
-            </CardContent>
-          </Grid>
+          ></Grid>
         </Grid>
       </Card>
     </Container>

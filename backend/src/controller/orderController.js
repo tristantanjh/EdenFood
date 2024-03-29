@@ -1,14 +1,13 @@
 import { Order } from "../model/orderModel.js";
 
 const checkoutOrder = async (req, res) => {
-  const { pickupLocation, user, groceries, merchant, amount } = req.body;
+  const { pickupLocation, user, groceries, amount } = req.body;
 
   const newOrder = new Order({
     pickupLocation,
     status: "pending",
     user,
     groceries,
-    merchant,
     amount,
   });
 
@@ -28,7 +27,7 @@ const checkoutOrder = async (req, res) => {
 const getOrdersWithUserId = async (req, res) => {
   try {
     const userId = req.query.userId; 
-    const orders = await Order.find({ user: userId }).populate("merchant").populate({
+    const orders = await Order.find({ user: userId }).populate({
       path: 'groceries',
       populate: {
         path: 'grocery',

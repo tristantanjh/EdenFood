@@ -25,6 +25,7 @@ import ShoppingCart from "./components/shoppingCartpage/shoppingCart.jsx";
 import EditProfilePage from "./components/editProfilepage/EditProfile.jsx";
 import Pickup from "./components/checkout/pickup/Pickup.jsx";
 import Confirmation from "./components/checkout/confirmation/Confirmation.jsx";
+import EditPasswordMain from "./components/editPasswordPage/EditPassword.jsx";
 
 const router = createBrowserRouter([
   {
@@ -66,9 +67,7 @@ const router = createBrowserRouter([
           },
           {
             path: "/checkout",
-            element: (
-                  <CheckoutLayout />
-            ),
+            element: <CheckoutLayout />,
             children: [
               {
                 index: true,
@@ -99,6 +98,10 @@ const router = createBrowserRouter([
           {
             path: "/editProfile",
             element: <EditProfilePage />,
+          },
+          {
+            path: "/editPassword",
+            element: <EditPasswordMain />,
           },
         ],
       },

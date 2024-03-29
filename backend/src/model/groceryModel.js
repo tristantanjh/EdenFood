@@ -33,7 +33,7 @@ const grocerySchema = new mongoose.Schema({
     required: true,
   },
   freshness: {
-    type: Number,
+    type: Date,
     required: true,
   },
   quantity: {

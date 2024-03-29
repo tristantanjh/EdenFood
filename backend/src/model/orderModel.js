@@ -15,11 +15,6 @@ const orderSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    merchant: {
-      require: true,
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
     amount: {
       require: true,
       type: Number,

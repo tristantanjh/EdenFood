@@ -9,27 +9,13 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import swal from "sweetalert";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
-import Input from "@mui/material/Input";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import FormControl from "@mui/material/FormControl";
 import AspectRatio from "@mui/joy/AspectRatio";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import FormHelperText from "@mui/material/FormHelperText";
 import CloudinaryUploadWidget from "../CloudinaryUploadWidget";
 import EditIcon from "@mui/icons-material/Edit";
-
-const user = {
-  userEmail: "test2@123.com",
-  username: "test2",
-  password: "Password",
-  userProfilePic:
-    "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708348046/samples/man-portrait.jpg",
-};
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Copyright() {
   return (
@@ -64,51 +50,71 @@ function Copyright() {
   );
 }
 
-const logoStyle = {
-  width: "120px",
-  height: "auto",
-  cursor: "pointer",
-};
-
-export default function RegisterMain() {
-  const [showPassword, setShowPassword] = React.useState(false);
+export default function EditProfile(props) {
+  const navigate = useNavigate();
+  const [user, setUser] = React.useState("");
   const isMobile = useMediaQuery("(max-width:600px)");
-  const [imageURL, setImageURL] = React.useState(user.userProfilePic);
+  const [imageURL, setImageURL] = React.useState("");
+  const [formData, setFormData] = React.useState({
+    email: "",
+    username: "",
+    rememberMe: false,
+  });
 
   useEffect(() => {
-    console.log(imageURL); //shows true - updated state
-  }, [imageURL]);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+    axios
+      .get("http://localhost:3000/getUserWithId", {
+        params: { userId: props.user.id },
+      })
+      .then((res) => {
+        const fetchedUser = res.data.user;
+        setUser(fetchedUser);
+        console.log(fetchedUser.profilePic);
+        setImageURL(fetchedUser.profilePic);
+        setFormData({
+          email: fetchedUser.email || "",
+          username: fetchedUser.username || "",
+          rememberMe: false,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    const userId = props.user.id;
 
     if (validateForm()) {
-      console.log({
-        email: data.get("email"),
-        password: data.get("password"),
-      });
+      axios
+        .patch(`http://localhost:3000/editProfile/${userId}`, {
+          email: formData.email,
+          username: formData.username,
+          profilePic: imageURL,
+        })
+        .then((response) => {
+          swal(
+            "Profile Updated",
+            "Your profile has been updated successfully.",
+            "success"
+          );
+        })
+        .catch((error) => {
+          console.error("There was an error updating the profile", error);
+          swal(
+            "Failed to Update",
+            "There was a problem updating your profile. Please try again.",
+            "error"
+          );
+        });
     } else {
       console.log("Invalid form");
     }
   };
 
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
-  const [formData, setFormData] = React.useState({
-    email: user.userEmail,
-    password: user.password,
-    username: user.username,
-    rememberMe: false,
-  });
-
   const [errors, setErrors] = React.useState({
     email: "",
-    password: "",
   });
 
   const handleChange = (e) => {
@@ -122,27 +128,16 @@ export default function RegisterMain() {
 
   const validateForm = () => {
     let valid = true;
-    const newErrors = { email: "", password: "" };
+    const newErrors = { email: "" };
 
     // Email format regex pattern
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    console.log(formData.email);
-    console.log(formData.password);
 
     // Check if email is empty or invalid format
     if (!formData.email || !emailRegex.test(formData.email.trim())) {
       newErrors.email = !formData.email
         ? "Email is required"
         : "Invalid email format";
-      valid = false;
-    }
-
-    // Password strength check
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
-    if (!formData.password || !passwordRegex.test(formData.password)) {
-      newErrors.password =
-        "Password must be at least 6 characters with at least one uppercase and one lowercase letter";
       valid = false;
     }
 
@@ -312,44 +307,7 @@ export default function RegisterMain() {
                 my: "4px",
               }}
             />
-            <FormControl sx={{ width: "100%" }} variant="standard">
-              <InputLabel
-                htmlFor="standard-adornment-password"
-                color="success"
-                sx={{
-                  fontFamily: "nunito, sans-serif",
-                }}
-              >
-                {formData.password}
-              </InputLabel>
-              <Input
-                sx={{
-                  fontFamily: "nunito, sans-serif",
-                  mb: 2,
-                }}
-                onChange={handleChange}
-                error={Boolean(errors.password)}
-                color="success"
-                name="password"
-                defaultValue={user.password}
-                id="standard-adornment-password"
-                type={showPassword ? "text" : "password"}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-              {Boolean(errors.password) && (
-                <FormHelperText error>{errors.password}</FormHelperText>
-              )}
-            </FormControl>
+
             <div
               style={{
                 display: "flex",
@@ -437,14 +395,13 @@ export default function RegisterMain() {
                 </Box>
               )}
             </div>
-
             <Button
               type="submit"
               fullWidth
               variant="contained"
               // disabled={!formData.email || !formData.password}
               sx={{
-                mt: 2,
+                mt: 1,
                 mb: 2,
                 py: isMobile ? 1.5 : 1,
                 fontFamily: "open sans, sans-serif",
@@ -463,6 +420,32 @@ export default function RegisterMain() {
               }}
             >
               Edit Profile
+            </Button>
+            <Button
+              href="/editPassword"
+              fullWidth
+              variant="contained"
+              // disabled={!formData.email || !formData.password}
+              sx={{
+                mt: 0.5,
+                mb: 2,
+                py: isMobile ? 1.5 : 1,
+                fontFamily: "open sans, sans-serif",
+                backgroundColor: "#076365",
+                color: "#FAFFF4",
+                borderRadius: "30px",
+                "&:hover": { backgroundColor: "#076365" },
+                position: isMobile ? "fixed" : "static", // Position fixed on mobile
+                bottom: isMobile ? "20px" : "auto", // Adjust bottom position on mobile
+                left: isMobile ? "50%" : "0",
+                transform: isMobile ? "translateX(-50%)" : "0",
+                width: isMobile ? "calc(100% - 40px)" : "100%", // Adjust width on mobile
+                maxWidth: isMobile ? "400px" : "auto", // Max width of the button
+                marginLeft: "auto", // Center horizontally
+                marginRight: "auto", // Center horizontally
+              }}
+            >
+              Reset Password
             </Button>
           </Box>
         </Box>

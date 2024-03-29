@@ -5,16 +5,43 @@ import ButtonGroup from "@mui/material/Button";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import Box from "@mui/material/Box";
+import axios from "axios";
 
-const QuantitySelector = ({ children, minValue, maxValue, ...props }) => {
-  const [count, setCount] = useState(minValue);
+const QuantitySelector = ({
+  children,
+  minValue,
+  maxValue,
+  currentValue,
+  setTotalPrice,
+  itemPrice,
+  ...props
+}) => {
+  const [count, setCount] = useState(currentValue);
 
   const handleIncrementCounter = () => {
     if (count < maxValue) {
       const newCount = count + 1;
       setCount(newCount);
-      handleQuantityChange(newCount);
-      // updateCartIncrement()
+      handleIncrementGroceryQuantity();
+      setTotalPrice((prevTotalPrice) =>
+        parseFloat(prevTotalPrice + itemPrice).toFixed(1)
+      );
+    }
+  };
+
+  const handleIncrementGroceryQuantity = async (value) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/incrementGroceryQuantity",
+        {
+          cartId: "6602e852a2a91d16e7b55bad",
+          groceryId: "6602cad65bc973dc6f8d9013",
+        }
+      );
+      // add SnackBar for if response.ok
+      console.log("Grocery successfully incremented");
+    } catch (error) {
+      console.error("Error incrementing grocery: ", error);
     }
   };
 
@@ -22,8 +49,26 @@ const QuantitySelector = ({ children, minValue, maxValue, ...props }) => {
     if (count > minValue) {
       const newCount = count - 1;
       setCount(newCount);
-      handleQuantityChange(newCount);
-      // updateCartDecrement()
+      handleDecrementGroceryQuantity();
+      setTotalPrice((prevTotalPrice) =>
+        parseFloat(prevTotalPrice - itemPrice).toFixed(1)
+      );
+    }
+  };
+
+  const handleDecrementGroceryQuantity = async (value) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/decrementGroceryQuantity",
+        {
+          cartId: "6602e852a2a91d16e7b55bad",
+          groceryId: "6602cad65bc973dc6f8d9013",
+        }
+      );
+      // add SnackBar for if response.ok
+      console.log("Grocery successfully decremented");
+    } catch (error) {
+      console.error("Error decrementing grocery: ", error);
     }
   };
 
@@ -32,8 +77,8 @@ const QuantitySelector = ({ children, minValue, maxValue, ...props }) => {
       <Button
         onClick={handleDecrementCounter}
         sx={{
-          minWidth: { xs: "10px", sm: "23px" },
-          minHeight: { xs: "10px", sm: "23px" },
+          minWidth: { xs: "12px", sm: "23px" },
+          minHeight: { xs: "12px", sm: "23px" },
           marginRight: { xs: "-20px", sm: "0px" },
           pl: { xs: 0.28, sm: 0.8 },
           pr: { xs: 0.28, sm: 0.8 },
@@ -54,8 +99,8 @@ const QuantitySelector = ({ children, minValue, maxValue, ...props }) => {
       >
         <RemoveOutlinedIcon
           sx={{
-            width: { xs: "8px", sm: "16px" },
-            height: { xs: "8px", sm: "16px" },
+            width: { xs: "10px", sm: "16px" },
+            height: { xs: "10px", sm: "16px" },
           }}
         />
       </Button>
@@ -64,8 +109,8 @@ const QuantitySelector = ({ children, minValue, maxValue, ...props }) => {
         sx={{
           fontFamily: "nunito, sans-serif",
           fontWeight: "bold",
-          fontSize: { xs: "9px", sm: "16px" },
-          marginTop: { xs: "-7px", sm: "-4px" },
+          fontSize: { xs: "12px", sm: "16px" },
+          marginTop: { xs: "-6px", sm: "-4px" },
           "&.Mui-disabled": {
             color: "#000000",
           },
@@ -76,8 +121,8 @@ const QuantitySelector = ({ children, minValue, maxValue, ...props }) => {
       <Button
         onClick={handleIncrementCounter}
         sx={{
-          minWidth: { xs: "10px", sm: "23px" },
-          minHeight: { xs: "10px", sm: "23px" },
+          minWidth: { xs: "12px", sm: "23px" },
+          minHeight: { xs: "12px", sm: "23px" },
           marginLeft: { xs: "-20px", sm: "0px" },
           pl: { xs: 0.28, sm: 0.8 },
           pr: { xs: 0.28, sm: 0.8 },
@@ -98,8 +143,8 @@ const QuantitySelector = ({ children, minValue, maxValue, ...props }) => {
       >
         <AddOutlinedIcon
           sx={{
-            width: { xs: "8px", sm: "16px" },
-            height: { xs: "8px", sm: "16px" },
+            width: { xs: "10px", sm: "16px" },
+            height: { xs: "10px", sm: "16px" },
           }}
         />
       </Button>

@@ -18,7 +18,14 @@ import { alpha } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/AuthProvider";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import Avatar from "@mui/material/Avatar";
+import Paper from "@mui/material/Paper";
+import Badge from "@mui/material/Badge";
+import { styled } from "@mui/material/styles";
+import IconButton from "@mui/material/IconButton";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import ShoppingCart from "./shoppingCartpage/shoppingCart";
 
 const logoStyle = {
   width: "140px",
@@ -27,26 +34,29 @@ const logoStyle = {
 };
 
 function AppBarSecondary() {
-  const [open, setOpen] = React.useState(false);
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [cartOpen, setCartOpen] = React.useState(false);
   const { logout } = useAuth();
+  const { user } = useAuth();
+  const profilePic = user.profilePic;
+  const cartNum = user?.cart?.items?.size() || 0;
   const navigate = useNavigate();
 
+  const StyledBadge = styled(Badge)(({ theme }) => ({
+    "& .MuiBadge-badge": {
+      right: -3,
+      top: 13,
+      border: `2px solid ${theme.palette.background.paper}`,
+      padding: "0 4px",
+    },
+  }));
+
   const toggleDrawer = (newOpen) => () => {
-    setOpen(newOpen);
+    setDrawerOpen(newOpen);
   };
 
-  const scrollToSection = (sectionId) => {
-    const sectionElement = document.getElementById(sectionId);
-    const offset = 128;
-    if (sectionElement) {
-      const targetScroll = sectionElement.offsetTop - offset;
-      sectionElement.scrollIntoView({ behavior: "smooth" });
-      window.scrollTo({
-        top: targetScroll,
-        behavior: "smooth",
-      });
-      setOpen(false);
-    }
+  const toggleCartDrawer = (newOpen) => () => {
+    setCartOpen(newOpen);
   };
 
   const handleLogout = async () => {
@@ -83,6 +93,7 @@ function AppBarSecondary() {
               justifyContent: "space-between",
               flexShrink: 0,
               maxHeight: 40,
+              paddingRight: 0,
             })}
           >
             <Box
@@ -104,153 +115,29 @@ function AppBarSecondary() {
                     ml: { xs: "-1vw", sm: "-3vw" },
                     mr: "1vw",
                     alignSelf: "flex-start",
-                    height: { xs: 80, sm: 100 },
+                    height: { xs: 70, sm: 100 },
                     objectFit: "cover",
                   }}
                   src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708750197/Natural_Fresh_Food_Logo_uzq4gs.png"
                   alt="Eden Food Secondary Logo."
                 />
               </a>
-              <Box
-                sx={{
-                  display: { xs: "none", md: "flex" },
-                  justifyContent: "center",
-                  flexDirection: "row",
-                  gap: 0.5,
-                  pt: 1,
-                  alignItems: "center",
-                }}
-              >
-                  <MenuItem
-                    onClick={() => navigate("/profile")}
-                    sx={{
-                      py: "0px",
-                      px: "12px",
-                      fontFamily: "nunito, sans-serif",
-                      color: "#FAFFF4",
-                    }}
-                  >
-                    <Typography
-                      color="#076365"
-                      sx={{
-                        fontFamily: "open sans, sans-serif",
-                        fontWeight: "750",
-                        fontSize: { xs: "0.9rem", md: "0.9rem" },
-                        letterSpacing: "0.5px",
-                        gap: { xs: "none", md: "10px" },
-                        mt: { xs: 2, md: 7 },
-                        pb: 4.4,
-                      }}
-                    >
-                      PROFILE SETTINGS
-                    </Typography>
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => navigate("/orderhistory")}
-                    sx={{
-                      py: "0px",
-                      px: "12px",
-                      fontFamily: "nunito, sans-serif",
-                    }}
-                  >
-                    <Typography
-                      color="#076365"
-                      sx={{
-                        fontFamily: "open sans, sans-serif",
-                        fontWeight: "750",
-                        fontSize: { xs: "0.9rem", md: "0.9rem" },
-                        letterSpacing: "0.5px",
-                        gap: { xs: "none", md: "10px" },
-                        mt: { xs: 2, md: 7 },
-                        pb: 4.4,
-                      }}
-                    >
-                      ORDER HISTORY
-                    </Typography>
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => navigate("/managelistings")}
-                    sx={{
-                      py: "0px",
-                      px: "12px",
-                      fontFamily: "nunito, sans-serif",
-                    }}
-                  >
-                    <Typography
-                      color="#076365"
-                      sx={{
-                        fontFamily: "open sans, sans-serif",
-                        fontWeight: "750",
-                        fontSize: { xs: "0.9rem", md: "0.9rem" },
-                        letterSpacing: "0.5px",
-                        gap: { xs: "none", md: "10px" },
-                        mt: { xs: 2, md: 7 },
-                        pb: 4.4,
-                      }}
-                    >
-                      MANAGE LISTINGS
-                    </Typography>
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => navigate("/dashboard")}
-                    sx={{
-                      py: "0px",
-                      px: "12px",
-                      fontFamily: "nunito, sans-serif",
-                    }}
-                  >
-                    <Typography
-                      color="#076365"
-                      sx={{
-                        fontFamily: "open sans, sans-serif",
-                        fontWeight: "750",
-                        fontSize: { xs: "0.9rem", md: "0.9rem" },
-                        letterSpacing: "0.5px",
-                        gap: { xs: "none", md: "10px" },
-                        mt: { xs: 2, md: 7 },
-                        pb: 4.4,
-                      }}
-                    >
-                      DASHBOARD
-                    </Typography>
-                  </MenuItem>
-              </Box>
             </Box>
-            <Button
-              color="primary"
-              variant="text"
-              size="small"
-              component="a"
-              onClick={handleLogout}
-              sx={{
-                display: { xs: "none", md: "flex" },
-                width: "100%",
-                fontFamily: "nunito, sans-serif",
-                backgroundColor: "#64CF94",
-                color: "#FFF",
-                fontFamily: "nunito, sans-serif",
-                fontWeight: "700",
-                fontSize: "1rem",
-                width: "125px",
-                padding: "3px",
-                borderRadius: "15px",
-                minWidth: "70px",
-                "&:hover": {
-                  backgroundColor: alpha("#64CF94", 0.6),
-                  color: "#FFF",
-                },
-                mt: { xs: 2, md: 3 },
-              }}
-            >
-              Log Out
-            </Button>
-
             <Box
               sx={{
-                display: { sm: "", md: "none" },
-                mt: "15px",
+                mt: "30px",
+                mr: { xs: "-1rem", md: "-3rem" },
               }}
             >
+              <IconButton
+                onClick={toggleCartDrawer(true)}
+                aria-label="cart"
+                sx={{ marginRight: { xs: "8px", sm: "15px" } }}
+              >
+                <StyledBadge badgeContent={cartNum} color="error">
+                  <ShoppingCartIcon />
+                </StyledBadge>
+              </IconButton>
               <Button
                 variant="text"
                 color="primary"
@@ -263,9 +150,66 @@ function AppBarSecondary() {
                   "&:focus": { outline: "none" },
                 }}
               >
-                <MenuIcon />
+                <Box sx={{ flexGrow: 1 }}>
+                  <Paper
+                    variant="outlined"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: "16px",
+                      backgroundColor: "#FAFFF4",
+                      p: "4px",
+                      height: { xs: "38px", sm: "50px" },
+                      width: { xs: "70px", sm: "100px" },
+                      maxWidth: "100px",
+                      marginLeft: "auto",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        mt: 1,
+                        mr: { xs: "3px", sm: "7px" },
+                      }}
+                    >
+                      <MenuIcon fontSize="small" />
+                    </Box>
+
+                    <Avatar
+                      alt="Profile Image"
+                      src={profilePic}
+                      sx={{
+                        width: { xs: 24, sm: 28, md: 32 },
+                        height: { xs: 24, sm: 28, md: 32 },
+                        ml: { xs: "3px", sm: "7px" },
+                      }}
+                    />
+                  </Paper>
+                </Box>
               </Button>
-              <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
+              <Drawer
+                anchor="right"
+                open={cartOpen}
+                onClose={toggleCartDrawer(false)}
+              >
+                <Box
+                  id="drawerContent"
+                  sx={{
+                    minWidth: "60dvw",
+                    p: 2,
+                    backgroundColor: "#FAFFF4",
+                    flexGrow: 1,
+                    fontFamily: "nunito, sans-serif",
+                  }}
+                >
+                  <ShoppingCart setCartOpen={setCartOpen} />
+                </Box>
+              </Drawer>
+              <Drawer
+                anchor="right"
+                open={drawerOpen}
+                onClose={toggleDrawer(false)}
+              >
                 <Box
                   id="drawerContent"
                   sx={{
@@ -286,7 +230,7 @@ function AppBarSecondary() {
                     }}
                   ></Box>
                   <MenuItem
-                    onClick={() => scrollToSection("features")}
+                    onClick={() => navigate("/profile")}
                     color="#076365"
                     sx={{
                       fontFamily: "open sans, sans-serif",
@@ -316,36 +260,7 @@ function AppBarSecondary() {
                     PROFILE SETTINGS
                   </MenuItem>
                   <MenuItem
-                    onClick={() => scrollToSection("testimonials")}
-                    sx={{
-                      fontFamily: "open sans, sans-serif",
-                      fontWeight: "750",
-                      fontSize: { xs: "0.9rem", md: "0.9rem" },
-                      letterSpacing: "0.5px",
-                      gap: { xs: "none", md: "10px" },
-                      color: (theme) => "#076365",
-                    }}
-                  >
-                    <ListItemIcon>
-                      <img
-                        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708483824/to-do-list_taukoy.png"
-                        alt="Order History Icon"
-                        style={{ width: "25px", height: "25px" }}
-                      />
-                    </ListItemIcon>
-                    <Divider
-                      orientation="vertical"
-                      flexItem
-                      sx={{
-                        borderWidth: "1.1px",
-                        mr: "-2px",
-                        mr: "15px",
-                      }}
-                    />
-                    ORDER HISTORY
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => scrollToSection("highlights")}
+                    onClick={() => navigate("/profile")}
                     sx={{
                       fontFamily: "open sans, sans-serif",
                       fontWeight: "750",
@@ -373,6 +288,36 @@ function AppBarSecondary() {
                     MANAGE LISTINGS
                   </MenuItem>
                   <MenuItem
+                    onClick={() => navigate("/profile")}
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      fontWeight: "750",
+                      fontSize: { xs: "0.9rem", md: "0.9rem" },
+                      letterSpacing: "0.5px",
+                      gap: { xs: "none", md: "10px" },
+                      color: (theme) => "#076365",
+                    }}
+                  >
+                    <ListItemIcon>
+                      <img
+                        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708483824/to-do-list_taukoy.png"
+                        alt="Order History Icon"
+                        style={{ width: "25px", height: "25px" }}
+                      />
+                    </ListItemIcon>
+                    <Divider
+                      orientation="vertical"
+                      flexItem
+                      sx={{
+                        borderWidth: "1.1px",
+                        mr: "-2px",
+                        mr: "15px",
+                      }}
+                    />
+                    ORDER HISTORY
+                  </MenuItem>
+
+                  <MenuItem
                     onClick={() => scrollToSection("pricing")}
                     sx={{
                       fontFamily: "open sans, sans-serif",
@@ -399,7 +344,7 @@ function AppBarSecondary() {
                         mr: "15px",
                       }}
                     />
-                    DASHBOARD
+                    INSIGHTS
                   </MenuItem>
 
                   <Divider />

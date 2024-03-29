@@ -101,6 +101,60 @@ const getUserWithId = async (req, res) => {
   }
 };
 
+const editProfile = async (req, res) => {
+  const { userId } = req.params;
+  const { email, username, profilePic } = req.body;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    user.email = email;
+    user.username = username;
+    user.profilePic = profilePic;
+
+    await user.save();
+
+    res.status(200).json({
+      message: "User profile updated successfully.",
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        profilePic: user.profilePic,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while updating the user profile." });
+  }
+};
+
+const editPassword = async (req, res) => {
+  const { userId } = req.params;
+  const user = await User.findOne({ _id: userId });
+  const { initialPassword, newPassword } = req.body;
+
+  user.changePassword(initialPassword, newPassword, (error) => {
+    if (error) {
+      if (error.name === "IncorrectPasswordError") {
+        res.status(401).json({ message: "Incorrect password" });
+      } else {
+        console.error(error);
+        res.status(500).json({
+          message: "Could not change password. Please try again later.",
+        });
+      }
+    } else {
+      res.json({ message: "Password successfully changed!" });
+    }
+  });
+};
+
 //module.exports = router;
 //get email, profilepic by username
 
@@ -143,4 +197,6 @@ export {
   getEmail,
   getUserWithId,
   getProfilePic,
+  editProfile,
+  editPassword,
 };
