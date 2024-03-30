@@ -1,5 +1,6 @@
 import { Cart } from "../model/cartModel.js";
 import { Grocery } from "../model/groceryModel.js";
+import { User } from "../model/userModel.js";
 
 // modify to accept itemId and quantity
 const addToCart = async (req, res) => {
@@ -54,9 +55,7 @@ const getCart = async (req, res) => {
     const userId = req.query.userId;
 
     // Find the user's cart and populate it with groceries
-    const userCart = await Cart.findOne({ user: userId }).populate(
-      "items.grocery"
-    );
+    const userCart = await Cart.findOne({ user: userId }).populate("items.grocery");
 
     if (!userCart) {
       return res.status(404).json({ message: "Cart not found for this user" });

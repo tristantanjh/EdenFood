@@ -93,7 +93,7 @@ APIrouter.get("/getListingsByCategory", getListingsByCategory);
 
 APIrouter.get("/getAllOtherGroceries", getAllGroceries);
 
-APIrouter.get("/getUserWithId/", getUserWithId);
+APIrouter.get("/getUserWithId", getUserWithId);
 
 APIrouter.patch("/editProfile/:userId", editProfile);
 

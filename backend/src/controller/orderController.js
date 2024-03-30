@@ -3,6 +3,7 @@ import { Cart } from "../model/cartModel.js";
 import { Grocery } from "../model/groceryModel.js";
 import { User } from "../model/userModel.js";
 
+
 const checkoutOrder = async (req, res) => {
   const { pickupLocation, user, cartId } = req.body;
 
@@ -15,7 +16,7 @@ const checkoutOrder = async (req, res) => {
 
     let hasInvalidQuantity = false;
 
-    //check if any of the grocery indicated value > current db quantity
+    // Check if any of the grocery indicated value > current db quantity
     for (const item of cart.items) {
       const grocery = await Grocery.findById(item.grocery._id);
 
@@ -33,28 +34,71 @@ const checkoutOrder = async (req, res) => {
       return res.status(400).json({ message: "Some items have too much quantity" });
     }
 
+      // Reduce the quantity of affected groceries in the database
+      for (const item of cart.items) {
+        const grocery = await Grocery.findById(item.grocery._id);
+
+        // Update the quantity of the grocery in the database
+        await Grocery.findByIdAndUpdate(
+          item.grocery._id,
+          { $inc: { quantity: -item.quantity } }, // Decrement the quantity by the item's quantity
+          { new: true }
+        );
+      }
+
     const orderItems = cart.items.map((item) => ({
       grocery: item.grocery,
       quantity: item.quantity,
     }));
 
-    const totalPrice = cart.items.reduce((acc, item) => acc + (item.grocery.price * item.quantity), 0);
-
     const newOrder = new Order({
       pickupLocation,
       status: "pending",
       user,
-      amount: totalPrice, 
+      amount: cart.totalPrice,
       groceries: orderItems,
     });
 
     const savedOrder = await newOrder.save();
+    await Cart.deleteOne({ user });
+
     res.status(201).json(savedOrder);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "An error occurred while creating the order." });
   }
 };
+
+
+/*
+const checkoutOrder = async (req, res) => {
+  const { pickupLocation, user, cartId } = req.body;
+
+  //adjust quantity from db
+  //check if all quantity is valid   // just alter to the minimum quantity now 
+  
+
+
+  const newOrder = new Order({
+    pickupLocation,
+    status: "pending",
+    user,
+    groceries,
+    amount,
+  });
+
+  try {
+    const savedOrder = await newOrder.save();
+    res.status(201).json(savedOrder);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while creating the order." });
+  }
+};
+*/
+
 
 //get order based on user id
 
