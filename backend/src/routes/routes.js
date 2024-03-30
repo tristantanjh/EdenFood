@@ -14,6 +14,7 @@ import {
   getListingsByCategory,
   getListingsByUserId,
   getAllGroceries,
+  disableGroceryByGroceryId,
 } from "../controller/groceryController.js";
 
 import {
@@ -101,5 +102,7 @@ APIrouter.patch("/editPassword/:userId", editPassword);
 APIrouter.get("/getSales/", getSales);
 
 APIrouter.post("/createSale", createSale);
+
+APIrouter.post("/disableGrocery", disableGroceryByGroceryId);
 
 export { APIrouter };

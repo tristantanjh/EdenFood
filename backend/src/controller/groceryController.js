@@ -56,6 +56,30 @@ const getListingByGroceryId = async (req, res) => {
   }
 };
 
+
+const disableGroceryByGroceryId = async (req, res) => {
+  try {
+    const groceryId = req.body.groceryId;
+
+    const grocery = await Grocery.findById(groceryId);
+
+    if (!grocery) {
+      return res.status(404).json({ message: "Grocery not found" });
+    }
+
+    // Set quantity to 0
+    grocery.quantity = 0;
+
+    // Save the updated grocery
+    await grocery.save();
+
+    res.json({ message: "Grocery quantity updated successfully", grocery });
+  } catch (err) {
+    console.error("Error updating grocery quantity:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 //get by category
 
 const getListingsByCategory = async (req, res) => {
@@ -144,4 +168,5 @@ export {
   getListingsByCategory,
   getListingsByUserId,
   getAllGroceries,
+  disableGroceryByGroceryId,
 };

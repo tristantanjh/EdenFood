@@ -1,24 +1,58 @@
 import { Order } from "../model/orderModel.js";
+import { Cart } from "../model/cartModel.js";
+import { Grocery } from "../model/groceryModel.js";
+import { User } from "../model/userModel.js";
 
 const checkoutOrder = async (req, res) => {
-  const { pickupLocation, user, groceries, amount } = req.body;
-
-  const newOrder = new Order({
-    pickupLocation,
-    status: "pending",
-    user,
-    groceries,
-    amount,
-  });
+  const { pickupLocation, user, cartId } = req.body;
 
   try {
+    const cart = await Cart.findById(cartId).populate("items.grocery");
+
+    if (!cart) {
+      return res.status(404).json({ message: "Cart not found" });
+    }
+
+    let hasInvalidQuantity = false;
+
+    //check if any of the grocery indicated value > current db quantity
+    for (const item of cart.items) {
+      const grocery = await Grocery.findById(item.grocery._id);
+
+      if (!grocery) {
+        return res.status(404).json({ message: "Grocery not found" });
+      }
+
+      if (item.quantity > grocery.quantity) {
+        hasInvalidQuantity = true;
+        break;
+      }
+    }
+
+    if (hasInvalidQuantity) {
+      return res.status(400).json({ message: "Some items have too much quantity" });
+    }
+
+    const orderItems = cart.items.map((item) => ({
+      grocery: item.grocery,
+      quantity: item.quantity,
+    }));
+
+    const totalPrice = cart.items.reduce((acc, item) => acc + (item.grocery.price * item.quantity), 0);
+
+    const newOrder = new Order({
+      pickupLocation,
+      status: "pending",
+      user,
+      amount: totalPrice, 
+      groceries: orderItems,
+    });
+
     const savedOrder = await newOrder.save();
     res.status(201).json(savedOrder);
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ message: "An error occurred while creating the order." });
+    res.status(500).json({ message: "An error occurred while creating the order." });
   }
 };
 
