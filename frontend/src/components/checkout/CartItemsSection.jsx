@@ -36,7 +36,6 @@ export default function CartItemsSection() {
         params: { userId: user.id },
       })
       .then((res) => {
-        console.log(res.data.items);
         setCart(res.data.items);
       })
       .catch((err) => {
