@@ -184,6 +184,7 @@ export default function EditPassword(props) {
         <Box
           sx={{
             mx: 4,
+            backgroundColor: "#FAFFF4",
             mt: { xs: 15, md: 0 },
             display: "flex",
             flexDirection: "column",
@@ -197,6 +198,7 @@ export default function EditPassword(props) {
             fontFamily={"open sans, sans-serif"}
             fontSize={24}
             fontWeight={"bold"}
+            mb={2}
             color={"#181B13"}
           >
             Reset Password

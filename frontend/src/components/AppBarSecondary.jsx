@@ -87,7 +87,7 @@ function AppBarSecondary() {
           boxShadow: 0,
           bgcolor: "#FAFFF4",
           backgroundImage: "none",
-          pb: 2.5,
+          pb: 4.5,
         }}
       >
         <Container maxWidth="lg">

@@ -211,10 +211,9 @@ export default function EditProfile(props) {
         xs={12}
         sm={12}
         md={7}
-        component={Paper}
         elevation={6}
         square
-        sx={{ display: "flex", justifyContent: "center" }}
+        sx={{ display: "flex", justifyContent: "center", backgroundColor: "#FAFFF4"}}
       >
         <Box
           sx={{
@@ -224,7 +223,7 @@ export default function EditProfile(props) {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: { xs: "flex-start", sm: "center" },
-            height: "100vh",
+            height: {xs: "80vh", md: "100vh"},
             width: { xs: "100%", md: "30%" },
           }}
         >
@@ -409,8 +408,8 @@ export default function EditProfile(props) {
                 color: "#FAFFF4",
                 borderRadius: "30px",
                 "&:hover": { backgroundColor: "#076365" },
-                position: isMobile ? "fixed" : "static", // Position fixed on mobile
-                bottom: isMobile ? "20px" : "auto", // Adjust bottom position on mobile
+                position: isMobile ? "absolute" : "none", // Position fixed on mobile
+                bottom: isMobile ? "80px" : "auto", // Adjust bottom position on mobile
                 left: isMobile ? "50%" : "0",
                 transform: isMobile ? "translateX(-50%)" : "0",
                 width: isMobile ? "calc(100% - 40px)" : "100%", // Adjust width on mobile
@@ -419,10 +418,10 @@ export default function EditProfile(props) {
                 marginRight: "auto", // Center horizontally
               }}
             >
-              Edit Profile
+              Confirm Edit
             </Button>
             <Button
-              href="/editPassword"
+              onClick={() => navigate("/editPassword")}
               fullWidth
               variant="contained"
               // disabled={!formData.email || !formData.password}
@@ -431,11 +430,11 @@ export default function EditProfile(props) {
                 mb: 2,
                 py: isMobile ? 1.5 : 1,
                 fontFamily: "open sans, sans-serif",
-                backgroundColor: "#076365",
+                backgroundColor: "#181B13",
                 color: "#FAFFF4",
                 borderRadius: "30px",
-                "&:hover": { backgroundColor: "#076365" },
-                position: isMobile ? "fixed" : "static", // Position fixed on mobile
+                "&:hover": { backgroundColor: "#181B13" },
+                position: isMobile ? "absolute" : "none", // Position fixed on mobile
                 bottom: isMobile ? "20px" : "auto", // Adjust bottom position on mobile
                 left: isMobile ? "50%" : "0",
                 transform: isMobile ? "translateX(-50%)" : "0",
