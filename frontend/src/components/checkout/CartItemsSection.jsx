@@ -19,6 +19,7 @@ export default function CartItemsSection() {
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
   const renderCount = useRef(0);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -46,8 +47,7 @@ export default function CartItemsSection() {
   useEffect(() => {
     renderCount.current += 1;
     if (renderCount.current > 2) { // THIS IS POTENTIALLY BUGGY
-      console.log('Effect triggered');
-      console.log('Cart:', cart);
+      setTotalPrice(cart.reduce((acc, item) => acc + item.grocery.price * item.quantity, 0));
 
       if (cart.length === 0) {
         handleOpenModal();
@@ -108,7 +108,7 @@ export default function CartItemsSection() {
           >
             SGD
           </span>
-          ${exampleCartData.totalPrice.toFixed(2)}
+          ${totalPrice}
         </span>
       </Typography>
       <Modal
