@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -11,10 +11,27 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import SetMealIcon from "@mui/icons-material/SetMeal";
 import ItemQuantity from "./ItemQuantity";
+import { regions, pickupLocations } from "../common/PickupLocations";
+import LocationModal from "../common/LocationModal";
 
 function OrderCard(props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [modalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    const region = pickupLocations
+      .find((region) =>
+        region.locations.filter((location) =>
+          location.name.includes(props.pickupLocation)
+        )
+      )
+      .locations.find((location) =>
+        location.name.includes(props.pickupLocation)
+      );
+
+    console.log(region);
+  }, []);
 
   return (
     <Card
@@ -153,6 +170,7 @@ function OrderCard(props) {
             </Grid>
             <Grid item xs={4} display="flex" justifyContent="center">
               <Button
+                onClick={() => setModalOpen(true)}
                 sx={{
                   backgroundColor: "#64CF94",
                   borderColor: "#64CF94",
@@ -162,8 +180,21 @@ function OrderCard(props) {
                   width: isMobile ? 60 : 120,
                 }}
               >
-                Buy Again
+                View Location
               </Button>
+              <LocationModal
+                isOpen={modalOpen}
+                onClose={() => setModalOpen(false)}
+                locations={pickupLocations
+                  .find((region) =>
+                    region.locations.filter((location) =>
+                      location.name.includes(props.pickupLocation)
+                    )
+                  )
+                  .locations.find((location) =>
+                    location.name.includes(props.pickupLocation)
+                  )}
+              />
             </Grid>
             <Grid item xs={4} display="flex" justifyContent="center">
               <Button

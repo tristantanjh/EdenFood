@@ -116,6 +116,7 @@ const orders = [
     orderDate: "10/10/2021",
     orderSeller: "Seller 1",
     orderStatus: "Completed",
+    pickupLocation: "102 YISHUN AVE 5, S760102",
     orderItems: [
       {
         itemImageURL:
@@ -137,6 +138,7 @@ const orders = [
     orderDate: "10/10/2022",
     orderSeller: "Seller 2",
     orderStatus: "To Collect",
+    pickupLocation: "268 WOODLANDS CENTRE ROAD, S738931",
     orderItems: [
       {
         itemImageURL:

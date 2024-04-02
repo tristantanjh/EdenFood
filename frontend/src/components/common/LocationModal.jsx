@@ -4,7 +4,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
 import MapComponent from "./MapComponent";
 
 const LocationModal = ({ isOpen, locations, onClose }) => {
@@ -18,7 +17,11 @@ const LocationModal = ({ isOpen, locations, onClose }) => {
           color: "#181B13",
         }}
       >
-        Pickup Locations for {locations?.region}
+        {Array.isArray(locations.locations) ? (
+          <div>Pickup Locations for {locations.region} Region</div>
+        ) : (
+          <div>Pickup Location</div>
+        )}
       </DialogTitle>
       <DialogContent>
         <MapComponent locationsList={locations} />
