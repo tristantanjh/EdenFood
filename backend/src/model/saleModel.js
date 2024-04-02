@@ -1,18 +1,33 @@
 import mongoose, { Schema } from "mongoose";
 
-const saleSchema = new mongoose.Schema(
+const saleSchema = new mongoose.Schema({
+  user: {
+    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  totalPrice: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+  items: [saleItemSchema], // Use the subdocument schema here
+});
+
+const saleItemSchema = new mongoose.Schema(
   {
-    groceryId: {
-      type: Schema.Types.ObjectId,
+    grocery: {
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Grocery",
       required: true,
     },
     quantity: {
-      required: true,
       type: Number,
+      required: true,
+      min: 1,
     },
   },
-  { timestamps: true }
+  { _id: false }
 );
 
 const Sale = mongoose.model("Sale", saleSchema);
