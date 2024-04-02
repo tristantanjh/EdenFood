@@ -66,7 +66,11 @@ const router = createBrowserRouter([
             element: <OrderHistory />,
           },
           {
-            path: "/checkout",
+            path: "/shoppingCart",
+            element: <ShoppingCart />,
+          },
+          {
+            path: "/checkout/:session",
             element: <CheckoutLayout />,
             children: [
               {
@@ -90,10 +94,6 @@ const router = createBrowserRouter([
           {
             path: "/addListing",
             element: <Listing />,
-          },
-          {
-            path: "/shoppingCart",
-            element: <ShoppingCart />,
           },
           {
             path: "/editProfile",

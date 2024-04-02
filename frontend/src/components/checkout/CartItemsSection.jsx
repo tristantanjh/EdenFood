@@ -1,107 +1,74 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
+import React, { useState, useEffect, useRef } from "react";
 import Typography from "@mui/material/Typography";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import IconButton from "@mui/material/IconButton";
-import Stack from "@mui/material/Stack";
-import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+} from "@mui/material";
 import CartItem from "./CartItem";
-
-const exampleGroceries = [
-  {
-    _id: "610f72f4b214f2d2e8e25a2a",
-    name: "Apple",
-    description: "Fresh and juicy apple",
-    imageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1710778183/broccoli_xxtddq.jpg",
-    price: 1.99,
-    user: "610f72f4b214f2d2e8e25a1f", // User ID
-    categories: ["Fruits"],
-    reviews: ["611f72f4b214f2d2e8e25a1a", "611f72f4b214f2d2e8e25a1b"],
-  },
-  {
-    _id: "610f72f4b214f2d2e8e25a2b",
-    name: "Banana",
-    description: "Yellow and tasty banana",
-    imageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708348046/samples/man-portrait.jpg",
-    price: 0.99,
-    user: "610f72f4b214f2d2e8e25a1f", // User ID
-    categories: ["Fruits"],
-    reviews: ["611f72f4b214f2d2e8e25a1c"],
-  },
-  {
-    _id: "610f72f4b214f2d2e8e25a2c",
-    name: "Mango",
-    description: "Sweet and delicious mango",
-    imageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708348042/samples/smile.jpg",
-    price: 2.49,
-    user: "610f72f4b214f2d2e8e25a1f", // User ID
-    categories: ["Fruits"],
-    reviews: ["611f72f4b214f2d2e8e25a1d"],
-  },
-];
-
-const exampleCartData = {
-  user: "610f72f4b214f2d2e8e25a1f", // User ID
-  items: [
-    {
-      grocery: "610f72f4b214f2d2e8e25a2a", // Apple
-      quantity: 2,
-    },
-    {
-      grocery: "610f72f4b214f2d2e8e25a2b", // Banana
-      quantity: 1,
-    },
-    {
-      grocery: "610f72f4b214f2d2e8e25a2c", // Mango
-      quantity: 3,
-    },
-  ],
-};
+import axios from "axios";
+import { useAuth } from "../../hooks/AuthProvider";
+import { getCart } from "../../utils/getCart";
+import { useNavigate } from "react-router-dom";
 
 export default function CartItemsSection() {
-  const cartItems = exampleCartData.items.map((cartItem) => {
-    const grocery = exampleGroceries.find(
-      (item) => item._id === cartItem.grocery
-    );
-    return {
-      ...cartItem,
-      id: grocery?.id,
-      name: grocery?.name,
-      imageURL: grocery?.imageURL,
-      price: grocery?.price,
-      freshness: grocery?.freshness,
-    };
-  });
+  const { user } = useAuth();
+  const [cart, setCart] = useState([]);
+  const navigate = useNavigate();
+  const [openModal, setOpenModal] = useState(false);
+  const renderCount = useRef(0);
+  const [totalPrice, setTotalPrice] = useState(0);
 
-  const totalPrice = cartItems.reduce(
-    (acc, item) => acc + item.quantity * item.price,
-    0
-  );
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    navigate("/explore"); // Navigate to the home page
+  };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/getCart", {
+        params: { userId: user.id },
+      })
+      .then((res) => {
+        setCart(res.data.items);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    renderCount.current += 1;
+    if (renderCount.current > 2) { // THIS IS POTENTIALLY BUGGY
+      setTotalPrice(cart.reduce((acc, item) => acc + item.grocery.price * item.quantity, 0));
+
+      if (cart.length === 0) {
+        handleOpenModal();
+      }
+    }
+  }, [cart]);
 
   return (
-    <div style={{ padding: "0 0 2rem 0", maxHeight: "600px" }}>
-      {cartItems.map((item, index) => (
-        <CartItem
-          key={index}
-          groceryId={item.id}
-          price={item.price}
-          imageURL={item.imageURL}
-          title={item.name}
-          freshness={item.freshness}
-          quantity={item.quantity}
-        />
-      ))}
+    <div>
+      <div style={{ maxHeight: "580px", overflowY: "auto" }}>
+        {cart.map((item, index) => (
+          <CartItem
+            key={index}
+            groceryId={item.grocery.id}
+            price={item.grocery.price}
+            imageURL={item.grocery.imageURL}
+            title={item.grocery.name}
+            freshness={item.grocery.freshness}
+            quantity={item.quantity}
+          />
+        ))}
+      </div>
       <Typography
         variant="h6"
         sx={{
@@ -114,6 +81,7 @@ export default function CartItemsSection() {
           display: "flex",
           justifyContent: "space-between", // Align items horizontally
           alignItems: "center", // Align items vertically
+          paddingBottom: { xs: "2rem", sm: "2rem" },
         }}
       >
         <span
@@ -139,9 +107,58 @@ export default function CartItemsSection() {
           >
             SGD
           </span>
-          ${totalPrice.toFixed(2)}
+          ${totalPrice}
         </span>
       </Typography>
+      <Modal
+        open={openModal}
+        onClose={handleCloseModal}
+        message="Support your favorite local farmers by adding some produce to your cart!"
+      />
     </div>
   );
 }
+
+const Modal = ({ open, onClose, message }) => {
+  return (
+    <Dialog open={open} onClose={onClose} disableEscapeKeyDown>
+      <DialogTitle
+        sx={{
+          fontFamily: "open sans, sans-serif",
+          fontWeight: 700,
+          fontSize: "24px",
+          color: "#181B13",
+        }}
+      >
+        Your Cart is Empty
+      </DialogTitle>
+      <DialogContent
+        sx={{
+          fontFamily: "nunito, sans-serif",
+          fontSize: "18px",
+          color: "#181B13",
+        }}
+      >
+        {message}
+      </DialogContent>
+      <DialogActions>
+        <Button
+          onClick={onClose}
+          sx={{
+            fontFamily: "open sans, sans-serif",
+            backgroundColor: "#076365",
+            color: "#FAFFF4",
+            borderRadius: "5px",
+            "&:hover": { backgroundColor: "#076365" },
+            width: "100%",
+            marginLeft: "10px",
+            marginRight: "10px",
+            marginBottom: "10px",
+          }}
+        >
+          Let's Go!
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};

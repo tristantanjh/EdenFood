@@ -99,7 +99,7 @@ export default function CartItem(props) {
                 objectFit: "cover",
                 justifyContent: "center",
               }}
-              image={props.imageURL}
+              image={props.imageURL[0]}
               alt="Product Image"
               title="Listing Photo"
             />

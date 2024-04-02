@@ -10,6 +10,7 @@ import {
   removeFromCart,
   incrementGroceryQuantity,
   decrementGroceryQuantity,
+  deleteCart,
 } from "../controller/cartController.js";
 
 import {

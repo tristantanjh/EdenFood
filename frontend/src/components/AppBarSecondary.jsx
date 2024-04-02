@@ -10,12 +10,11 @@ import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import SettingsIcon from "@mui/icons-material/Settings";
-import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Drawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
 import { alpha } from "@mui/material";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/AuthProvider";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -41,6 +40,13 @@ function AppBarSecondary() {
   const profilePic = user.profilePic;
   const cartNum = user?.cart?.items?.size() || 0;
   const navigate = useNavigate();
+  const location = useLocation();
+  const [isOnCheckoutPage, setIsOnCheckoutPage] = React.useState(false);
+
+  React.useEffect(() => {
+    const isOnCheckoutPage = location.pathname.startsWith("/checkout");
+    setIsOnCheckoutPage(isOnCheckoutPage);
+  }, [location.pathname]);
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
@@ -70,8 +76,8 @@ function AppBarSecondary() {
 
   return (
     <div
-      sx={{
-        boxShadow: 5,
+      style={{
+        boxShadow: "5",
         color: "#076365",
       }}
     >
@@ -129,15 +135,17 @@ function AppBarSecondary() {
                 mr: { xs: "-1rem", md: "-3rem" },
               }}
             >
-              <IconButton
-                onClick={toggleCartDrawer(true)}
-                aria-label="cart"
-                sx={{ marginRight: { xs: "8px", sm: "15px" } }}
-              >
-                <StyledBadge badgeContent={cartNum} color="error">
-                  <ShoppingCartIcon />
-                </StyledBadge>
-              </IconButton>
+              {isOnCheckoutPage ? null : (
+                <IconButton
+                  onClick={toggleCartDrawer(true)}
+                  aria-label="cart"
+                  sx={{ marginRight: { xs: "8px", sm: "15px" } }}
+                >
+                  <StyledBadge badgeContent={cartNum} color="error">
+                    <ShoppingCartIcon />
+                  </StyledBadge>
+                </IconButton>
+              )}
               <Button
                 variant="text"
                 color="primary"
@@ -187,6 +195,7 @@ function AppBarSecondary() {
                   </Paper>
                 </Box>
               </Button>
+
               <Drawer
                 anchor="right"
                 open={cartOpen}
@@ -205,6 +214,7 @@ function AppBarSecondary() {
                   <ShoppingCart setCartOpen={setCartOpen} />
                 </Box>
               </Drawer>
+
               <Drawer
                 anchor="right"
                 open={drawerOpen}

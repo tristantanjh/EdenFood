@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useParams, useNavigate } from "react-router-dom";
 import AppBarSecondary from "../components/AppBarSecondary";
 import CssBaseline from "@mui/material/CssBaseline";
 import Stepper from "@mui/material/Stepper";
@@ -11,12 +11,19 @@ import { Grid, Divider } from "@mui/material";
 import { CheckoutProvider } from "../hooks/CheckoutProvider";
 import CartItemsSection from "../components/checkout/CartItemsSection";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useAuth } from "../hooks/AuthProvider";
+import ErrorPage from "../routes/ErrorPage";
 
 export default function CheckoutLayout() {
-  // const { activeStep } = useCheckout(); // Access setActiveStep from context
   const isMobile = useMediaQuery("(max-width: 960px)");
   const [activeStep, setActiveStep] = React.useState(0);
   const location = useLocation();
+  const { sessionId } = useAuth();
+  const { session } = useParams();
+  const isValidSessionId = sessionId === session;
+
+  const steps = ["Pickup Details", "Confirmation"]; // Define your steps here based on your route
+
   useEffect(() => {
     const stepMapping = {
       shipping: 0,
@@ -26,9 +33,7 @@ export default function CheckoutLayout() {
     setActiveStep(currentStep);
   }, [location.pathname, setActiveStep]);
 
-  const steps = ["Pickup Details", "Confirmation"]; // Define your steps here based on your route
-
-  return isMobile ? (
+  return isValidSessionId ? isMobile ? (
     <CheckoutProvider>
       <div style={{ backgroundColor: "#FAFFF4", height: "100vh" }}>
         <CssBaseline />
@@ -159,5 +164,7 @@ export default function CheckoutLayout() {
         />{" "}
       </div>
     </CheckoutProvider>
+  ) : (
+    <ErrorPage />
   );
 }

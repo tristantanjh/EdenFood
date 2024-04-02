@@ -6,21 +6,65 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useNavigate } from "react-router-dom";
 import Paypal from "./Paypal";
 import swal from "sweetalert";
+import { getCart } from "../../../utils/getCart";
+import axios from "axios";
 
 export default function Confirmation() {
   const { selectedLocationLocalStorage } = useCheckout();
-  const { user } = useAuth();
+  const { user, sessionId } = useAuth();
   const isMobile = useMediaQuery("(max-width:600px)");
+  const [cart, setCart] = useState([]);
   const navigate = useNavigate();
 
-  const handlePayPalPayment = () => {
+  const handlePayPalPayment = async () => {
     // Add logic for PayPal payment here
+
+    await setCartFromBackend();
+    await checkoutOrder();
+
     navigate("/orderhistory");
     swal("Success", "Payment Successful", "success");
   };
 
   const handleGoBack = () => {
-    navigate("/checkout/pickup"); // Navigate back to the previous page
+    navigate("/checkout/" + sessionId + "/pickup"); // Navigate back to the previous page
+  };
+
+  const setCartFromBackend = async () => {
+    setCart(await getCart(user.id));
+  };
+
+  const checkoutOrder = async () => {
+    // Make sure cart is properly initialized before accessing cart.items
+    if (!cart || !cart.items) {
+      console.error("Cart or cart items not available.");
+      return;
+    }
+
+    await axios
+      .post("http://localhost:3000/checkoutOrders", {
+        user: user,
+        groceries: cart.items,
+        pickupLocation: selectedLocationLocalStorage,
+        amount: cart.totalPrice,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    await axios
+      .delete("http://localhost:3000/deleteCart", {
+        params: { userId: user.id },
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -82,7 +126,7 @@ export default function Confirmation() {
           "&:hover": { backgroundColor: "#076365" },
           marginTop: { xs: 2, sm: 2 },
           marginBottom: { xs: 5, sm: 0 },
-          width: "200px"
+          width: "200px",
         }}
       >
         previous page
