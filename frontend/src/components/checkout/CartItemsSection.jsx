@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Typography from "@mui/material/Typography";
 import {
   Dialog,
@@ -13,106 +13,12 @@ import { useAuth } from "../../hooks/AuthProvider";
 import { getCart } from "../../utils/getCart";
 import { useNavigate } from "react-router-dom";
 
-const currentDate = new Date();
-const oneDayAhead = new Date(currentDate.setDate(currentDate.getDate() + 1));
-const twoDaysAhead = new Date(currentDate.setDate(currentDate.getDate() + 1));
-const oneDayBehind = new Date(currentDate.setDate(currentDate.getDate() - 2));
-
-const exampleGroceries = [
-  {
-    _id: "610f72f4b214f2d2e8e25a2a",
-    name: "Apple",
-    description: "Fresh and juicy apple",
-    imageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1710778183/broccoli_xxtddq.jpg",
-    price: 1.99,
-    user: "610f72f4b214f2d2e8e25a1f", // User ID
-    categories: ["Fruits"],
-    freshness: oneDayAhead,
-    reviews: ["611f72f4b214f2d2e8e25a1a", "611f72f4b214f2d2e8e25a1b"],
-  },
-  {
-    _id: "610f72f4b214f2d2e8e25a2b",
-    name: "Banana",
-    description: "Yellow and tasty banana",
-    imageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708348046/samples/man-portrait.jpg",
-    price: 0.99,
-    user: "610f72f4b214f2d2e8e25a1f", // User ID
-    categories: ["Fruits"],
-    freshness: twoDaysAhead,
-    reviews: ["611f72f4b214f2d2e8e25a1c"],
-  },
-  {
-    _id: "610f72f4b214f2d2e8e25a2c",
-    name: "Mango",
-    description: "Sweet and delicious mango",
-    imageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708348042/samples/smile.jpg",
-    price: 2.49,
-    user: "610f72f4b214f2d2e8e25a1f", // User ID
-    categories: ["Fruits"],
-    freshness: oneDayBehind,
-    reviews: ["611f72f4b214f2d2e8e25a1d"],
-  },
-  {
-    _id: "610f72f4b214f2d2e8e25a2d",
-    name: "Hello",
-    description: "jonny jonny yes papa",
-    imageURL:
-      "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1711599634/bamelxgp6uft73qbf6kq.jpg",
-    price: 2.49,
-    user: "610f72f4b214f2d2e8e25a1f", // User ID
-    categories: ["Fruits"],
-    freshness: oneDayBehind,
-    reviews: ["611f72f4b214f2d2e8e25a1d"],
-  },
-];
-
-const exampleCartData = {
-  user: "610f72f4b214f2d2e8e25a1f", // User ID
-  totalPrice: 19.91,
-  items: [
-    {
-      grocery: "610f72f4b214f2d2e8e25a2a", // Apple
-      quantity: 2,
-    },
-    {
-      grocery: "610f72f4b214f2d2e8e25a2b", // Banana
-      quantity: 1,
-    },
-    {
-      grocery: "610f72f4b214f2d2e8e25a2c", // Mango
-      quantity: 3,
-    },
-    {
-      grocery: "610f72f4b214f2d2e8e25a2d", // Hello
-      quantity: 3,
-    },
-  ],
-};
-
-const emptyList = [];
-
 export default function CartItemsSection() {
   const { user } = useAuth();
   const [cart, setCart] = useState([]);
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
-
-  const cartItems = exampleCartData.items.map((cartItem) => {
-    const grocery = exampleGroceries.find(
-      (item) => item._id === cartItem.grocery
-    );
-    return {
-      ...cartItem,
-      id: grocery?._id,
-      name: grocery?.name,
-      imageURL: grocery?.imageURL,
-      price: grocery?.price,
-      freshness: grocery?.freshness,
-    };
-  });
+  const renderCount = useRef(0);
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -124,28 +30,42 @@ export default function CartItemsSection() {
   };
 
   useEffect(() => {
-    const cart = async () => {
-      setCart(await getCart(user.id));
-    };
+    axios
+      .get("http://localhost:3000/getCart", {
+        params: { userId: user.id },
+      })
+      .then((res) => {
+        console.log(res.data.items);
+        setCart(res.data.items);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
-    cart();
+  useEffect(() => {
+    renderCount.current += 1;
+    if (renderCount.current > 2) { // THIS IS POTENTIALLY BUGGY
+      console.log('Effect triggered');
+      console.log('Cart:', cart);
 
-    if (cart.length === 0) {
-      handleOpenModal();
+      if (cart.length === 0) {
+        handleOpenModal();
+      }
     }
-  });
+  }, [cart]);
 
   return (
     <div>
       <div style={{ maxHeight: "580px", overflowY: "auto" }}>
-        {cartItems.map((item, index) => (
+        {cart.map((item, index) => (
           <CartItem
             key={index}
-            groceryId={item.id}
-            price={item.price}
-            imageURL={item.imageURL}
-            title={item.name}
-            freshness={item.freshness}
+            groceryId={item.grocery.id}
+            price={item.grocery.price}
+            imageURL={item.grocery.imageURL}
+            title={item.grocery.name}
+            freshness={item.grocery.freshness}
             quantity={item.quantity}
           />
         ))}

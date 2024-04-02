@@ -17,6 +17,7 @@ import Stack from "@mui/material/Stack";
 import CloseIcon from "@mui/icons-material/Close";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
+import { useNavigate } from "react-router-dom";
 
 // const items = [
 //   {
@@ -38,10 +39,15 @@ import IconButton from "@mui/material/IconButton";
 // ];
 
 export default function ShoppingCart(props) {
-  const { user } = useAuth();
+  const { user, sessionId } = useAuth();
   const [items, setGroceries] = React.useState([]);
   // pass in params as item price and quantity
   const [totalPrice, setTotalPrice] = React.useState(0);
+  const navigate = useNavigate();
+
+  const navigateCheckout = () => {
+    navigate("/checkout/" + sessionId);
+  }
 
   useEffect(() => {
     axios
@@ -156,7 +162,7 @@ export default function ShoppingCart(props) {
                 Total Price: ${totalPrice}
               </Typography>
               <CustomButton
-                // onClick={checkOut(itemChanges)}
+                onClick={navigateCheckout}
                 sx={{
                   borderRadius: "999px",
                   borderBlockColor: "transparent",

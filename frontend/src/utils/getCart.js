@@ -12,3 +12,4 @@ export const getCart = async (userId) => {
 };
 
 export default getCart;
+
