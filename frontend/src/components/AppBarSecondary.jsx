@@ -288,7 +288,7 @@ function AppBarSecondary() {
                     MANAGE LISTINGS
                   </MenuItem>
                   <MenuItem
-                    onClick={() => navigate("/profile")}
+                    onClick={() => navigate("/orderhistory")}
                     sx={{
                       fontFamily: "open sans, sans-serif",
                       fontWeight: "750",

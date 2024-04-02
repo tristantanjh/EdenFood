@@ -1,6 +1,10 @@
 import express from "express";
 
 import {
+  sendEmail
+} from "../controller/emailController.js"
+
+import {
   addToCart,
   getCart,
   removeFromCart,
@@ -48,6 +52,8 @@ import {
 import { get } from "https";
 
 const APIrouter = express.Router();
+
+APIrouter.post("/email", sendEmail);
 
 APIrouter.post("/login", authenticateUser);
 
