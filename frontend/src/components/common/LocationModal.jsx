@@ -18,7 +18,7 @@ const LocationModal = ({ isOpen, locations, onClose }) => {
           color: "#181B13",
         }}
       >
-        Locations on Map
+        Pickup Locations for {locations?.region}
       </DialogTitle>
       <DialogContent>
         <MapComponent locationsList={locations} />
