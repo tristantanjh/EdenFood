@@ -21,7 +21,14 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useAuth } from "../../hooks/AuthProvider";
 
-export default function OrderHistoryOrder(props) {
+export default function OrderHistoryOrder({
+  amount,
+  groceries,
+  _id,
+  pickupLocation,
+  createdAt,
+  status,
+}) {
   const [open, setOpen] = React.useState(false);
   const [subject, setSubject] = React.useState("");
   const [message, setMessage] = React.useState("");
@@ -31,10 +38,11 @@ export default function OrderHistoryOrder(props) {
   useEffect(() => {
     axios
       .get("http://localhost:3000/getUserWithId", {
-        params: { userId: props.items[0].grocery.user },
+        params: { userId: groceries[0].grocery.user },
       })
       .then((res) => {
         setMerchant(res.data.user);
+        console.log(groceries);
       })
       .catch((err) => {
         console.log(err);
@@ -59,6 +67,12 @@ export default function OrderHistoryOrder(props) {
         userEmail: user.email,
         subject,
         message,
+        amount,
+        groceries,
+        _id,
+        pickupLocation,
+        createdAt,
+        status,
       });
       toast.success(data.message);
     } catch (err) {
@@ -131,11 +145,11 @@ export default function OrderHistoryOrder(props) {
           }}
         >
           {/* To Collect */}
-          {props.orderStatus}
+          {status}
         </Typography>
       </Container>
 
-      {props.items.map((item, index) => (
+      {groceries.map((item, index) => (
         <OrderHistoryItem
           key={index}
           imageURL={item.grocery.imageURL}
@@ -159,7 +173,7 @@ export default function OrderHistoryOrder(props) {
             mt: "1.5rem",
           }}
         >
-          Total: <b>S${props.orderAmount}</b>
+          Total: <b>S${amount}</b>
         </Typography>
       </Container>
 

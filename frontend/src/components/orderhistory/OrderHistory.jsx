@@ -125,10 +125,7 @@ export default function OrderHistory() {
               <AccordionDetails>
                 <OrderHistoryOrder
                   key={index}
-                  merchant={order.merchant}
-                  orderStatus={order.status}
-                  orderAmount={order.amount}
-                  items={order.groceries}
+                  {...order}
                 />
               </AccordionDetails>
             </Accordion>
