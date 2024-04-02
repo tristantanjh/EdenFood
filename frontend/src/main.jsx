@@ -58,7 +58,7 @@ const router = createBrowserRouter([
             element: <Explore />,
           },
           {
-            path: "/item",
+            path: "/item/:_id",
             element: <Item />,
           },
           {

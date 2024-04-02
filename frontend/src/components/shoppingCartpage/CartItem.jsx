@@ -113,7 +113,7 @@ export default function CartItem(props) {
                   position: "absolute",
                   top: "10%",
                   left: "35%",
-                  fontSize: isMobile ? 21 : 36,
+                  fontSize: isMobile ? 21 : 32,
                   fontWeight: 550,
                   maxWidth: isMobile ? "200px" : "500px",
                   display: "inline-block",
@@ -131,7 +131,7 @@ export default function CartItem(props) {
                   top: "42%",
                   left: "35%",
                   mb: 0.5,
-                  fontSize: isMobile ? 12 : 21,
+                  fontSize: isMobile ? 12 : 18,
                 }}
                 color="text.secondary"
                 fontFamily="open sans, sans-serif"
@@ -151,7 +151,7 @@ export default function CartItem(props) {
                   fontWeight={800}
                   fontFamily="nunito, sans-serif"
                   sx={{
-                    fontSize: isMobile ? 16 : 28,
+                    fontSize: isMobile ? 16 : 24,
                   }}
                 >
                   ${props.price}

@@ -55,7 +55,7 @@ const Tabs = styled(MuiTabs)({
   },
 });
 
-export default function ItemDescriptionTab() {
+export default function ItemDescriptionTab({ description, instruction}) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -156,7 +156,7 @@ export default function ItemDescriptionTab() {
                     fontWeight: "bold",
                   }}
                 >
-                  Fresh
+                  Farm-Fresh
                 </Typography>
               </ListItem>
               <ListItem sx={{ display: "list-item" }}>
@@ -168,7 +168,7 @@ export default function ItemDescriptionTab() {
                     fontWeight: "bold",
                   }}
                 >
-                  Boneless
+                  Locally Sourced
                 </Typography>
               </ListItem>
               <ListItem sx={{ display: "list-item" }}>
@@ -180,7 +180,7 @@ export default function ItemDescriptionTab() {
                     fontWeight: "bold",
                   }}
                 >
-                  Marinated
+                  Nutrient-Rich
                 </Typography>
               </ListItem>
             </List>
@@ -189,15 +189,11 @@ export default function ItemDescriptionTab() {
               display="inline"
               sx={{ fontFamily: "nunito, sans-serif", fontSize: "1rem" }}
             >
-              Milkfish, scientifically known as Chanos chanos, is a popular
-              saltwater fish species prized for its mild, tender flesh and
-              versatility in cooking. Native to the Indian and Pacific Oceans,
-              milkfish are characterized by their sleek, silvery bodies and
-              forked tails.
+              {description}
             </Typography>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          Item Two
+          {instruction}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={4}>
           Item Three

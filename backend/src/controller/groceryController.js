@@ -41,9 +41,9 @@ const createListing = async (req, res) => {
 
 const getListingByGroceryId = async (req, res) => {
   try {
-    const { groceryId } = req.query;
+    const groceryId = req.query.groceryId;
     
-    const grocery = await Grocery.findById(groceryId);
+    const grocery = await Grocery.findById(groceryId).populate("user").populate("reviews");
 
     if (!grocery) {
       return res.status(404).json({ message: "Grocery not found" });
@@ -52,6 +52,30 @@ const getListingByGroceryId = async (req, res) => {
     res.json(grocery);
   } catch (err) {
     console.error("Error fetching grocery:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+const disableGroceryByGroceryId = async (req, res) => {
+  try {
+    const groceryId = req.body.groceryId;
+
+    const grocery = await Grocery.findById(groceryId);
+
+    if (!grocery) {
+      return res.status(404).json({ message: "Grocery not found" });
+    }
+
+    // Set quantity to 0
+    grocery.quantity = 0;
+
+    // Save the updated grocery
+    await grocery.save();
+
+    res.json({ message: "Grocery quantity updated successfully", grocery });
+  } catch (err) {
+    console.error("Error updating grocery quantity:", err);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -144,4 +168,5 @@ export {
   getListingsByCategory,
   getListingsByUserId,
   getAllGroceries,
+  disableGroceryByGroceryId,
 };
