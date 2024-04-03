@@ -179,18 +179,21 @@ export default function EditPassword(props) {
         component={Paper}
         elevation={6}
         square
-        sx={{ display: "flex", justifyContent: "center" }}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          backgroundColor: "#FAFFF4",
+        }}
       >
         <Box
           sx={{
             mx: 4,
-            backgroundColor: "#FAFFF4",
             mt: { xs: 15, md: 0 },
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: { xs: "flex-start", sm: "center" },
-            height: "100vh",
+            height: { xs: "80vh", md: "100vh" },
             width: { xs: "100%", md: "30%" },
           }}
         >
