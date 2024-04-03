@@ -27,7 +27,7 @@ import {
   getOrdersWithUserId,
 } from "../controller/orderController.js";
 
-import { getSales, createSale } from "../controller/saleController.js";
+import { getSalesByUserId } from "../controller/saleController.js";
 
 import {
   authenticateUser,
@@ -106,9 +106,7 @@ APIrouter.patch("/editProfile/:userId", editProfile);
 
 APIrouter.patch("/editPassword/:userId", editPassword);
 
-APIrouter.get("/getSales/", getSales);
-
-APIrouter.post("/createSale", createSale);
+APIrouter.get("/getSalesByUserId", getSalesByUserId)
 
 APIrouter.post("/disableGrocery", disableGroceryByGroceryId);
 
