@@ -5,6 +5,7 @@ import cors from "cors";
 import "dotenv/config";
 import { APIrouter } from "./src/routes/routes.js";
 import { app } from "./config.js";
+import { monthlyRecurrentPayment } from "./cronjobs/recurrentPayment.js";
 
 ///////////////////////////////////////////////// app set-up //////////////////////////////////////////////////
 app.use(bodyParser.json());
@@ -19,6 +20,9 @@ app.get("/", (req, res) => {
 
 app.use(APIrouter);
 //  .use("/routes/home", homeRouter)
+
+// run cron job script
+monthlyRecurrentPayment();
 
 ///////////////////////////////////////////////// cors set-up //////////////////////////////////////////////////
 var corsOptions = {
