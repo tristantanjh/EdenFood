@@ -83,23 +83,57 @@ const checkoutOrder = async (req, res) => {
         }
     }
 
-    const orderItems = cart.items.map((item) => ({
-      grocery: item.grocery,
-      quantity: item.quantity,
-    }));
+    
+    // Create a function to split the cart by merchant
+    const splitCartByMerchant = (cartItems) => {
+      // Use reduce to split the cart into an object where keys are unique merchant IDs
+      const cartByMerchant = cartItems.reduce((acc, cartItem) => {
+        const merchantId = cartItem.grocery.user.toString(); // Convert ObjectId to string for comparison
 
-    const newOrder = new Order({
-      pickupLocation,
-      status: "pending",
-      user,
-      amount: cart.totalPrice,
-      groceries: orderItems,
-    });
+        if (!acc[merchantId]) {
+          acc[merchantId] = [];
+        }
+        acc[merchantId].push(cartItem);
 
-    const savedOrder = await newOrder.save();
+        return acc;
+      }, {});
+
+      return cartByMerchant; // Return the processed object
+    }
+
+    const cartByMerchant = splitCartByMerchant(cart.items); 
+
+    // Iterate over each merchant ID
+    for (const merchantId in cartByMerchant) {
+      const merchantList = cartByMerchant[merchantId];
+      
+      // Calculate total price for this merchant's groceries
+      const totalPriceForMerchant = merchantList.reduce((total, item) => {
+        return total + (item.grocery.price * item.quantity);
+      }, 0);
+
+      // Create order items for this merchant
+      const orderItems = merchantList.map((item) => ({
+        grocery: item.grocery._id, // Assuming you want to save grocery IDs in the order
+        quantity: item.quantity,
+      }));
+
+      // Create a new order for this merchant
+      const newOrder = new Order({
+        pickupLocation,
+        status: "pending",
+        user,
+        amount: totalPriceForMerchant,
+        groceries: orderItems,
+      });
+
+      // Save the order
+      const savedOrder = await newOrder.save();
+    }
+    //
     await Cart.deleteOne({ user });
 
-    res.status(201).json(savedOrder);
+    res.status(201).json({ message: "succesfully created orders." });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "An error occurred while creating the order." });
