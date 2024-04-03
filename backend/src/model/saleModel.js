@@ -1,19 +1,4 @@
 import mongoose, { Schema } from "mongoose";
-
-const saleSchema = new mongoose.Schema({
-  user: {
-    required: true,
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
-  totalPrice: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
-  items: [saleItemSchema], // Use the subdocument schema here
-});
-
 const saleItemSchema = new mongoose.Schema(
   {
     grocery: {
@@ -29,6 +14,20 @@ const saleItemSchema = new mongoose.Schema(
   },
   { _id: false }
 );
+
+const saleSchema = new mongoose.Schema({
+  user: {
+    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  totalPrice: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+  items: [saleItemSchema], // Use the subdocument schema here
+});
 
 const Sale = mongoose.model("Sale", saleSchema);
 
