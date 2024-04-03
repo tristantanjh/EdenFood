@@ -17,6 +17,7 @@ const saleSchema = new mongoose.Schema(
 { timestamps: true }
 );
 
+
 const saleItemSchema = new mongoose.Schema(
   {
     grocery: {
@@ -32,6 +33,7 @@ const saleItemSchema = new mongoose.Schema(
   },
   { _id: false },
 );
+
 
 const Sale = mongoose.model("Sale", saleSchema);
 

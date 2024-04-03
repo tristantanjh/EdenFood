@@ -30,7 +30,6 @@ export default function ItemCard(props) {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
 
-
   useEffect(() => {
     const fetchRating = async () => {
       const avgRating = await averageRating(props.id);
@@ -42,7 +41,7 @@ export default function ItemCard(props) {
 
   const handleViewItem = (id) => {
     console.log(id);
-    navigate("/item/" + id); 
+    navigate("/item/" + id);
   };
 
   return (
@@ -89,7 +88,7 @@ export default function ItemCard(props) {
           color="text.secondary"
           fontFamily="open sans, sans-serif"
         >
-          {props.freshness} day freshness
+          Expires {props.freshness.substring(0, 10).replace(/-/g, "/")}
         </Typography>
         {/* Custom price based on merchant uploads */}
         <Typography

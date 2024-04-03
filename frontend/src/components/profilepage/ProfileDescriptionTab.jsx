@@ -17,7 +17,6 @@ import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-
 // const items = [
 //   {
 //     itemImageURL:
@@ -213,6 +212,15 @@ export default function ProfileDescriptionTab(props) {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [value, setValue] = React.useState(0);
   const [listings, setListings] = React.useState([]);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Normalize today to midnight for accurate comparison
+
+  const activeListings = listings.filter(
+    (listing) => new Date(listing.freshness) >= today
+  );
+  const inactiveListings = listings.filter(
+    (listing) => new Date(listing.freshness) < today
+  );
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -344,33 +352,75 @@ export default function ProfileDescriptionTab(props) {
                       width: isMobile ? 90 : 150,
                     }}
                   >
-                    Add New <AddIcon sx={{ ml: isMobile ? 0.5 : 1 }} />
+                    Add New <AddIcon sx={{ ml: isMobile ? 10 / 100 : 1 }} />
                   </Button>
                 </Link>
               </Box>
-              <Grid container spacing={isMobile ? 1 : 1}>
-                {listings.length > 0 ? (
-                  listings.map((listing, index) => (
-                    <Grid
-                      item
-                      container
-                      justifyContent="center"
-                      xs
-                      md
-                      key={index}
+              <Grid
+                container
+                sx={{ ml: isMobile ? 0 : 3 }}
+                spacing={isMobile ? 1 : 1}
+              >
+                {activeListings.length > 0 ? (
+                  <div>
+                    <Typography
+                      sx={{
+                        fontSize: "30px",
+                        fontWeight: "800",
+                        m: "0 auto 1rem .5rem",
+                        fontFamily: "nunito, sans-serif",
+                      }}
                     >
-                      <ItemCard
-                        imageURL={listing.imageURL}
-                        name={listing.name}
-                        freshness={listing.freshness}
-                        price={listing.price}
-                        id = {listing._id}
-                      />
+                      Active Listings
+                    </Typography>
+                    <Grid container justifyContent="center">
+                      {activeListings.map((listing, index) => (
+                        <Grid item container xs md key={index}>
+                          <ItemCard
+                            imageURL={listing.imageURL}
+                            name={listing.name}
+                            freshness={listing.freshness}
+                            price={listing.price}
+                            id={listing._id}
+                          />
+                        </Grid>
+                      ))}
                     </Grid>
-                  ))
+                  </div>
                 ) : (
                   <div style={{ textAlign: "center" }}>
-                    No listings available
+                    No active listings available
+                  </div>
+                )}
+                {inactiveListings.length > 0 ? (
+                  <div>
+                    <Typography
+                      sx={{
+                        fontSize: "30px",
+                        fontWeight: "800",
+                        m: "0 auto 1rem .5rem",
+                        fontFamily: "nunito, sans-serif",
+                      }}
+                    >
+                      Inactive Listings
+                    </Typography>
+                    <Grid container justifyContent="center">
+                      {inactiveListings.map((listing, index) => (
+                        <Grid item container xs md key={index}>
+                          <ItemCard
+                            imageURL={listing.imageURL}
+                            name={listing.name}
+                            freshness={listing.freshness}
+                            price={listing.price}
+                            id={listing._id}
+                          />
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </div>
+                ) : (
+                  <div style={{ textAlign: "center" }}>
+                    No inactive listings available
                   </div>
                 )}
               </Grid>
