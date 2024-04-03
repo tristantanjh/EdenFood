@@ -2,6 +2,7 @@ import { Order } from "../model/orderModel.js";
 import { Cart } from "../model/cartModel.js";
 import { Grocery } from "../model/groceryModel.js";
 import { User } from "../model/userModel.js";
+import { Sale } from "../model/saleModel.js";
 
 
 const checkoutOrder = async (req, res) => {
@@ -34,8 +35,22 @@ const checkoutOrder = async (req, res) => {
       return res.status(400).json({ message: "Some items have too much quantity" });
     }
 
+    //for each grocery create a sale object 
+    await Promise.all(cart.items.map(async (cartItem) => {
+      const sale = new Sale({
+        user: cartItem.grocery.user,
+        totalPrice: cartItem.grocery.price * cartItem.quantity,
+        items: [{
+          grocery: cartItem.grocery._id, 
+          quantity: cartItem.quantity,
+        }],
+      });
+      await sale.save(); 
+    }));
+
+  //problem starts here 
       // Reduce the quantity of affected groceries in the database
-      for (const item of cart.items) {
+      /*for (const item of cart.items) {
         const grocery = await Grocery.findById(item.grocery._id);
 
         // Update the quantity of the grocery in the database
@@ -44,25 +59,81 @@ const checkoutOrder = async (req, res) => {
           { $inc: { quantity: -item.quantity } }, // Decrement the quantity by the item's quantity
           { new: true }
         );
-      }
+      }*/
 
-    const orderItems = cart.items.map((item) => ({
-      grocery: item.grocery,
-      quantity: item.quantity,
-    }));
+      for (const item of cart.items) {
+        try {
+            const grocery = await Grocery.findById(item.grocery._id);
+            if (!grocery) {
+                console.error(`Grocery with ID ${item.grocery._id} not found.`);
+                continue;
+            }
 
-    const newOrder = new Order({
-      pickupLocation,
-      status: "pending",
-      user,
-      amount: cart.totalPrice,
-      groceries: orderItems,
-    });
+            const newQuantity = Math.max(0, grocery.quantity - item.quantity);
+    
+            const updatedGrocery = await Grocery.findByIdAndUpdate(
+                item.grocery._id,
+                { quantity: newQuantity },
+                { new: true }
+            );
+            
+            console.log(`Updated grocery ${updatedGrocery.name}, new quantity: ${updatedGrocery.quantity}`);
+        } catch (error) {
+            console.error(`shit ass grocery cant be found: ${error}`);
+        }
+    }
 
-    const savedOrder = await newOrder.save();
+    
+    // Create a function to split the cart by merchant
+    const splitCartByMerchant = (cartItems) => {
+      // Use reduce to split the cart into an object where keys are unique merchant IDs
+      const cartByMerchant = cartItems.reduce((acc, cartItem) => {
+        const merchantId = cartItem.grocery.user.toString(); // Convert ObjectId to string for comparison
+
+        if (!acc[merchantId]) {
+          acc[merchantId] = [];
+        }
+        acc[merchantId].push(cartItem);
+
+        return acc;
+      }, {});
+
+      return cartByMerchant; // Return the processed object
+    }
+
+    const cartByMerchant = splitCartByMerchant(cart.items); 
+
+    // Iterate over each merchant ID
+    for (const merchantId in cartByMerchant) {
+      const merchantList = cartByMerchant[merchantId];
+      
+      // Calculate total price for this merchant's groceries
+      const totalPriceForMerchant = merchantList.reduce((total, item) => {
+        return total + (item.grocery.price * item.quantity);
+      }, 0);
+
+      // Create order items for this merchant
+      const orderItems = merchantList.map((item) => ({
+        grocery: item.grocery._id, // Assuming you want to save grocery IDs in the order
+        quantity: item.quantity,
+      }));
+
+      // Create a new order for this merchant
+      const newOrder = new Order({
+        pickupLocation,
+        status: "pending",
+        user,
+        amount: totalPriceForMerchant,
+        groceries: orderItems,
+      });
+
+      // Save the order
+      const savedOrder = await newOrder.save();
+    }
+    //
     await Cart.deleteOne({ user });
 
-    res.status(201).json(savedOrder);
+    res.status(201).json({ message: "succesfully created orders." });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "An error occurred while creating the order." });
