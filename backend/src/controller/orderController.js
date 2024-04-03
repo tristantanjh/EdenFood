@@ -2,6 +2,7 @@ import { Order } from "../model/orderModel.js";
 import { Cart } from "../model/cartModel.js";
 import { Grocery } from "../model/groceryModel.js";
 import { User } from "../model/userModel.js";
+import { Sale } from "../model/saleModel.js";
 
 
 const checkoutOrder = async (req, res) => {
@@ -34,8 +35,22 @@ const checkoutOrder = async (req, res) => {
       return res.status(400).json({ message: "Some items have too much quantity" });
     }
 
+    //for each grocery create a sale object 
+    await Promise.all(cart.items.map(async (cartItem) => {
+      const sale = new Sale({
+        user: cartItem.grocery.user,
+        totalPrice: cartItem.grocery.price * cartItem.quantity,
+        items: [{
+          grocery: cartItem.grocery._id, 
+          quantity: cartItem.quantity,
+        }],
+      });
+      await sale.save(); 
+    }));
+
+  //problem starts here 
       // Reduce the quantity of affected groceries in the database
-      for (const item of cart.items) {
+      /*for (const item of cart.items) {
         const grocery = await Grocery.findById(item.grocery._id);
 
         // Update the quantity of the grocery in the database
@@ -44,7 +59,29 @@ const checkoutOrder = async (req, res) => {
           { $inc: { quantity: -item.quantity } }, // Decrement the quantity by the item's quantity
           { new: true }
         );
-      }
+      }*/
+
+      for (const item of cart.items) {
+        try {
+            const grocery = await Grocery.findById(item.grocery._id);
+            if (!grocery) {
+                console.error(`Grocery with ID ${item.grocery._id} not found.`);
+                continue;
+            }
+
+            const newQuantity = Math.max(0, grocery.quantity - item.quantity);
+    
+            const updatedGrocery = await Grocery.findByIdAndUpdate(
+                item.grocery._id,
+                { quantity: newQuantity },
+                { new: true }
+            );
+            
+            console.log(`Updated grocery ${updatedGrocery.name}, new quantity: ${updatedGrocery.quantity}`);
+        } catch (error) {
+            console.error(`shit ass grocery cant be found: ${error}`);
+        }
+    }
 
     const orderItems = cart.items.map((item) => ({
       grocery: item.grocery,
