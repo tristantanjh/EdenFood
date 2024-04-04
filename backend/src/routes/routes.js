@@ -1,8 +1,6 @@
 import express from "express";
 
-import {
-  sendEmail
-} from "../controller/emailController.js"
+import { sendEmail } from "../controller/emailController.js";
 
 import {
   addToCart,
@@ -38,6 +36,7 @@ import {
   getProfilePic,
   editProfile,
   editPassword,
+  verify,
 } from "../controller/userController.js";
 
 import {
@@ -106,8 +105,10 @@ APIrouter.patch("/editProfile/:userId", editProfile);
 
 APIrouter.patch("/editPassword/:userId", editPassword);
 
-APIrouter.get("/getSalesByUserId", getSalesByUserId)
+APIrouter.get("/getSalesByUserId", getSalesByUserId);
 
 APIrouter.post("/disableGrocery", disableGroceryByGroceryId);
+
+APIrouter.put("/verifyUser", verify);
 
 export { APIrouter };
