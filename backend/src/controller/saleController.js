@@ -41,23 +41,23 @@ import { Sale } from "../model/saleModel.js";
     }
   };
 
-  /*const getSales = async (req, res) => {
+  const getAllSales = async (req, res) => {
     try {
-      const groceryId = req.query.groceryId;
-      const reviews = await Sale.find({ groceryId: groceryId });
-      if (reviews.length) {
-        res.status(200).json(reviews);
+      const sales = await Sale.find().populate("user");
+      if (sales.length) {
+        res.status(200).json(sales);
       } else {
         res
           .status(200)
-          .json({ message: "No Sales found for the specified groceryID." });
+          .json({ message: "No Sales found." });
       }
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
-  };*/
+  };
 
   export {
-    getSalesByUserId
+    getSalesByUserId,
+    getAllSales
   };
   
