@@ -388,9 +388,17 @@ export default function ProfileDescriptionTab(props) {
                     </Grid>
                   </div>
                 ) : (
-                  <div style={{ textAlign: "center" }}>
-                    No active listings available
-                  </div>
+                  <Typography
+                    sx={{
+                      fontSize: "30px",
+                      fontWeight: "800",
+                      m: "0 auto 1rem .5rem",
+                      textAlign: "left",
+                      fontFamily: "nunito, sans-serif",
+                    }}
+                  >
+                    No Active Listings
+                  </Typography>
                 )}
                 {inactiveListings.length > 0 ? (
                   <div>
@@ -419,9 +427,17 @@ export default function ProfileDescriptionTab(props) {
                     </Grid>
                   </div>
                 ) : (
-                  <div style={{ textAlign: "center" }}>
-                    No inactive listings available
-                  </div>
+                  <Typography
+                    sx={{
+                      fontSize: "30px",
+                      fontWeight: "800",
+                      fontFamily: "nunito, sans-serif",
+                      textAlign: "left", // Align the text to the left
+                      ml: "0.5rem", // Align the margin to match the 'Active Listings' section
+                    }}
+                  >
+                    No Inactive Listings
+                  </Typography>
                 )}
               </Grid>
             </div>

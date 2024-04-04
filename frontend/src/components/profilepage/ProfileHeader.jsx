@@ -9,9 +9,15 @@ import {
   useTheme,
   useMediaQuery,
   Avatar,
+  Modal,
+  TextField,
+  Snackbar,
+  Alert,
+  Tooltip,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import farmLicenses from "../../utils/farmLicense";
 import { useAuth } from "../../hooks/AuthProvider";
 
 const ProfileHeader = (props) => {
@@ -19,8 +25,61 @@ const ProfileHeader = (props) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const navigateTo = "/editProfile";
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
+  const handleOpenSnackbar = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
+  const [formData, setFormData] = useState({
+    name: "",
+    licenseNumber: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+    console.log(formData);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const farm = farmLicenses.find((farm) => farm.name === formData.name);
+    const isValidFarm = farm && farm.licenses.includes(formData.licenseNumber);
+    if (isValidFarm) {
+      try {
+        const response = axios.put("http://localhost:3000/verifyUser", {
+          userId: props.user.id,
+        });
+
+        handleOpenSnackbar("User successfully verified.", "success");
+        setUser((prevUser) => ({ ...prevUser, verified: true }));
+        handleClose();
+      } catch (error) {
+        console.error("Error verifying user:", error);
+        handleOpenSnackbar("Error verifying user. Please try again.", "error");
+      }
+    } else {
+      handleOpenSnackbar("Invalid farm name or license number.", "error");
+    }
+  };
 
   useEffect(() => {
+    console.log(props.user.id);
     axios
       .get("http://localhost:3000/getUserWithId", {
         params: { userId: props.user.id },
@@ -48,9 +107,24 @@ const ProfileHeader = (props) => {
         alignItems="center"
         justifyContent="center"
       >
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        >
+          <Alert
+            onClose={handleCloseSnackbar}
+            severity={snackbarSeverity}
+            variant="filled"
+            sx={{ width: "100%" }}
+          >
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
         <Grid item sx={{ mt: 15 }}>
           <Avatar
-            alt="Remy Sharp"
+            alt="User profile picture"
             src={user.profilePic}
             sx={{
               width: isSmallScreen ? "3.5rem" : "5rem",
@@ -58,16 +132,32 @@ const ProfileHeader = (props) => {
             }}
           />
         </Grid>
+
         <Grid item sx={{ mt: 15 }}>
-          <Typography
-            sx={{
-              fontSize: isSmallScreen ? "1.5rem" : "2rem",
-              fontFamily: "nunito, sans-serif",
-              fontWeight: "bold",
-            }}
-          >
-            {user.username}
-          </Typography>
+          <Box sx={{ display: "flex" }}>
+            <Typography
+              sx={{
+                fontSize: isSmallScreen ? "1.5rem" : "1.8rem",
+                fontFamily: "nunito, sans-serif",
+                fontWeight: "bold",
+              }}
+            >
+              {user.username}
+            </Typography>
+            {user.verified ? (
+              <Tooltip title="Verified SFA user">
+                <img
+                  src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1712153709/correct_zlwjua.png"
+                  style={{
+                    marginTop: isSmallScreen ? 10 : 8,
+                    marginLeft: 8,
+                    height: isSmallScreen ? 20 : 30,
+                    width: isSmallScreen ? 20 : 30,
+                  }}
+                />
+              </Tooltip>
+            ) : null}
+          </Box>
           <Typography
             sx={{
               fontStyle: "italic",
@@ -78,42 +168,124 @@ const ProfileHeader = (props) => {
             {user.email}
           </Typography>
           <Stack direction="row" spacing={1}>
-            <Button
-              size="small"
-              variant="outlined"
-              sx={{
-                fontSize: isSmallScreen ? 8 : 10,
-                borderColor: "#64CF94",
-                color: "#000000",
-                borderRadius: 15,
-                "&:hover": {
+            {user.verified ? null : (
+              <Button
+                onClick={handleOpen}
+                size="small"
+                variant="outlined"
+                sx={{
+                  fontSize: isSmallScreen ? 8 : 10,
                   borderColor: "#64CF94",
-                  backgroundColor: "#64CF94",
-                  color: "#FFFFFF",
-                },
-                width: isSmallScreen ? 100 : 120,
-              }}
-            >
-              10 followers
-            </Button>
-            <Button
-              size="small"
-              variant="outlined"
-              sx={{
-                fontSize: isSmallScreen ? 8 : 10,
-                borderColor: "#64CF94",
-                color: "#000000",
-                borderRadius: 15,
-                "&:hover": {
-                  borderColor: "#64CF94",
-                  backgroundColor: "#64CF94",
-                  color: "#FFFFFF",
-                },
-                width: isSmallScreen ? 100 : 120,
-              }}
-            >
-              10 following
-            </Button>
+                  color: "#000000",
+                  borderRadius: 15,
+                  "&:hover": {
+                    borderColor: "#64CF94",
+                    backgroundColor: "#64CF94",
+                    color: "#FFFFFF",
+                  },
+                  width: isSmallScreen ? 100 : 120,
+                }}
+              >
+                Get Verified
+              </Button>
+            )}
+            <Modal open={open} onClose={handleClose}>
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  width: 400,
+                  bgcolor: "background.paper",
+                  boxShadow: 24,
+                  p: 4,
+                }}
+              >
+                <Typography id="modal-modal-title" variant="h6" component="h2">
+                  Enter your registered name and SFA license number
+                </Typography>
+                <TextField
+                  margin="normal"
+                  color="success"
+                  variant="standard"
+                  fullWidth
+                  id="name"
+                  name="name"
+                  autoComplete="name"
+                  autoFocus
+                  label="Registered Name"
+                  onChange={handleChange}
+                  InputProps={{
+                    sx: {
+                      "& input:-webkit-autofill": {
+                        WebkitBoxShadow: "0 0 0 1000px #FFFFFF inset",
+                        WebkitTextFillColor: "#181B13",
+                      },
+                      fontFamily: "nunito, sans-serif",
+                    },
+                  }}
+                  sx={{
+                    "& label": {
+                      fontFamily: "nunito, sans-serif",
+                    },
+                  }}
+                />
+                <TextField
+                  margin="normal"
+                  color="success"
+                  variant="standard"
+                  fullWidth
+                  id="licenseNumber"
+                  name="licenseNumber"
+                  autoComplete="licenseNumber"
+                  autoFocus
+                  label="License Number"
+                  onChange={handleChange}
+                  InputProps={{
+                    sx: {
+                      "& input:-webkit-autofill": {
+                        WebkitBoxShadow: "0 0 0 1000px #FFFFFF inset",
+                        WebkitTextFillColor: "#181B13",
+                      },
+                      fontFamily: "nunito, sans-serif",
+                    },
+                  }}
+                  sx={{
+                    "& label": {
+                      fontFamily: "nunito, sans-serif",
+                    },
+                  }}
+                />
+                <Button
+                  type="submit"
+                  onClick={handleSubmit}
+                  fullWidth
+                  variant="contained"
+                  disabled={!formData.name || !formData.licenseNumber}
+                  sx={{
+                    mt: 3,
+                    mb: 2,
+                    py: isSmallScreen ? 1.5 : 1,
+                    fontFamily: "open sans, sans-serif",
+                    backgroundColor: "#076365",
+                    color: "#FAFFF4",
+                    borderRadius: "30px",
+                    "&:hover": { backgroundColor: "#076365" },
+                    position: isSmallScreen ? "fixed" : "none", // Position fixed on mobile
+                    bottom: isSmallScreen ? "20px" : "auto", // Adjust bottom position on mobile
+                    left: isSmallScreen ? "50%" : "0",
+                    transform: isSmallScreen ? "translateX(-50%)" : "0",
+                    width: isSmallScreen ? "calc(100% - 40px)" : "100%", // Adjust width on mobile
+                    maxWidth: isSmallScreen ? "400px" : "auto", // Max width of the button
+                    marginLeft: "auto", // Center horizontally
+                    marginRight: "auto", // Center horizontally
+                  }}
+                >
+                  Verify
+                </Button>
+              </Box>
+            </Modal>
           </Stack>
         </Grid>
         <Grid item sx={{ mt: 15.5 }}>
