@@ -66,9 +66,10 @@ const createUser = async (req, res) => {
           .status(500)
           .json({ message: "An error occurred during login." });
       }
-      res
-        .status(201)
-        .json({ message: "User created successfully", user: newUser });
+      res.status(201).json({
+        message: "User created successfully",
+        user: { id: newUser.id, email: newUser.email },
+      });
     });
   } catch (error) {
     console.error(error);
@@ -190,6 +191,27 @@ const getProfilePic = async (req, res) => {
   }
 };
 
+const verify = async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    console.log(userId);
+    const user = await User.findOneAndUpdate(
+      { _id: userId },
+      { verified: true }
+    );
+
+    if (user) {
+      res
+        .status(200)
+        .json({ message: "User successfully verified.", user: user });
+    } else {
+      res.status(404).json({ message: "User not found." });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export {
   authenticateUser,
   createUser,
@@ -199,4 +221,5 @@ export {
   getProfilePic,
   editProfile,
   editPassword,
+  verify,
 };

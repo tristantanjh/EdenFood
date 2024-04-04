@@ -22,6 +22,7 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import swal from "sweetalert";
 import CloudinaryUploadWidget from "../CloudinaryUploadWidget";
+import { useAuth } from "../../hooks/AuthProvider";
 
 import axios from "axios";
 
@@ -65,6 +66,7 @@ const logoStyle = {
 };
 
 export default function RegisterMain() {
+  const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const isMobile = useMediaQuery("(max-width:600px)");
   const [imageURL, setImageURL] = useState("empty");
@@ -112,8 +114,8 @@ export default function RegisterMain() {
           profilePic: imageURL, // Assuming imageURL is the URL of the uploaded profile picture
         });
 
-        console.log(response.data); // Handle successful user creation response
-        history.push("/");
+        login(response.data.user);
+        console.log(response.data);
       } catch (error) {
         console.error("Error creating user:", error.response.data.message);
         handleOpenSnackbar(

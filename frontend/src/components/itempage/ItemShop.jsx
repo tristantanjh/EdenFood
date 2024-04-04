@@ -7,6 +7,7 @@ import {
   Link,
   useTheme,
   useMediaQuery,
+  Tooltip,
 } from "@mui/material";
 import SetMealIcon from "@mui/icons-material/SetMeal";
 import CustomButton from "../common/CustomButton";
@@ -53,14 +54,29 @@ const ItemShop = (props) => {
           >
             {props.selectedItem.name} (100g)
           </Typography>
-          <Typography
-            sx={{ fontStyle: "italic", fontSize: "1.2rem" }}
-            gutterBottom
-          >
-            from {props.merchant.username}
-          </Typography>
+          <Box sx={{ display: "flex" }}>
+            <Typography
+              sx={{ fontStyle: "italic", fontSize: "1.2rem" }}
+              gutterBottom
+            >
+              from {props.merchant.username}
+            </Typography>
+            {props.merchant.verified ? (
+              <Tooltip title="Verified SFA user">
+                <img
+                  src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1712153709/correct_zlwjua.png"
+                  style={{
+                    marginTop: isSmallScreen ? 4 : 3,
+                    marginLeft: 8,
+                    height: isSmallScreen ? 20 : 25,
+                    width: isSmallScreen ? 20 : 25,
+                  }}
+                />
+              </Tooltip>
+            ) : null}
+          </Box>
           <Typography variant="body2" sx={{ fontStyle: "italic" }} gutterBottom>
-            Expires: {props.freshness.substring(0, 10).replace(/-/g, "/")} 
+            Expires: {props.freshness.substring(0, 10).replace(/-/g, "/")}
           </Typography>
           <Box
             sx={{
