@@ -24,7 +24,6 @@ import axios from "axios";
 import averageRating from "../../utils/averageRating";
 import { useNavigate } from "react-router-dom";
 
-
 function SimpleDialog(props) {
   const { user } = useAuth();
   const { onClose, open, groceryId } = props;
@@ -126,7 +125,7 @@ export default function ItemCard(props) {
 
   const handleViewItem = (id) => {
     console.log(id);
-    navigate("/item/" + id); 
+    navigate("/item/" + id);
   };
 
   useEffect(() => {
@@ -157,32 +156,47 @@ export default function ItemCard(props) {
         // image="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg"
         alt="Product Image"
         title="Listing Photo"
+        onClick={() => handleViewItem(props._id)}
       />
       <CardContent>
         {/* Custom title based on merchant uploads */}
-        <Typography
-          component="div"
-          fontFamily="open sans, sans-serif"
-          sx={{
-            fontSize: isMobile ? 15 : 19,
-            fontWeight: 550,
-            maxWidth: isMobile ? "200px" : "275px",
-            display: "inline-block",
-            wordWrap: "break-word",
-            lineHeight: "1.2",
-            mb: 0.2,
+        <a
+          href="#"
+          onClick={() => handleViewItem(props._id)}
+          style={{
+            textDecoration: "none",
+            color: "inherit",
+            cursor: "pointer",
           }}
         >
-          {props.name}
-          {/* Norwegian Salmon (100g) */}
-        </Typography>
+          <Typography
+            component="div"
+            fontFamily="open sans, sans-serif"
+            sx={{
+              fontSize: isMobile ? 15 : 19,
+              fontWeight: 550,
+              maxWidth: isMobile ? "200px" : "275px",
+              display: "inline-block",
+              wordWrap: "break-word",
+              lineHeight: "1.2",
+              mb: 0.2,
+              "&:hover": {
+                textDecoration: "underline",
+              },
+            }}
+          >
+            {props.name}
+            {/* Norwegian Salmon (100g) */}
+          </Typography>
+        </a>
+
         {/* Custom number of days based on merchant uploads */}
         <Typography
           sx={{ mb: 1.5, fontSize: isMobile ? 11 : 14 }}
           color="text.secondary"
           fontFamily="open sans, sans-serif"
         >
-          Expires {props.freshness.substring(0, 10).replace(/-/g, "/")} 
+          Expires {props.freshness.substring(0, 10).replace(/-/g, "/")}
         </Typography>
         {/* Custom price based on merchant uploads */}
         <Typography
@@ -205,7 +219,7 @@ export default function ItemCard(props) {
             isMobile={isMobile}
           />
         </CardContent>
-        <IconButton
+        {/* <IconButton
           size="small"
           onClick={() => handleViewItem(props._id)}
           sx={{
@@ -222,7 +236,7 @@ export default function ItemCard(props) {
             alt="View details"
             style={{ width: "100%", height: "100%" }}
           />
-        </IconButton>
+        </IconButton> */}
         <IconButton
           size="small"
           onClick={handleClickOpen}

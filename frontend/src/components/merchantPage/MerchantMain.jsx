@@ -4,9 +4,9 @@ import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import ProfileHeader from "./ProfileHeader.jsx";
-import ProfileDescriptionTab from "./ProfileDescriptionTab.jsx";
-import BuyerReview from "./BuyerReview.jsx";
+import MerchantHeader from "./MerchantHeader.jsx";
+import MerchantDescriptionTab from "./MerchantDescriptionTab.jsx";
+import BuyerReview from "../profilepage/BuyerReview.jsx";
 import { useAuth } from "../../hooks/AuthProvider";
 
 export default function Profile() {
@@ -32,9 +32,8 @@ export default function Profile() {
           pb: { xs: 6, sm: 12 },
         }}
       >
-        <ProfileHeader user={user} />
-        <ProfileDescriptionTab user={user} />
-        <BuyerReview user={user} />
+        <MerchantHeader user={user} />
+        <MerchantDescriptionTab user={user} />
       </Container>
     </Box>
   );

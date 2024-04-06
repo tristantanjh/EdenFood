@@ -13,12 +13,18 @@ import SetMealIcon from "@mui/icons-material/SetMeal";
 import CustomButton from "../common/CustomButton";
 import { alpha } from "@mui/material";
 import averageRating from "../../utils/averageRating";
+import { useNavigate } from "react-router-dom";
 
 const ItemShop = (props) => {
   const [value, setValue] = useState(5);
   const theme = useTheme();
+  const navigate = useNavigate();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down(414));
   const [rating, setRating] = useState(1);
+  const handleViewMerchant = (merchant) => {
+    console.log(merchant);
+    navigate("/merchant/" + merchant.id);
+  };
 
   useEffect(() => {
     const fetchRating = async () => {
@@ -59,8 +65,24 @@ const ItemShop = (props) => {
               sx={{ fontStyle: "italic", fontSize: "1.2rem" }}
               gutterBottom
             >
-              from {props.merchant.username}
+              from&nbsp;
             </Typography>
+            <a
+              href="#"
+              onClick={() => handleViewMerchant(props.merchant)}
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+                cursor: "pointer",
+              }}
+            >
+              <Typography
+                sx={{ fontStyle: "italic", fontSize: "1.2rem" }}
+                gutterBottom
+              >
+                {props.merchant.username}
+              </Typography>
+            </a>
             {props.merchant.verified ? (
               <Tooltip title="Verified SFA user">
                 <img

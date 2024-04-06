@@ -1,29 +1,50 @@
 import { Review } from "../model/reviewModel.js";
+import { User } from "../model/userModel.js";
 
 const leaveReview = async (req, res) => {
   try {
-    const groceryId = req.params.groceryId;
-    const { rating, description } = req.body;
+    // const userId = req.params.userId;
+    const { sellerId, buyerId, rating, description } = req.body;
 
-    if (!groceryId || !rating || !description) {
+    if (!sellerId || !buyerId || !rating || !description) {
       return res
         .status(400)
         .send("Missing required fields: groceryId, rating, description");
     }
 
     const review = new Review({
-      groceryId,
+      sellerId,
+      buyerId,
       rating,
       description,
     });
 
-    await review.save();
+    const savedReview = await review.save();
+    console.log(savedReview);
+    await User.findOneAndUpdate(
+      { _id: sellerId },
+      { $push: { reviews: savedReview._id } },
+      { new: true }
+    );
     res.status(201).send(review);
   } catch (error) {
     res.status(500).send("An error occurred while creating the review");
   }
 };
+const getReviewWithId = async (req, res) => {
+  try {
+    const reviewId = req.query.reviewId;
+    const review = await Review.findOne({ _id: reviewId });
 
+    if (review) {
+      res.status(200).json({ review });
+    } else {
+      res.status(404).json({ message: "Review not found." });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 //get review --> groceryID
 const getReview = async (req, res) => {
   try {
@@ -57,4 +78,4 @@ const deleteReview = async (req, res) => {
   }
 };
 
-export { leaveReview, getReview, deleteReview };
+export { leaveReview, getReview, deleteReview, getReviewWithId };

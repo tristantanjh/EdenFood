@@ -15,7 +15,6 @@ export const averageRating = async (groceryId) => {
     } else {
       return 0;
     }
-    
   } catch (error) {
     console.error(error);
   }

@@ -13,11 +13,81 @@ import SetMealIcon from "@mui/icons-material/SetMeal";
 import ItemQuantity from "./ItemQuantity";
 import { regions, pickupLocations } from "../common/PickupLocations";
 import LocationModal from "../common/LocationModal";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Rating from "@mui/material/Rating";
+import TextField from "@mui/material/TextField";
+import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
+import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../../hooks/AuthProvider";
 
 function OrderCard(props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [modalOpen, setModalOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [ratingValue, setRatingValue] = React.useState(0);
+  const [description, setDescription] = React.useState("");
+  const { user } = useAuth();
+  const notify = () => {
+    toast.success("Review has been submitted.", {
+      position: "top-left",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+  const [reviewForm, setReviewForm] = useState({
+    // to change to props.user
+    sellerId: "65f84c2644883f28d0d172e2",
+    buyerId: user.id,
+    rating: ratingValue,
+    description: description,
+    // createdAt: new Date(),
+    // updatedAt: new Date(),
+  });
+  useEffect(() => {
+    setReviewForm((prevForm) => ({
+      ...prevForm,
+      rating: ratingValue,
+      description: description,
+    }));
+  }, [description, ratingValue]);
+  const handleDialogOpen = () => {
+    setDialogOpen(true);
+  };
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+  const handleSubmitRating = async (event) => {
+    event.preventDefault();
+    const { userId, ...restOfData } = reviewForm;
+
+    const transformedData = {
+      userId: userId,
+      ...restOfData,
+    };
+    console.log(transformedData);
+    // try {
+    const response = await axios.post(
+      "http://localhost:3000/leaveReview",
+      transformedData
+    );
+    console.log(response.data);
+    // } catch (error) {
+    //   console.error("Error leaving review:", error?.response?.data?.message);
+    // }
+    notify();
+    setDialogOpen(false);
+  };
 
   useEffect(() => {
     const region = pickupLocations
@@ -156,6 +226,7 @@ function OrderCard(props) {
           <Grid item container spacing={2} justifyContent="center">
             <Grid item xs={4} display="flex" justifyContent="center">
               <Button
+                onClick={handleDialogOpen}
                 sx={{
                   backgroundColor: "#64CF94",
                   borderColor: "#64CF94",
@@ -165,7 +236,7 @@ function OrderCard(props) {
                   width: isMobile ? 60 : 120,
                 }}
               >
-                Rate
+                Rate Seller
               </Button>
             </Grid>
             <Grid item xs={4} display="flex" justifyContent="center">
@@ -182,6 +253,67 @@ function OrderCard(props) {
               >
                 View Location
               </Button>
+              <Dialog
+                open={dialogOpen}
+                onClose={handleDialogClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">
+                  <Typography
+                    sx={{
+                      fontFamily: "nunito, sans-serif",
+                      color: "#000000",
+                      fontWeight: "bold",
+                      fontSize: "21px",
+                      p: 0,
+                    }}
+                  >
+                    Give {props.orderSeller} a rating and review:
+                  </Typography>
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    <TextField
+                      id="outlined-multiline-static"
+                      label="Write a Review"
+                      multiline
+                      fullWidth
+                      rows={6}
+                      onChange={(event) => {
+                        setDescription(event.target.value);
+                      }}
+                      sx={{ mt: "8px", mb: "10px" }}
+                    />
+                    <Rating
+                      size="medium"
+                      value={ratingValue}
+                      onChange={(event, newValue) => {
+                        setRatingValue(newValue);
+                      }}
+                      sx={{ mb: "5px" }}
+                    />
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    onClick={handleSubmitRating}
+                    sx={{
+                      fontFamily: "open sans, sans-serif",
+                      backgroundColor: "#076365",
+                      color: "#FAFFF4",
+                      borderRadius: "5px",
+                      "&:hover": { backgroundColor: "#076365" },
+                      width: "100%",
+                      marginLeft: "10px",
+                      marginRight: "10px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    Submit
+                  </Button>
+                </DialogActions>
+              </Dialog>
               <LocationModal
                 isOpen={modalOpen}
                 onClose={() => setModalOpen(false)}

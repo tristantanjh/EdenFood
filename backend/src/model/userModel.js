@@ -33,10 +33,10 @@ const userSchema = new mongoose.Schema({
       ref: "Order",
     },
   ],
-  ratings: [
+  reviews: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Rating",
+      ref: "Review",
     },
   ],
 });

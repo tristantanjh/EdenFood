@@ -48,6 +48,7 @@ import {
   leaveReview,
   getReview,
   deleteReview,
+  getReviewWithId,
 } from "../controller/reviewController.js";
 import { get } from "https";
 
@@ -80,6 +81,8 @@ APIrouter.get("/getListingByGroceryId", getListingByGroceryId);
 APIrouter.get("/getListingsByUserId", getListingsByUserId);
 
 APIrouter.get("/reviews", getReview);
+
+APIrouter.get("/getReviewWithId", getReviewWithId);
 
 APIrouter.delete("/review", deleteReview);
 
