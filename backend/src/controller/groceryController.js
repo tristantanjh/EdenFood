@@ -59,7 +59,7 @@ const getListingByGroceryId = async (req, res) => {
 
 const disableGroceryByGroceryId = async (req, res) => {
   try {
-    const groceryId = req.body.groceryId;
+    const groceryId = req.body.params.groceryId;
 
     const grocery = await Grocery.findById(groceryId);
 

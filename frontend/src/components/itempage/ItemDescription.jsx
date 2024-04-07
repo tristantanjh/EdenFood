@@ -20,8 +20,104 @@ import axios from "axios";
 import { useAuth } from "../../hooks/AuthProvider";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
-import 'swiper/css';
-import 'swiper/css/navigation';
+import "swiper/css";
+import "swiper/css/navigation";
+import PropTypes from "prop-types";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import List from "@mui/material/List";
+import Stack from "@mui/material/Stack";
+import QuantitySelector from "../explorepage/QuantitySelector";
+import { toast } from "react-toastify";
+
+function SimpleDialog(props) {
+  const { user } = useAuth();
+  const { onClose, open, groceryId } = props;
+  const [quantity, setQuantity] = React.useState(1);
+
+  const handleClose = () => {
+    onClose();
+  };
+
+  const handleAddToCart = async (value) => {
+    console.log(props.groceryId);
+    try {
+      const response = await axios.post("http://localhost:3000/addToCart", {
+        userId: user.id,
+        groceryId: props.groceryId,
+        quantity: quantity,
+      });
+      // add SnackBar for if response.ok
+      // if (!response.ok) {
+      //   throw new Error("Failed to add item to cart");
+      // }
+      console.log("Item added to cart successfully");
+      toast.success(
+        quantity + " " + props.groceryName + " added to cart successfully"
+      );
+      handleClose();
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    }
+  };
+
+  return (
+    <Dialog onClose={handleClose} open={open}>
+      <DialogTitle
+        sx={{
+          fontFamily: "nunito, sans-serif",
+          fontSize: { xs: "1.3rem", sm: "1.5rem" },
+          fontWeight: "bold",
+          textAlign: "left",
+        }}
+      >
+        Select Item Quantity
+      </DialogTitle>
+      <List sx={{ pt: 0 }}>
+        <Stack spacing={2}>
+          <QuantitySelector
+            minValue={1}
+            maxValue={10}
+            quantity={quantity}
+            onQuantityChange={() => setQuantity(quantity)}
+          />
+          <Box
+            sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}
+          >
+            <CustomButton
+              onClick={handleAddToCart}
+              sx={{
+                borderRadius: "999px",
+                borderBlockColor: "transparent",
+                backgroundColor: "#64CF94", // Custom background color
+                color: "#FFF", // Custom text color
+                fontFamily: "nunito, sans-serif",
+                fontWeight: "700",
+                fontSize: { xs: "0.7rem", sm: "0.8rem" },
+                width: { xs: "110px", sm: "150px" },
+                padding: { xs: "4px 7px", sm: "5px 8px" },
+                boxShadow: "0px",
+                mr: "10px",
+                mb: "5px",
+                "&:hover": {
+                  backgroundColor: alpha("#64CF94", 0.8),
+                },
+                "&:focus": { outline: "none" },
+              }}
+            >
+              Add to Cart
+            </CustomButton>
+          </Box>
+        </Stack>
+      </List>
+    </Dialog>
+  );
+}
+
+SimpleDialog.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+};
 
 export default function ItemDescription() {
   const theme = useTheme();
@@ -34,8 +130,16 @@ export default function ItemDescription() {
   const [reviewsLength, setReviewsLength] = useState(0);
   const [imageURL, setImageURL] = useState([]);
   const [freshness, setFreshness] = useState("");
+  const [open, setOpen] = useState(false);
 
-  useEffect(() => {
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = (value) => {
+    setOpen(false);
+  };
+
+  const fetchData = () => {
     axios
       .get("http://localhost:3000/getListingByGroceryId", {
         params: { groceryId: _id },
@@ -66,6 +170,25 @@ export default function ItemDescription() {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const handleDeleteItem = () => {
+    console.log(selectedItem._id);
+    axios
+      .post("http://localhost:3000/disableGrocery", {
+        params: { groceryId: selectedItem._id },
+      })
+      .then((res) => {
+        toast.success("Successfully disabled " + selectedItem.name);
+        fetchData();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   return (
@@ -148,11 +271,12 @@ export default function ItemDescription() {
             sx={{
               "&.MuiContainer-root": {
                 p: 0,
+                mt: { xs: "0", md: "3rem" },
               },
             }}
           >
             <ItemDescriptionTab {...selectedItem} />
-            <ProductAvailability {...selectedItem} />
+            {/* <ProductAvailability {...selectedItem} /> */}
 
             {/* Bottom buttons */}
             <Box
@@ -161,32 +285,63 @@ export default function ItemDescription() {
                 width: "100%",
                 bgcolor: "#FAFFF4",
                 height: { xs: "100%", md: "100%" },
+                mt: "5rem",
               })}
             >
               <Container
                 sx={{
                   display: "flex",
                   flexDirection: { xs: "row", md: "row" },
-                  alignItems: "right",
+                  alignItems: "center",
                   justifyContent: { xs: "space-between", md: "space-between" },
                   pb: { xs: 6, sm: 12 },
                 }}
               >
-                <Typography
+                <Box
                   sx={{
-                    fontSize: "1.7rem",
-                    textTransform: "none",
-                    textAlign: "left",
-                    fontFamily: "nunito, sans-serif",
-                    fontWeight: "bold",
-                    "&.MuiTypography-root": {
-                      ml: { xs: 0, md: 1 },
-                      mr: 0,
-                    },
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "left",
+                    justifyContent: "center",
+                    // pb: { xs: 6, sm: 12 },
+                    ml: "2rem",
                   }}
                 >
-                  S${selectedItem.price}
-                </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "1.5rem",
+                      textTransform: "none",
+                      textAlign: "left",
+                      fontFamily: "nunito, sans-serif",
+                      fontWeight: "bold",
+                      "&.MuiTypography-root": {
+                        ml: { xs: 0, md: 1 },
+                        mr: 0,
+                      },
+                    }}
+                  >
+                    S${selectedItem.price}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "1rem",
+                      textTransform: "none",
+                      textAlign: "left",
+                      fontFamily: "nunito, sans-serif",
+                      fontWeight: "bold",
+                      "&.MuiTypography-root": {
+                        ml: { xs: 0, md: 1 },
+                        mr: 0,
+                      },
+                    }}
+                  >
+                    Quantity Available:{" "}
+                    <span style={{ color: "red" }}>
+                      <u>{selectedItem.quantity}</u>
+                    </span>
+                  </Typography>
+                </Box>
+
                 <div>
                   {isMerchant ? (
                     <CustomButton
@@ -207,6 +362,8 @@ export default function ItemDescription() {
                         },
                         "&:focus": { outline: "none" },
                       }}
+                      onClick={handleDeleteItem}
+                      disabled={selectedItem.quantity === 0}
                     >
                       Delete
                     </CustomButton>
@@ -229,11 +386,19 @@ export default function ItemDescription() {
                         },
                         "&:focus": { outline: "none" },
                       }}
+                      onClick={handleClickOpen}
+                      disabled={selectedItem.quantity === 0}
                     >
                       Add To Cart
                     </CustomButton>
                   )}
-                  {isMerchant ? (
+                  <SimpleDialog
+                    open={open}
+                    onClose={handleClose}
+                    groceryId={selectedItem._id}
+                    groceryName={selectedItem.name}
+                  />
+                  {/* {isMerchant ? (
                     ""
                   ) : (
                     <Button
@@ -247,7 +412,7 @@ export default function ItemDescription() {
                   >
                     <FavoriteBorderIcon />
                   </Button>
-                  )}
+                  )} */}
                 </div>
               </Container>
             </Box>
