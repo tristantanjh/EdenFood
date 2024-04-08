@@ -65,30 +65,39 @@ export default function ItemCard(props) {
         title="Listing Photo"
       />
       <CardContent>
-        {/* Custom title based on merchant uploads */}
-        <Typography
-          component="div"
-          fontFamily="open sans, sans-serif"
-          sx={{
-            fontSize: isMobile ? 15 : 19,
-            fontWeight: 550,
-            maxWidth: isMobile ? "200px" : "275px",
-            display: "inline-block",
-            wordWrap: "break-word",
-            lineHeight: "1.2",
-            mb: 0.2,
+        <a
+          href="#"
+          onClick={() => handleViewItem(props.id)}
+          style={{
+            textDecoration: "none",
+            color: "inherit",
+            cursor: "pointer",
           }}
         >
-          {props.name}
-          {/* Norwegian Salmon (100g) */}
-        </Typography>
+          <Typography
+            component="div"
+            fontFamily="open sans, sans-serif"
+            sx={{
+              fontSize: isMobile ? 15 : 19,
+              fontWeight: 550,
+              maxWidth: isMobile ? "200px" : "275px",
+              display: "inline-block",
+              wordWrap: "break-word",
+              lineHeight: "1.2",
+              mb: 0.2,
+            }}
+          >
+            {props.name}
+            {/* Norwegian Salmon (100g) */}
+          </Typography>
+        </a>
         {/* Custom number of days based on merchant uploads */}
         <Typography
           sx={{ mb: 1.5, fontSize: isMobile ? 11 : 14 }}
           color="text.secondary"
           fontFamily="open sans, sans-serif"
         >
-          Expires {props.freshness.substring(0, 10).replace(/-/g, "/")}
+          Expires {props.freshness} days
         </Typography>
         {/* Custom price based on merchant uploads */}
         <Typography
@@ -108,7 +117,7 @@ export default function ItemCard(props) {
           {/* Need change default value accordingly */}
           <Ratings value={rating} size="small" isMobile={isMobile} />
         </CardContent>
-        <IconButton
+        {/* <IconButton
           size="small"
           onClick={() => handleViewItem(props.id)}
           sx={{
@@ -125,7 +134,7 @@ export default function ItemCard(props) {
             alt="View details"
             style={{ width: "100%", height: "100%" }}
           />
-        </IconButton>
+        </IconButton> */}
       </Stack>
     </Card>
   );

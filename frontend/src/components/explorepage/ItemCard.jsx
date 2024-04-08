@@ -109,6 +109,16 @@ SimpleDialog.propTypes = {
   open: PropTypes.bool.isRequired,
 };
 
+function getFreshness(freshness, createdDate) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const created = new Date(createdDate);
+  const diffTime = Math.abs(today - created);
+  console.log(diffTime);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return parseInt(freshness) - diffDays;
+}
+
 export default function ItemCard(props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -196,7 +206,7 @@ export default function ItemCard(props) {
           color="text.secondary"
           fontFamily="open sans, sans-serif"
         >
-          Expires {props.freshness.substring(0, 10).replace(/-/g, "/")}
+          Expires {getFreshness(props.freshness, props.createdDate)} days
         </Typography>
         {/* Custom price based on merchant uploads */}
         <Typography

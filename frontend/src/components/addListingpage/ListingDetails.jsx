@@ -42,7 +42,7 @@ export default function ListingDetails() {
     user: user.id,
     category: "",
     instruction: "",
-    freshness: "",
+    freshness: 0,
     quantity: 0,
   });
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
