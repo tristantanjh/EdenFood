@@ -132,7 +132,22 @@ const ItemShop = (props) => {
                 borderColor: "grey.500",
               }}
             >
-              <SetMealIcon sx={{ width: "50px", height: "50px" }} />
+              {props.selectedItem.category === "Fruits" ? (
+                <img
+                  src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1712554934/fruits_t2x9wp.png"
+                  style={{ width: "50px", height: "50px" }}
+                />
+              ) : props.selectedItem.category === "Vegetables" ? (
+                <img
+                  src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1712554934/vegetable_ep1bzi.png"
+                  style={{ width: "50px", height: "50px" }}
+                />
+              ) : (
+                <img
+                  src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1712554933/barbecue_aanmif.png"
+                  style={{ width: "50px", height: "50px" }}
+                />
+              )}
             </Box>
             {/* <Link href="www.google.com"> View Location </Link> */}
           </Grid>
