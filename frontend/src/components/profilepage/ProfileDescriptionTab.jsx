@@ -430,11 +430,11 @@ export default function ProfileDescriptionTab(props) {
                       fontFamily: "nunito, sans-serif",
                     }}
                   >
-                    Active Listings
+                    Inactive Listings
                   </Typography>
-                  {activeListings.length > 0 ? (
+                  {inactiveListings.length > 0 ? (
                     <Grid container spacing={isMobile ? 1 : 1}>
-                      {activeListings.map((listing, index) => (
+                      {inactiveListings.map((listing, index) => (
                         <Grid item container xs md key={index}>
                           <ItemCard
                             imageURL={listing.imageURL}
