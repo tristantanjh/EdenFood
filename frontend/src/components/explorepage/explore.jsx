@@ -16,7 +16,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
 
-const options = ["All Categories", "Fruits", "Vegetable", "Meats"];
+const options = ["All Categories", "Fruits", "Vegetable", "Meat"];
 
 export default function Explore() {
   const theme = useTheme();
@@ -29,7 +29,7 @@ export default function Explore() {
   const [originalGroceries, setOriginalGroceries] = useState([]);
   const [filterValue, setFilterValue] = React.useState(options[0]);
 
-  const cat = ["Fruits, Vegetable, Meats"];
+  const cat = ["Fruits, Vegetable, Meat"];
 
   useEffect(() => {
     const fetchData = async () => {
