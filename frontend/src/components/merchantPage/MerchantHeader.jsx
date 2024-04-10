@@ -133,7 +133,7 @@ const ProfileHeader = (props) => {
               />
             </Grid>
 
-            <Grid item sx={{ mt: 15 }}>
+            <Grid item sx={{ mt: 15, ml: "1rem" }}>
               <Box sx={{ display: "flex" }}>
                 <Typography
                   sx={{

@@ -34,7 +34,7 @@ export default function Profile() {
       >
         <ProfileHeader user={user} />
         <ProfileDescriptionTab user={user} />
-        <BuyerReview user={user} />
+        {/* <BuyerReview user={user} /> */}
       </Container>
     </Box>
   );

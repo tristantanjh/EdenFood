@@ -16,6 +16,7 @@ import Grid from "@mui/material/Grid";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import BuyerReview from "./BuyerReview.jsx";
 
 // const items = [
 //   {
@@ -318,7 +319,7 @@ export default function ProfileDescriptionTab(props) {
               style={{ height: 30, alignSelf: "center" }}
             />
             <Tab
-              label="Insights"
+              label="Reviews"
               {...a11yProps(4)}
               sx={{
                 fontFamily: "nunito, sans-serif",
@@ -368,6 +369,7 @@ export default function ProfileDescriptionTab(props) {
                 // alignItems: "center",
                 // justifyContent: "flex-start",
                 pb: { xs: 6, sm: 12 },
+                ml: isMobile ? 0 : 3
               }}
             >
               <Link to="/addListing">
@@ -378,10 +380,11 @@ export default function ProfileDescriptionTab(props) {
                     color: "#FFFFFF",
                     borderRadius: 15,
                     fontSize: isMobile ? 10 : 15,
-                    width: isMobile ? 100 : 150,
+                    width: isMobile ? 150 : 200,
+                    mb: "1rem"
                   }}
                 >
-                  Add New <AddIcon sx={{ ml: isMobile ? 10 / 100 : 1 }} />
+                  Add New Listing <AddIcon sx={{ ml: isMobile ? 10 / 100 : 1 }} />
                 </Button>
               </Link> 
               <div
@@ -406,7 +409,7 @@ export default function ProfileDescriptionTab(props) {
                 {activeListings.length > 0 ? (
                   <Grid container spacing={isMobile ? 1 : 1}>
                     {activeListings.map((listing, index) => (
-                      <Grid item container xs md key={index}>
+                      <Grid item container xs md key={index} >
                         <ItemCard
                           imageURL={listing.imageURL}
                           name={listing.name}
@@ -420,12 +423,25 @@ export default function ProfileDescriptionTab(props) {
                       </Grid>
                     ))}
                   </Grid>
-                ) : null}
+                ) : <Box
+                id="image"
+                component="img"
+                fullWidth
+                sx={{
+                  height: "250px",
+                  width: "auto",
+                  maxWidth: "425px",
+                  objectFit: "contain",
+                  mt: "3rem",
+                }}
+                src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1712733794/active_a7efbk.png"
+                alt="Uploaded Profile Picture"
+              />}
               </div>
             </Grid>
             <Grid
               container
-              // sx={{ ml: isMobile ? 0 : 3 }}
+              sx={{ ml: isMobile ? 0 : 3 }}
               spacing={isMobile ? 1 : 1}
             >
               <div
@@ -463,7 +479,20 @@ export default function ProfileDescriptionTab(props) {
                       </Grid>
                     ))}
                   </Grid>
-                ) : null}
+                ) : <Box
+                id="image"
+                component="img"
+                fullWidth
+                sx={{
+                  height: "250px",
+                  width: "auto",
+                  maxWidth: "425px",
+                  objectFit: "contain",
+                  mt: "3rem",
+                }}
+                src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1712733793/inactive_utb64c.png"
+                alt="Uploaded Profile Picture"
+              />}
               </div>
             </Grid>
             {/* </div> */}
@@ -475,7 +504,7 @@ export default function ProfileDescriptionTab(props) {
           ))}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={4}>
-          Item Three
+        <BuyerReview user={user} />
         </CustomTabPanel>
       </Container>
     </Box>
