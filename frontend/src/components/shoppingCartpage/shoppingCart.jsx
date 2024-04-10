@@ -146,13 +146,13 @@ export default function ShoppingCart(props) {
               <CartItem
                 key={index}
                 groceryId={item.grocery._id}
+                groceryQuantity={item.grocery.quantity}
                 price={item.grocery.price}
                 imageURL={item.grocery.imageURL}
                 title={item.grocery.name}
                 freshness={item.grocery.freshness}
                 currentQuantity={item.quantity}
                 setTotalPrice={setTotalPrice}
-                createdAt={item.grocery.createdAt}
                 handleRemoveItem={handleRemoveItem}
               />
             ))}
@@ -178,7 +178,7 @@ export default function ShoppingCart(props) {
                   marginRight: 2,
                 }}
               >
-                Total Price: ${totalPrice}
+                Total Price: ${parseFloat(totalPrice).toFixed(1)}
               </Typography>
               <CustomButton
                 onClick={navigateCheckout}

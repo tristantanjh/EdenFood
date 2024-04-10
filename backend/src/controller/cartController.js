@@ -188,7 +188,6 @@ const incrementGroceryQuantity = async (req, res) => {
     if (item.quantity + 1 < grocery.quantity) {
       item.quantity += 1;
       cart.totalPrice += grocery.price;
-      console.log(item.quantity);
     } else {
       return res.status(401).json({
         message:

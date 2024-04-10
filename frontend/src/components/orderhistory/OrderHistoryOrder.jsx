@@ -44,7 +44,7 @@ export default function OrderHistoryOrder({
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
 
   const notify = () => {
-    toast("Review has been submitted.", {type: "success"});
+    toast("Review has been submitted.", { type: "success" });
   };
 
   const [reviewForm, setReviewForm] = useState({
@@ -175,6 +175,20 @@ export default function OrderHistoryOrder({
     >
       {/* <ToastContainer position="top-right" limit={1} /> */}
       {/* Merchant image & Order status */}
+      <Container sx={{ textAlign: "left" }}>
+        <Typography
+          sx={{
+            fontSize: { xs: "12px", md: "20px" },
+            fontWeight: "bold",
+            justifyContent: "flex-start",
+            color: "#076365",
+            mt: 2,
+          }}
+        >
+          {/* To Collect */}
+          Order ID: {_id}
+        </Typography>
+      </Container>
       <Container
         sx={{
           display: "flex",
@@ -283,7 +297,7 @@ export default function OrderHistoryOrder({
           }}
           onClick={() => setLocationModalOpen(true)}
         >
-          Pickup Location
+          Location
         </CustomButton>
         <CustomButton
           sx={{

@@ -402,7 +402,7 @@ export default function ProfileDescriptionTab(props) {
             >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon sx={{ color: "#FFF" }} />}
-                sx={{ backgroundColor: "#076365", }}
+                sx={{ backgroundColor: "#076365" }}
               >
                 <Typography
                   sx={{
@@ -412,7 +412,7 @@ export default function ProfileDescriptionTab(props) {
                     color: "#FFF",
                   }}
                 >
-                  ID: {isMobile ? order._id : order._id}
+                  No: {index + 1}
                 </Typography>
                 <Typography
                   sx={{
@@ -433,7 +433,7 @@ export default function ProfileDescriptionTab(props) {
           ))}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={4}>
-        <BuyerReview buyerId={user.id} />
+          <BuyerReview buyerId={user.id} />
         </CustomTabPanel>
       </Container>
     </Box>
