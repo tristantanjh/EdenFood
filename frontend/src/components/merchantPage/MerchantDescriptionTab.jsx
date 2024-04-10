@@ -126,7 +126,7 @@ function getFreshness(freshness, createdDate) {
   return parseInt(freshness) - diffDays;
 }
 
-export default function ProfileDescriptionTab(props) {
+export default function MerchantDescriptionTab(props) {
   const theme = useTheme();
   const user = props.user;
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -147,6 +147,7 @@ export default function ProfileDescriptionTab(props) {
   };
 
   useEffect(() => {
+    console.log(user);
     axios
       .get("http://localhost:3000/getListingsByUserId", {
         params: { userId: user },
@@ -403,7 +404,7 @@ export default function ProfileDescriptionTab(props) {
           </Container> */}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          <BuyerReview user={user} />
+          <BuyerReview buyerId={user} />
         </CustomTabPanel>
       </Container>
     </Box>
