@@ -56,7 +56,7 @@ const QuantitySelector = ({
           groceryId: groceryId,
         }
       );
-      if (response.status == "400") {
+      if (response.status == "401") {
         toast.error("There are no more groceries available.");
       }
       console.log("Grocery successfully incremented");
@@ -99,11 +99,11 @@ const QuantitySelector = ({
         sx={{
           minWidth: { xs: "12px", sm: "23px" },
           minHeight: { xs: "12px", sm: "23px" },
-          marginRight: { xs: "-20px", sm: "0px" },
-          pl: { xs: 0.28, sm: 0.8 },
-          pr: { xs: 0.28, sm: 0.8 },
-          pt: { xs: 0.2, sm: 0.6 },
-          pb: { xs: 0.2, sm: 0.6 },
+          marginRight: { xs: "-20px", sm: "-10px" },
+          pl: { xs: 0.28, sm: 0.6 },
+          pr: { xs: 0.28, sm: 0.6 },
+          pt: { xs: 0.2, sm: 0.5 },
+          pb: { xs: 0.2, sm: 0.5 },
           marginTop: { xs: "-8px", sm: "-5px" },
           color: "#FDF3A7",
           backgroundColor: "#076365",
@@ -143,11 +143,11 @@ const QuantitySelector = ({
         sx={{
           minWidth: { xs: "12px", sm: "23px" },
           minHeight: { xs: "12px", sm: "23px" },
-          marginLeft: { xs: "-20px", sm: "0px" },
-          pl: { xs: 0.28, sm: 0.8 },
-          pr: { xs: 0.28, sm: 0.8 },
-          pt: { xs: 0.2, sm: 0.6 },
-          pb: { xs: 0.2, sm: 0.6 },
+          marginLeft: { xs: "-20px", sm: "-10px" },
+          pl: { xs: 0.28, sm: 0.6 },
+          pr: { xs: 0.28, sm: 0.6 },
+          pt: { xs: 0.2, sm: 0.5 },
+          pb: { xs: 0.2, sm: 0.5 },
           marginTop: { xs: "-8px", sm: "-5px" },
           color: "#FDF3A7",
           backgroundColor: "#076365",

@@ -143,7 +143,7 @@ export default function CartItem(props) {
                   fontWeight={800}
                   fontFamily="nunito, sans-serif"
                   sx={{
-                    fontSize: isMobile ? 16 : 28,
+                    fontSize: isMobile ? 16 : 25,
                   }}
                 >
                   ${props.price}
@@ -184,9 +184,10 @@ export default function CartItem(props) {
       <Card
         sx={{
           position: "relative",
-          width: "90%",
+          width: "100%",
           height: isMobile ? "12vh" : "20vh",
           margin: "0 auto",
+          alignItems: "center",
           justifyContent: "center",
         }}
       >
@@ -227,7 +228,7 @@ export default function CartItem(props) {
                 fontFamily="open sans, sans-serif"
                 sx={{
                   position: "absolute",
-                  top: "10%",
+                  top: "8%",
                   left: "35%",
                   fontSize: 24,
                   fontWeight: 550,
