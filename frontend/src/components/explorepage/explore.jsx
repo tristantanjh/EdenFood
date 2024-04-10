@@ -29,7 +29,7 @@ export default function Explore() {
   const [originalGroceries, setOriginalGroceries] = useState([]);
   const [filterValue, setFilterValue] = React.useState(options[0]);
 
-  const cat = ["Fruits, Vegetables, Meats"];
+  const cat = ["Fruits, Vegetable, Meats"];
 
   useEffect(() => {
     const fetchData = async () => {
