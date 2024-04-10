@@ -152,6 +152,7 @@ export default function ShoppingCart(props) {
                 freshness={item.grocery.freshness}
                 currentQuantity={item.quantity}
                 setTotalPrice={setTotalPrice}
+                createdAt={item.grocery.createdAt}
                 handleRemoveItem={handleRemoveItem}
               />
             ))}
