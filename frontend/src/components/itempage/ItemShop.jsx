@@ -133,7 +133,7 @@ const ItemShop = (props) => {
                   src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1712554934/fruits_t2x9wp.png"
                   style={{ width: "50px", height: "50px" }}
                 />
-              ) : props.selectedItem.category === "Vegetables" ? (
+              ) : props.selectedItem.category === "Vegetable" ? (
                 <img
                   src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1712554934/vegetable_ep1bzi.png"
                   style={{ width: "50px", height: "50px" }}
