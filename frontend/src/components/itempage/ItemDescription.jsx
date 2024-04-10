@@ -139,6 +139,15 @@ export default function ItemDescription() {
     setOpen(false);
   };
 
+  function getFreshness(freshness, createdDate) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const created = new Date(createdDate);
+    const diffTime = Math.abs(today - created);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return parseInt(freshness) - diffDays;
+  }
+
   const fetchData = () => {
     axios
       .get("http://localhost:3000/getListingByGroceryId", {
@@ -153,14 +162,14 @@ export default function ItemDescription() {
         }
         setImageURL(res.data.imageURL);
         setReviewsLength(res.data.reviews.length);
-        setFreshness(res.data.freshness);
+        setFreshness(getFreshness(res.data.freshness, res.data.createdAt));
         setSelectedItem(res.data);
+        console.log(res.data.user._id);
         axios
           .get("http://localhost:3000/getUserWithId", {
             params: { userId: res.data.user._id },
           })
           .then((res) => {
-            // console.log(res.data.user);
             setMerchant(res.data.user);
           })
           .catch((err) => {

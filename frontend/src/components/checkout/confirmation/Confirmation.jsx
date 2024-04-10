@@ -8,6 +8,7 @@ import Paypal from "./Paypal";
 import swal from "sweetalert";
 import { getCart } from "../../../utils/getCart";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function Confirmation() {
   const { selectedLocationLocalStorage } = useCheckout();
@@ -20,9 +21,7 @@ export default function Confirmation() {
     // Add logic for PayPal payment here
 
     await setCartFromBackend();
-    await checkoutOrder();
 
-    navigate("/orderhistory");
     swal("Success", "Payment Successful", "success");
   };
 
@@ -34,33 +33,27 @@ export default function Confirmation() {
     setCart(await getCart(user.id));
   };
 
-  const checkoutOrder = async () => {
+  useEffect(() => {
+    checkoutOrder();
+  }, [cart]);
+
+  const checkoutOrder = () => {
     // Make sure cart is properly initialized before accessing cart.items
     if (!cart || !cart.items) {
       console.error("Cart or cart items not available.");
       return;
     }
 
-    await axios
-      .post("http://localhost:3000/checkoutOrders", {
-        user: user,
-        groceries: cart.items,
+    axios
+      .post("http://localhost:3000/checkoutOrder", {
+        userId: user.id,
         pickupLocation: selectedLocationLocalStorage,
-        amount: cart.totalPrice,
+        cartId: cart._id,
       })
       .then((res) => {
         console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    await axios
-      .delete("http://localhost:3000/deleteCart", {
-        params: { userId: user.id },
-      })
-      .then((res) => {
-        console.log(res.data);
+        toast("Order placed successfully", { type: "success" })
+        navigate("/profile");
       })
       .catch((err) => {
         console.log(err);
