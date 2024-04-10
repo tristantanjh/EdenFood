@@ -504,7 +504,7 @@ export default function ProfileDescriptionTab(props) {
           ))}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={4}>
-        <BuyerReview user={user} />
+        <BuyerReview buyerId={user.id} />
         </CustomTabPanel>
       </Container>
     </Box>

@@ -21,13 +21,13 @@ import {
   Stack,
 } from "@mui/material";
 
-export default function BuyerReview() {
-  const { user } = useAuth();
+export default function BuyerReview({ buyerId }) {
+  // const { user } = useAuth();
   const [merchant, setMerchant] = React.useState({});
   useEffect(() => {
     axios
       .get("http://localhost:3000/getUserWithId", {
-        params: { userId: user.id },
+        params: { userId: buyerId },
       })
       .then((res) => {
         setMerchant(res.data.user);
