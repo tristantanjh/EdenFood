@@ -121,7 +121,7 @@ export default function CartItem(props) {
                   position: "absolute",
                   top: "10%",
                   left: "35%",
-                  fontSize: isMobile ? 18 : 28,
+                  fontSize: isMobile ? 18 : 21,
                   fontWeight: 550,
                   maxWidth: isMobile ? "200px" : "500px",
                   display: "inline-block",
@@ -138,7 +138,7 @@ export default function CartItem(props) {
                   top: "35%",
                   left: "35%",
                   mb: 0.5,
-                  fontSize: isMobile ? 11 : 16,
+                  fontSize: isMobile ? 11 : 14,
                 }}
                 color="text.secondary"
                 fontFamily="open sans, sans-serif"
@@ -158,7 +158,7 @@ export default function CartItem(props) {
                   fontWeight={800}
                   fontFamily="nunito, sans-serif"
                   sx={{
-                    fontSize: isMobile ? 16 : 24,
+                    fontSize: isMobile ? 16 : 21,
                   }}
                 >
                   ${props.price}
@@ -185,8 +185,8 @@ export default function CartItem(props) {
                 onClick={() => props.handleRemoveItem(props.groceryId)}
                 sx={{
                   position: "absolute",
-                  bottom: 3,
-                  right: 3,
+                  bottom: -2,
+                  right: -2,
                   mt: -4.5,
                   width: isMobile ? 25 : 60,
                   height: isMobile ? 25 : 60,
