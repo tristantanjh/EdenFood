@@ -51,7 +51,7 @@ export default function BuyerReview() {
           spacing={1}
           sx={{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "flex-start",
             alignItems: "center",
           }}
         >

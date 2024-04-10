@@ -66,7 +66,7 @@ const router = createBrowserRouter([
             element: <Item />,
           },
           {
-            path: "/merchant/:_id",
+            path: "/merchant/:merchantId",
             element: <MerchantPage />,
           },
           {

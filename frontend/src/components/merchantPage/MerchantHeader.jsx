@@ -60,10 +60,10 @@ const ProfileHeader = (props) => {
   };
 
   useEffect(() => {
-    console.log(props.user.id);
+    console.log(props);
     axios
       .get("http://localhost:3000/getUserWithId", {
-        params: { userId: props.user.id },
+        params: { userId: props.user },
       })
       .then((res) => {
         setUser(res.data.user);

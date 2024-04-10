@@ -25,6 +25,7 @@ import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ShoppingCart from "./shoppingCartpage/shoppingCart";
+import { useState, useEffect } from "react";
 
 const logoStyle = {
   width: "140px",
@@ -38,10 +39,26 @@ function AppBarSecondary() {
   const { logout } = useAuth();
   const { user } = useAuth();
   const profilePic = user.profilePic;
+  console.log(user);
+  console.log(user.profilePic);
   const cartNum = user?.cart?.items?.size() || 0;
   const navigate = useNavigate();
   const location = useLocation();
   const [isOnCheckoutPage, setIsOnCheckoutPage] = React.useState(false);
+  const [merchant, setMerchant] = React.useState({});
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/getUserWithId", {
+        params: { userId: user.id },
+      })
+      .then((res) => {
+        setMerchant(res.data.user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   React.useEffect(() => {
     const isOnCheckoutPage = location.pathname.startsWith("/checkout");
@@ -185,10 +202,10 @@ function AppBarSecondary() {
 
                     <Avatar
                       alt="Profile Image"
-                      src={profilePic}
+                      src={merchant.profilePic}
                       sx={{
-                        width: { xs: 24, sm: 28, md: 32 },
-                        height: { xs: 24, sm: 28, md: 32 },
+                        width: { xs: 26, sm: 28, md: 32 },
+                        height: { xs: 26, sm: 28, md: 32 },
                         ml: { xs: "3px", sm: "7px" },
                       }}
                     />
