@@ -15,6 +15,8 @@ import axios from "axios";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import QuantitySelector from "./QuantitySelector";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 
 export default function CartItem(props) {
@@ -35,21 +37,20 @@ export default function CartItem(props) {
     }
   };
   const timeLeftString = calculateTimeLeft();
-  const handleRemoveItem = async (value) => {
-    try {
-      const response = await axios.delete(
-        "http://localhost:3000/removeFromCart",
-        {
-          params: { userId: user.id, groceryId: props.groceryId },
-        }
-      );
-      // add SnackBar for if response.ok
-      console.log("Item successfully deleted");
-      window.location.reload();
-    } catch (error) {
-      console.error("Error deleting grocery: ", error);
-    }
-  };
+  // const handleRemoveItem = async (value) => {
+  //   try {
+  //     const response = await axios.delete(
+  //       "http://localhost:3000/removeFromCart",
+  //       {
+  //         params: { userId: user.id, groceryId: props.groceryId },
+  //       }
+  //     );
+  //     window.location.reload();
+  //     toast.success("Item successfully deleted");
+  //   } catch (error) {
+  //     console.error("Error deleting grocery: ", error);
+  //   }
+  // };
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -134,7 +135,7 @@ export default function CartItem(props) {
               <Typography
                 sx={{
                   position: "absolute",
-                  top: "38%",
+                  top: "35%",
                   left: "35%",
                   mb: 0.5,
                   fontSize: isMobile ? 11 : 16,
@@ -151,7 +152,7 @@ export default function CartItem(props) {
                 spacing={2}
                 justifyContent="space-between"
                 alignItems="flex-start"
-                sx={{ position: "absolute", top: "70%", left: "35%" }}
+                sx={{ position: "absolute", top: "72%", left: "35%" }}
               >
                 <Typography
                   fontWeight={800}
@@ -168,6 +169,7 @@ export default function CartItem(props) {
                   maxValue={20}
                   itemPrice={props.price}
                   setTotalPrice={props.setTotalPrice}
+                  groceryId={props.groceryId}
                 />
               </Stack>
             </CardContent>
@@ -180,11 +182,11 @@ export default function CartItem(props) {
             <CardContent>
               <IconButton
                 size="small"
-                onClick={handleRemoveItem}
+                onClick={() => props.handleRemoveItem(props.groceryId)}
                 sx={{
                   position: "absolute",
-                  bottom: isMobile ? 7 : 5,
-                  right: isMobile ? 7 : 5,
+                  bottom: 3,
+                  right: 3,
                   mt: -4.5,
                   width: isMobile ? 25 : 60,
                   height: isMobile ? 25 : 60,

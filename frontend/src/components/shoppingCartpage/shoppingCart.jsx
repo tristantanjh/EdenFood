@@ -11,13 +11,15 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useAuth } from "../../hooks/AuthProvider";
 import axios from "axios";
 import CustomButton from "../common/CustomButton";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { alpha } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import CloseIcon from "@mui/icons-material/Close";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // const items = [
 //   {
@@ -43,11 +45,27 @@ export default function ShoppingCart(props) {
   const [items, setGroceries] = React.useState([]);
   // pass in params as item price and quantity
   const [totalPrice, setTotalPrice] = React.useState(0);
+  const [refreshCart, setRefreshCart] = useState(0);
   const navigate = useNavigate();
 
   const navigateCheckout = () => {
     navigate("/checkout/" + sessionId);
-  }
+  };
+
+  const handleRemoveItem = async (groceryId) => {
+    try {
+      const response = await axios.delete(
+        "http://localhost:3000/removeFromCart",
+        {
+          params: { userId: user.id, groceryId: groceryId },
+        }
+      );
+      toast.success("Item successfully deleted");
+      setRefreshCart((prev) => prev + 1);
+    } catch (error) {
+      console.error("Error deleting grocery: ", error);
+    }
+  };
 
   useEffect(() => {
     axios
@@ -55,7 +73,6 @@ export default function ShoppingCart(props) {
         params: { userId: user.id },
       })
       .then((res) => {
-        console.log(res.data.items);
         const itemsData = res.data?.items || [];
         const totalPrice = parseFloat((res.data?.totalPrice || 0).toFixed(1));
         setGroceries(itemsData);
@@ -64,7 +81,7 @@ export default function ShoppingCart(props) {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [refreshCart]);
   return (
     <div>
       <CssBaseline />
@@ -98,7 +115,7 @@ export default function ShoppingCart(props) {
                   component="h2"
                   sx={{
                     fontFamily: "nunito, sans-serif",
-                    fontSize: { xs: "1.8rem", sm: "2.8rem" },
+                    fontSize: { xs: "1.5rem", sm: "2.8rem" },
                     fontWeight: "bold",
                     textAlign: "left",
                     pl: { xs: 2 },
@@ -128,13 +145,14 @@ export default function ShoppingCart(props) {
             {items.map((item, index) => (
               <CartItem
                 key={index}
-                groceryId={item.grocery.id}
+                groceryId={item.grocery._id}
                 price={item.grocery.price}
                 imageURL={item.grocery.imageURL}
                 title={item.grocery.name}
                 freshness={item.grocery.freshness}
                 currentQuantity={item.quantity}
                 setTotalPrice={setTotalPrice}
+                handleRemoveItem={handleRemoveItem}
               />
             ))}
 

@@ -38,13 +38,17 @@ function SimpleDialog(props) {
 
   const handleAddToCart = async (value) => {
     try {
+      console.log(quantity);
       const response = await axios.post("http://localhost:3000/addToCart", {
         userId: user.id,
         groceryId: props.groceryId,
         quantity: quantity,
       });
-      console.log("Item added to cart successfully");
-      toast.success("Item added to cart successfully");
+      if (response.status == "405") {
+        toast.error("Insufficient grocery quantity for your request");
+      } else if (response.status == "200") {
+        toast.success("Item added to cart successfully");
+      }
       handleClose();
     } catch (error) {
       console.error("Error adding item to cart:", error);
@@ -230,11 +234,18 @@ export default function ItemCard(props) {
 
         {/* Custom number of days based on merchant uploads */}
         <Typography
-          sx={{ mb: 1.5, fontSize: isMobile ? 11 : 14 }}
+          sx={{ fontSize: isMobile ? 11 : 14 }}
           color="text.secondary"
           fontFamily="open sans, sans-serif"
         >
           Expires {getFreshness(props.freshness, props.createdDate)} days
+        </Typography>
+        <Typography
+          sx={{ mb: 1.5, fontSize: isMobile ? 11 : 14 }}
+          color="text.secondary"
+          fontFamily="open sans, sans-serif"
+        >
+          Quantity left: {props.quantity}
         </Typography>
         {/* Custom price based on merchant uploads */}
         <Typography
