@@ -23,150 +23,6 @@ import axios from "axios";
 import BuyerReview from "./BuyerReview.jsx";
 import OrderHistoryOrder from "../orderhistory/OrderHistoryOrder";
 
-// const items = [
-//   {
-//     itemImageURL:
-//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-//     itemName: "Norwegian Salmon (100g)",
-//     itemFreshness: "3",
-//     itemPrice: "5.95",
-//     itemRating: "3",
-//   },
-//   {
-//     itemImageURL:
-//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-//     itemName: "British Salmon (100g)",
-//     itemFreshness: "2",
-//     itemPrice: "10.95",
-//     itemRating: "5",
-//   },
-//   {
-//     itemImageURL:
-//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-//     itemName: "Singapore Salmon (100g)",
-//     itemFreshness: "5",
-//     itemPrice: "15.95",
-//     itemRating: "2",
-//   },
-//   {
-//     itemImageURL:
-//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-//     itemName: "African Salmon (100g)",
-//     itemFreshness: "3",
-//     itemPrice: "0.95",
-//     itemRating: "1",
-//   },
-//   {
-//     itemImageURL:
-//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-//     itemName: "Norwegian Salmon (100g)",
-//     itemFreshness: "3",
-//     itemPrice: "5.95",
-//     itemRating: "3",
-//   },
-//   {
-//     itemImageURL:
-//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-//     itemName: "British Salmon (100g)",
-//     itemFreshness: "2",
-//     itemPrice: "10.95",
-//     itemRating: "5",
-//   },
-//   {
-//     itemImageURL:
-//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-//     itemName: "Singapore Salmon (100g)",
-//     itemFreshness: "5",
-//     itemPrice: "15.95",
-//     itemRating: "2",
-//   },
-//   {
-//     itemImageURL:
-//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-//     itemName: "African Salmon (100g)",
-//     itemFreshness: "3",
-//     itemPrice: "0.95",
-//     itemRating: "1",
-//   },
-//   {
-//     itemImageURL:
-//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1710778183/broccoli_xxtddq.jpg",
-//     itemName: "Malaysian Broccoli (50g)",
-//     itemFreshness: "3",
-//     itemPrice: "5.95",
-//     itemRating: "3",
-//   },
-//   {
-//     itemImageURL:
-//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1710778183/broccoli_xxtddq.jpg",
-//     itemName: "Thailand Broccoli (100g)",
-//     itemFreshness: "7",
-//     itemPrice: "7.95",
-//     itemRating: "5",
-//   },
-//   {
-//     itemImageURL:
-//       "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1710778183/broccoli_xxtddq.jpg",
-//     itemName: "Malaysian Broccoli (50g)",
-//     itemFreshness: "3",
-//     itemPrice: "5.95",
-//     itemRating: "3",
-//   },
-// ];
-
-// const orders = [
-//   {
-//     orderID: "123456",
-//     orderTotal: "5.95",
-//     orderDate: "10/10/2021",
-//     orderSeller: "Seller 1",
-//     orderStatus: "Completed",
-//     pickupLocation: "102 YISHUN AVE 5, S760102",
-//     orderItems: [
-//       {
-//         itemImageURL:
-//           "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-//         itemName: "Norwegian Salmon (100g)",
-//         itemQuantity: "3",
-//       },
-//       {
-//         itemImageURL:
-//           "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-//         itemName: "British Salmon (100g)",
-//         itemQuantity: "3",
-//       },
-//     ],
-//   },
-//   {
-//     orderID: "123457",
-//     orderTotal: "6.95",
-//     orderDate: "10/10/2022",
-//     orderSeller: "Seller 2",
-//     orderStatus: "To Collect",
-//     pickupLocation: "268 WOODLANDS CENTRE ROAD, S738931",
-//     orderItems: [
-//       {
-//         itemImageURL:
-//           "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-//         itemName: "Singapore Salmon (100g)",
-//         itemQuantity: "3",
-//       },
-//       {
-//         itemImageURL:
-//           "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-//         itemName: "African Salmon (100g)",
-//         itemQuantity: "3",
-//       },
-//       {
-//         itemImageURL:
-//           "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-//         itemName: "Norwegian Salmon (100g)",
-//         itemQuantity: "3",
-//       },
-//     ],
-//   },
-// ];
-
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -381,158 +237,161 @@ export default function ProfileDescriptionTab(props) {
               pb: { xs: 6, sm: 12 },
             }}
           > */}
-            {/* <div
+          {/* <div
               style={{
                 marginRight: "auto",
                 // marginBottom: "1rem",
               }}
             > */}
-            {/* <Box
+          {/* <Box
               sx={{
                 // alignItems: "flex-start",
                 pb: isMobile ? 1 : 2,
                 // ml: isMobile ? "18%" : "3%",
               }}
             > */}
-              
-            {/* </Box> */}
-            <Grid
-              container
-              // sx={{ ml: isMobile ? 0 : 3 }}
-              spacing={isMobile ? 1 : 1}
-              sx={{
-                display: "flex",
-                flexDirection: { xs: "column", md: "column" },
-                // alignItems: "center",
-                // justifyContent: "flex-start",
-                pb: { xs: 6, sm: 12 },
-                ml: isMobile ? 0 : 3
+
+          {/* </Box> */}
+          <Grid
+            container
+            // sx={{ ml: isMobile ? 0 : 3 }}
+            spacing={isMobile ? 1 : 1}
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", md: "column" },
+              // alignItems: "center",
+              // justifyContent: "flex-start",
+              pb: { xs: 6, sm: 12 },
+              ml: isMobile ? 0 : 3,
+            }}
+          >
+            <Link to="/addListing">
+              <Button
+                sx={{
+                  backgroundColor: "#64CF94",
+                  borderColor: "#64CF94",
+                  color: "#FFFFFF",
+                  borderRadius: 15,
+                  fontSize: isMobile ? 10 : 15,
+                  width: isMobile ? 150 : 200,
+                  mb: "1rem",
+                }}
+              >
+                Add New Listing <AddIcon sx={{ ml: isMobile ? 10 / 100 : 1 }} />
+              </Button>
+            </Link>
+            <div
+              style={{
+                marginRight: "auto",
+                marginBottom: "1rem",
+                maxHeight: isMobile ? "43vh" : "60vh",
+                overflow: "auto",
               }}
             >
-              <Link to="/addListing">
-                <Button
-                  sx={{
-                    backgroundColor: "#64CF94",
-                    borderColor: "#64CF94",
-                    color: "#FFFFFF",
-                    borderRadius: 15,
-                    fontSize: isMobile ? 10 : 15,
-                    width: isMobile ? 150 : 200,
-                    mb: "1rem"
-                  }}
-                >
-                  Add New Listing <AddIcon sx={{ ml: isMobile ? 10 / 100 : 1 }} />
-                </Button>
-              </Link> 
-              <div
-                style={{
-                  marginRight: "auto",
-                  marginBottom: "1rem",
-                  maxHeight: isMobile ? "43vh" : "60vh",
-                  overflow: "auto",
+              <Typography
+                sx={{
+                  fontSize: "30px",
+                  fontWeight: "800",
+                  // m: "0 auto 1rem .5rem",
+                  fontFamily: "nunito, sans-serif",
                 }}
               >
-                
-                <Typography
+                Active Listings
+              </Typography>
+              {activeListings.length > 0 ? (
+                <Grid container spacing={isMobile ? 1 : 1}>
+                  {activeListings.map((listing, index) => (
+                    <Grid item container xs md key={index}>
+                      <ItemCard
+                        imageURL={listing.imageURL}
+                        name={listing.name}
+                        freshness={getFreshness(
+                          listing.freshness,
+                          listing.createdAt
+                        )}
+                        price={listing.price}
+                        id={listing._id}
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
+              ) : (
+                <Box
+                  id="image"
+                  component="img"
+                  fullWidth
                   sx={{
-                    fontSize: "30px",
-                    fontWeight: "800",
-                    // m: "0 auto 1rem .5rem",
-                    fontFamily: "nunito, sans-serif",
+                    height: "250px",
+                    width: "auto",
+                    maxWidth: "425px",
+                    objectFit: "contain",
+                    mt: "3rem",
                   }}
-                >
-                  Active Listings
-                </Typography>
-                {activeListings.length > 0 ? (
-                  <Grid container spacing={isMobile ? 1 : 1}>
-                    {activeListings.map((listing, index) => (
-                      <Grid item container xs md key={index} >
-                        <ItemCard
-                          imageURL={listing.imageURL}
-                          name={listing.name}
-                          freshness={getFreshness(
-                            listing.freshness,
-                            listing.createdAt
-                          )}
-                          price={listing.price}
-                          id={listing._id}
-                        />
-                      </Grid>
-                    ))}
-                  </Grid>
-                ) : <Box
-                id="image"
-                component="img"
-                fullWidth
-                sx={{
-                  height: "250px",
-                  width: "auto",
-                  maxWidth: "425px",
-                  objectFit: "contain",
-                  mt: "3rem",
-                }}
-                src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1712733794/active_a7efbk.png"
-                alt="Uploaded Profile Picture"
-              />}
-              </div>
-            </Grid>
-            <Grid
-              container
-              sx={{ ml: isMobile ? 0 : 3 }}
-              spacing={isMobile ? 1 : 1}
+                  src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1712733794/active_a7efbk.png"
+                  alt="Uploaded Profile Picture"
+                />
+              )}
+            </div>
+          </Grid>
+          <Grid
+            container
+            sx={{ ml: isMobile ? 0 : 3 }}
+            spacing={isMobile ? 1 : 1}
+          >
+            <div
+              style={{
+                marginRight: "auto",
+                marginBottom: "1rem",
+                maxHeight: isMobile ? "43vh" : "60vh",
+                overflow: "auto",
+              }}
             >
-              <div
-                style={{
-                  marginRight: "auto",
-                  marginBottom: "1rem",
-                  maxHeight: isMobile ? "43vh" : "60vh",
-                  overflow: "auto",
+              <Typography
+                sx={{
+                  fontSize: "30px",
+                  fontWeight: "800",
+                  // m: "0 auto 1rem .5rem",
+                  fontFamily: "nunito, sans-serif",
                 }}
               >
-                <Typography
+                Inactive Listings
+              </Typography>
+              {inactiveListings.length > 0 ? (
+                <Grid container spacing={isMobile ? 1 : 1}>
+                  {inactiveListings.map((listing, index) => (
+                    <Grid item container xs md key={index}>
+                      <ItemCard
+                        imageURL={listing.imageURL}
+                        name={listing.name}
+                        freshness={getFreshness(
+                          listing.freshness,
+                          listing.createdAt
+                        )}
+                        price={listing.price}
+                        id={listing._id}
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
+              ) : (
+                <Box
+                  id="image"
+                  component="img"
+                  fullWidth
                   sx={{
-                    fontSize: "30px",
-                    fontWeight: "800",
-                    // m: "0 auto 1rem .5rem",
-                    fontFamily: "nunito, sans-serif",
+                    height: "250px",
+                    width: "auto",
+                    maxWidth: "425px",
+                    objectFit: "contain",
+                    mt: "3rem",
                   }}
-                >
-                  Inactive Listings
-                </Typography>
-                {inactiveListings.length > 0 ? (
-                  <Grid container spacing={isMobile ? 1 : 1}>
-                    {inactiveListings.map((listing, index) => (
-                      <Grid item container xs md key={index}>
-                        <ItemCard
-                          imageURL={listing.imageURL}
-                          name={listing.name}
-                          freshness={getFreshness(
-                            listing.freshness,
-                            listing.createdAt
-                          )}
-                          price={listing.price}
-                          id={listing._id}
-                        />
-                      </Grid>
-                    ))}
-                  </Grid>
-                ) : <Box
-                id="image"
-                component="img"
-                fullWidth
-                sx={{
-                  height: "250px",
-                  width: "auto",
-                  maxWidth: "425px",
-                  objectFit: "contain",
-                  mt: "3rem",
-                }}
-                src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1712733793/inactive_utb64c.png"
-                alt="Uploaded Profile Picture"
-              />}
-              </div>
-            </Grid>
-            {/* </div> */}
+                  src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1712733793/inactive_utb64c.png"
+                  alt="Uploaded Profile Picture"
+                />
+              )}
+            </div>
+          </Grid>
+          {/* </div> */}
           {/* </Container> */}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
@@ -543,7 +402,7 @@ export default function ProfileDescriptionTab(props) {
             >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon sx={{ color: "#FFF" }} />}
-                sx={{ backgroundColor: "#076365" }}
+                sx={{ backgroundColor: "#076365", }}
               >
                 <Typography
                   sx={{
@@ -574,7 +433,7 @@ export default function ProfileDescriptionTab(props) {
           ))}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={4}>
-        <BuyerReview user={user} />
+          <BuyerReview user={user} />
         </CustomTabPanel>
       </Container>
     </Box>

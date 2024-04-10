@@ -71,7 +71,6 @@ export default function OrderHistoryOrder({
       "http://localhost:3000/leaveReview",
       transformedData
     );
-    console.log(response.data);
     // } catch (error) {
     //   console.error("Error leaving review:", error?.response?.data?.message);
     // }
@@ -88,8 +87,6 @@ export default function OrderHistoryOrder({
   }, [description, ratingValue]);
 
   useEffect(() => {
-    console.log(pickupLocations);
-    console.log(pickupLocation);
     const locationName = pickupLocation.trim().toLowerCase();
     let region = null;
 
@@ -111,8 +108,6 @@ export default function OrderHistoryOrder({
     );
 
     setLocation(location);
-
-    console.log(location);
   }, []);
 
   useEffect(() => {
