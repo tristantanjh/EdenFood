@@ -16,7 +16,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
 
-const options = ["All Categories", "Fruits", "Vegetables", "Meats"];
+const options = ["All Categories", "Fruits", "Vegetable", "Meats"];
 
 export default function Explore() {
   const theme = useTheme();
