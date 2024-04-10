@@ -267,7 +267,7 @@ export default function ProfileDescriptionTab(props) {
           display: "flex",
           flexDirection: { xs: "column", md: "column" },
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "flex-start",
           pt: { xs: 4, md: 4 },
           //   pb: { xs: 6, sm: 12 },
         }}
@@ -334,7 +334,7 @@ export default function ProfileDescriptionTab(props) {
               display: "flex",
               flexDirection: { xs: "column", md: "column" },
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "flex-start",
               pb: { xs: 6, sm: 12 },
             }}
           >

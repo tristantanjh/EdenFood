@@ -187,7 +187,7 @@ export default function Explore() {
                 </Typography>
                 <Grid container spacing={isMobile ? 1 : 1}>
                   {category.categoryItems.map((item, index) => (
-                    <Grid item container justifyContent="center" xs md>
+                    <Grid item container justifyContent="flex-start" xs md>
                       <ItemCard key={index} {...item} />
                     </Grid>
                   ))}

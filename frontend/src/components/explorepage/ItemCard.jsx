@@ -23,6 +23,7 @@ import { useAuth } from "../../hooks/AuthProvider";
 import axios from "axios";
 import averageRating from "../../utils/averageRating";
 import { useNavigate } from "react-router-dom";
+import Grid from "@mui/material/Grid";
 
 function SimpleDialog(props) {
   const { user } = useAuth();
@@ -149,27 +150,55 @@ export default function ItemCard(props) {
 
   return (
     <Card
+      fullWidth
       sx={{
         position: "relative",
-        maxWidth: isMobile ? 160 : 275,
         borderRadius: "8px",
         mb: "1rem",
       }}
     >
-      {/* Custom image based on merchant uploads */}
-      <CardMedia
+      <Grid
+        container
+        component="main"
         sx={{
-          height: isMobile ? 125 : 225,
-          width: isMobile ? 160 : 275,
+          display: "flex",
+          alignItems: "flex-start",
+          mb: "-0.8rem",
         }}
-        image={props.imageURL[0]}
-        // image="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg"
-        alt="Product Image"
-        title="Listing Photo"
-        onClick={() => handleViewItem(props._id)}
-      />
+      >
+        <Grid
+          item
+          fullWidth
+          md={12}
+          sx={{
+            display: "flex",
+            justifyContent: "flex-start",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              overflow: "hidden",
+            }}
+          >
+            <img
+              src={props.imageURL[0]}
+              alt="Product Image"
+              title="Listing Photo"
+              style={{
+                width: isMobile ? "160px" : "200px",
+                height: isMobile ? "120px" : "150px",
+                objectFit: "cover",
+                objectPosition: "center",
+                transition: "filter 0.3s",
+              }}
+              onClick={() => handleViewItem(props._id)}
+            />
+          </div>
+        </Grid>
+      </Grid>
       <CardContent>
-        {/* Custom title based on merchant uploads */}
         <a
           href="#"
           onClick={() => handleViewItem(props._id)}
@@ -222,13 +251,7 @@ export default function ItemCard(props) {
           sx={{
             mt: isMobile ? -3.5 : -3,
           }}
-        >
-          <Ratings
-            value={rating}
-            size={isMobile ? "small" : "large"}
-            isMobile={isMobile}
-          />
-        </CardContent>
+        ></CardContent>
         {/* <IconButton
           size="small"
           onClick={() => handleViewItem(props._id)}

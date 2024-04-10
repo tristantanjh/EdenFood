@@ -14,6 +14,7 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import averageRating from "../../utils/averageRating";
 import { useNavigate } from "react-router-dom";
+import Grid from "@mui/material/Grid";
 
 const bull = (
   <Box
@@ -53,17 +54,47 @@ export default function ItemCard(props) {
         mb: "1rem",
       }}
     >
-      {/* Custom image based on merchant uploads */}
-      <CardMedia
+      <Grid
+        container
+        component="main"
         sx={{
-          height: isMobile ? 125 : 225,
-          width: isMobile ? 175 : 275,
+          display: "flex",
+          alignItems: "flex-start",
+          mb: "-0.8rem",
         }}
-        image={props.imageURL[0]}
-        // image="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg"
-        alt="Product Image"
-        title="Listing Photo"
-      />
+      >
+        <Grid
+          item
+          fullWidth
+          md={12}
+          sx={{
+            display: "flex",
+            justifyContent: "flex-start",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              overflow: "hidden",
+            }}
+          >
+            <img
+              src={props.imageURL[0]}
+              alt="Product Image"
+              title="Listing Photo"
+              style={{
+                width: isMobile ? "160px" : "200px",
+                height: isMobile ? "120px" : "150px",
+                objectFit: "cover",
+                objectPosition: "center",
+                transition: "filter 0.3s",
+              }}
+              onClick={() => handleViewItem(props._id)}
+            />
+          </div>
+        </Grid>
+      </Grid>
       <CardContent>
         <a
           href="#"
@@ -109,14 +140,6 @@ export default function ItemCard(props) {
         </Typography>
       </CardContent>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <CardContent
-          sx={{
-            mt: isMobile ? -3.5 : -3,
-          }}
-        >
-          {/* Need change default value accordingly */}
-          <Ratings value={rating} size="small" isMobile={isMobile} />
-        </CardContent>
         {/* <IconButton
           size="small"
           onClick={() => handleViewItem(props.id)}
