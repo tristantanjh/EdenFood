@@ -115,7 +115,6 @@ function getFreshness(freshness, createdDate) {
   today.setHours(0, 0, 0, 0);
   const created = new Date(createdDate);
   const diffTime = Math.abs(today - created);
-  console.log(diffTime);
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   return parseInt(freshness) - diffDays;
 }
@@ -235,7 +234,7 @@ export default function ItemCard(props) {
           color="text.secondary"
           fontFamily="open sans, sans-serif"
         >
-          Expires {getFreshness(props.freshness, props.createdDate)} days
+          Expires {getFreshness(props.freshness, props.createdAt)} days
         </Typography>
         {/* Custom price based on merchant uploads */}
         <Typography
