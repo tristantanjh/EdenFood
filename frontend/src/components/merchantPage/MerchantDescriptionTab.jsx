@@ -121,7 +121,7 @@ function getFreshness(freshness, createdDate) {
   today.setHours(0, 0, 0, 0);
   const created = new Date(createdDate);
   const diffTime = Math.abs(today - created);
-  console.log(diffTime);
+  // console.log(diffTime);
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   return parseInt(freshness) - diffDays;
 }
@@ -147,7 +147,7 @@ export default function MerchantDescriptionTab(props) {
   };
 
   useEffect(() => {
-    console.log(user);
+    // console.log(user);
     axios
       .get("http://localhost:3000/getListingsByUserId", {
         params: { userId: user },
@@ -219,10 +219,10 @@ export default function MerchantDescriptionTab(props) {
                 },
               }}
             />
-            <Divider
+            {/* <Divider
               orientation="vertical"
               style={{ height: 30, alignSelf: "center" }}
-            />
+            /> */}
             {/* <Tab
               label="Insights"
               {...a11yProps(4)}

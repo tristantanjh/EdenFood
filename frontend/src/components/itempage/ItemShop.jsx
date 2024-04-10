@@ -17,21 +17,21 @@ const ItemShop = (props) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down(414));
-  const [rating, setRating] = useState(1);
+  // const [rating, setRating] = useState(1);
   const handleViewMerchant = (merchant) => {
     navigate("/merchant/" + merchant._id);
   };
 
-  useEffect(() => {
-    const fetchRating = async () => {
-      // console.log(props.itemId);
-      const avgRating = await averageRating(props.selectedItem._id);
-      // console.log(avgRating);
-      setRating(avgRating);
-    };
+  // useEffect(() => {
+  //   const fetchRating = async () => {
+  //     console.log(props.merchant);
+  //     const avgRating = await averageRating(props.merchant._id);
+  //     console.log(avgRating);
+  //     setRating(avgRating);
+  //   };
 
-    fetchRating();
-  }, [rating]);
+  //   fetchRating();
+  // }, [rating]);
 
   return (
     <Box
@@ -103,9 +103,9 @@ const ItemShop = (props) => {
               mb: 2,
             }}
           >
-            <Rating name="read-only" value={rating} readOnly />
+            <Rating name="read-only" value={props.rating} readOnly />
             <Typography variant="body2" component="span" sx={{ ml: 1 }}>
-              {rating.toFixed(1)} | {props.reviewLength} Reviews
+              {props.rating.toFixed(1)} | {props.reviewLength} Reviews
             </Typography>
           </Box>
         </Grid>

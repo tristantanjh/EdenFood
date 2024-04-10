@@ -60,7 +60,7 @@ const ProfileHeader = (props) => {
   };
 
   useEffect(() => {
-    console.log(props);
+    // console.log(props);
     axios
       .get("http://localhost:3000/getUserWithId", {
         params: { userId: props.user },
@@ -68,7 +68,7 @@ const ProfileHeader = (props) => {
       .then((res) => {
         setUser(res.data.user);
         const reviews = res.data.user.reviews;
-        console.log(reviews);
+        // console.log(reviews);
         let totalRating = 0;
         const promiseArray = reviews.map((review) => {
           return axios.get("http://localhost:3000/getReviewWithId", {
@@ -169,7 +169,7 @@ const ProfileHeader = (props) => {
               </Typography>
             </Grid>
           </Stack>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
+          {/* <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Rating size="small" name="read-only" value={rating} readOnly />
             <Typography
               sx={{
@@ -179,6 +179,18 @@ const ProfileHeader = (props) => {
               }}
             >
               • {user && user.reviews ? user.reviews.length : 0} reviews
+            </Typography>
+          </Box> */}
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              mb: 2,
+            }}
+          >
+            <Rating name="read-only" value={rating} readOnly />
+            <Typography variant="body2" component="span" sx={{ ml: 1 }}>
+              {rating.toFixed(1)} | {user && user.reviews ? user.reviews.length : 0} Reviews
             </Typography>
           </Box>
         </Stack>

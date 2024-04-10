@@ -12,7 +12,7 @@ export default function Profile() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { merchantId } = useParams();
-  console.log(merchantId);
+  // console.log(merchantId);
 
   return (
     <Box

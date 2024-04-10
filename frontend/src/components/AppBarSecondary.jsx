@@ -39,8 +39,8 @@ function AppBarSecondary() {
   const { logout } = useAuth();
   const { user } = useAuth();
   const profilePic = user.profilePic;
-  console.log(user);
-  console.log(user.profilePic);
+  // console.log(user);
+  // console.log(user.profilePic);
   const cartNum = user?.cart?.items?.size() || 0;
   const navigate = useNavigate();
   const location = useLocation();

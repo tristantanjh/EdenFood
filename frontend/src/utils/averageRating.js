@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const averageRating = async (groceryId) => {
+export const averageRating = async (sellerId) => {
   try {
     const response = await axios.get("http://localhost:3000/reviews", {
-      params: { groceryId: groceryId },
+      params: { sellerId: sellerId },
     });
     const reviews = response.data;
     if (reviews.length > 0) {
