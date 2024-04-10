@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import MuiTabs from "@mui/material/Tabs";
 import MuiTab from "@mui/material/Tab";
+import MuiAccordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
@@ -16,6 +20,7 @@ import Grid from "@mui/material/Grid";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import OrderHistoryOrder from "../orderhistory/OrderHistoryOrder";
 
 // const items = [
 //   {
@@ -108,58 +113,58 @@ import axios from "axios";
 //   },
 // ];
 
-const orders = [
-  {
-    orderID: "123456",
-    orderTotal: "5.95",
-    orderDate: "10/10/2021",
-    orderSeller: "Seller 1",
-    orderStatus: "Completed",
-    pickupLocation: "102 YISHUN AVE 5, S760102",
-    orderItems: [
-      {
-        itemImageURL:
-          "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-        itemName: "Norwegian Salmon (100g)",
-        itemQuantity: "3",
-      },
-      {
-        itemImageURL:
-          "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-        itemName: "British Salmon (100g)",
-        itemQuantity: "3",
-      },
-    ],
-  },
-  {
-    orderID: "123457",
-    orderTotal: "6.95",
-    orderDate: "10/10/2022",
-    orderSeller: "Seller 2",
-    orderStatus: "To Collect",
-    pickupLocation: "268 WOODLANDS CENTRE ROAD, S738931",
-    orderItems: [
-      {
-        itemImageURL:
-          "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-        itemName: "Singapore Salmon (100g)",
-        itemQuantity: "3",
-      },
-      {
-        itemImageURL:
-          "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-        itemName: "African Salmon (100g)",
-        itemQuantity: "3",
-      },
-      {
-        itemImageURL:
-          "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
-        itemName: "Norwegian Salmon (100g)",
-        itemQuantity: "3",
-      },
-    ],
-  },
-];
+// const orders = [
+//   {
+//     orderID: "123456",
+//     orderTotal: "5.95",
+//     orderDate: "10/10/2021",
+//     orderSeller: "Seller 1",
+//     orderStatus: "Completed",
+//     pickupLocation: "102 YISHUN AVE 5, S760102",
+//     orderItems: [
+//       {
+//         itemImageURL:
+//           "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
+//         itemName: "Norwegian Salmon (100g)",
+//         itemQuantity: "3",
+//       },
+//       {
+//         itemImageURL:
+//           "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
+//         itemName: "British Salmon (100g)",
+//         itemQuantity: "3",
+//       },
+//     ],
+//   },
+//   {
+//     orderID: "123457",
+//     orderTotal: "6.95",
+//     orderDate: "10/10/2022",
+//     orderSeller: "Seller 2",
+//     orderStatus: "To Collect",
+//     pickupLocation: "268 WOODLANDS CENTRE ROAD, S738931",
+//     orderItems: [
+//       {
+//         itemImageURL:
+//           "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
+//         itemName: "Singapore Salmon (100g)",
+//         itemQuantity: "3",
+//       },
+//       {
+//         itemImageURL:
+//           "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
+//         itemName: "African Salmon (100g)",
+//         itemQuantity: "3",
+//       },
+//       {
+//         itemImageURL:
+//           "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708579937/ca-creative-kC9KUtSiflw-unsplash_bzryh1.jpg",
+//         itemName: "Norwegian Salmon (100g)",
+//         itemQuantity: "3",
+//       },
+//     ],
+//   },
+// ];
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -216,14 +221,28 @@ function getFreshness(freshness, createdDate) {
   return parseInt(freshness) - diffDays;
 }
 
+const Accordion = styled(MuiAccordion)({
+  "&.Mui-expanded": {
+    margin: "0",
+  },
+  "&.MuiAccordion-root": {
+    width: "100%",
+  },
+  ".css-15v22id-MuiAccordionDetails-root": {
+    padding: "0",
+  },
+});
+
 export default function ProfileDescriptionTab(props) {
   const theme = useTheme();
   const user = props.user;
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [value, setValue] = React.useState(0);
   const [listings, setListings] = React.useState([]);
+  const [orders, setOrders] = React.useState([]);
   const today = new Date();
-  today.setHours(0, 0, 0, 0); 
+  const [expanded, setExpanded] = React.useState("panel0");
+  today.setHours(0, 0, 0, 0);
 
   const activeListings = listings.filter(
     (listing) => getFreshness(listing.freshness, listing.createdAt) >= 0
@@ -251,7 +270,25 @@ export default function ProfileDescriptionTab(props) {
       .catch((err) => {
         console.log(err);
       });
+
+    axios
+      .get("http://localhost:3000/getOrdersWithUserId", {
+        params: { userId: user.id },
+      })
+      .then((res) => {
+        console.log(res.data.orders);
+        setOrders(res.data.orders);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
+
+  const handlePanel = (panel) => (event, newExpanded) => {
+    console.log(panel);
+    console.log(newExpanded);
+    setExpanded(newExpanded ? panel : false);
+  };
 
   return (
     <Box
@@ -457,7 +494,40 @@ export default function ProfileDescriptionTab(props) {
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
           {orders.map((order, index) => (
-            <OrderCard key={index} {...order} />
+            <Accordion
+              expanded={expanded === "panel" + index}
+              onChange={handlePanel("panel" + index)}
+            >
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon sx={{ color: "#FFF" }} />}
+                sx={{ backgroundColor: "#076365" }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: { xs: "14px", md: "18px" },
+                    fontWeight: "bold",
+                    mr: { xs: "40px", md: "auto" },
+                    color: "#FFF",
+                  }}
+                >
+                  ID: {isMobile ? order._id : order._id}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: { xs: "14px", md: "18px" },
+                    fontWeight: "bold",
+                    ml: "auto",
+                    mr: { xs: ".2rem", md: "18px" },
+                    color: "#FFF",
+                  }}
+                >
+                  Date: {order.createdAt.substring(0, 10).replace(/-/g, "/")}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <OrderHistoryOrder key={index} {...order} />
+              </AccordionDetails>
+            </Accordion>
           ))}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={4}>

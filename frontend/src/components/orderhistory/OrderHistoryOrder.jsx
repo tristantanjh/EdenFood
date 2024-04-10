@@ -16,10 +16,13 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Rating from "@mui/material/Rating";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useAuth } from "../../hooks/AuthProvider";
+import LocationModal from "../common/LocationModal.jsx";
+import { regions, pickupLocations } from "../common/PickupLocations";
 
 export default function OrderHistoryOrder({
   amount,
@@ -33,7 +36,84 @@ export default function OrderHistoryOrder({
   const [subject, setSubject] = React.useState("");
   const [message, setMessage] = React.useState("");
   const { user } = useAuth();
+  const [ratingValue, setRatingValue] = React.useState(0);
+  const [description, setDescription] = React.useState("");
   const [merchant, setMerchant] = React.useState({});
+  const [location, setLocation] = React.useState("");
+  const [locationModalOpen, setLocationModalOpen] = useState(false);
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
+
+  const notify = () => {
+    toast("Review has been submitted.", {type: "success"});
+  };
+
+  const [reviewForm, setReviewForm] = useState({
+    // to change to props.user
+    sellerId: _id,
+    buyerId: user.id,
+    rating: ratingValue,
+    description: description,
+    // createdAt: new Date(),
+    // updatedAt: new Date(),
+  });
+
+  const handleSubmitRating = async (event) => {
+    event.preventDefault();
+    const { userId, ...restOfData } = reviewForm;
+
+    const transformedData = {
+      userId: userId,
+      ...restOfData,
+    };
+    console.log(transformedData);
+    // try {
+    const response = await axios.post(
+      "http://localhost:3000/leaveReview",
+      transformedData
+    );
+    console.log(response.data);
+    // } catch (error) {
+    //   console.error("Error leaving review:", error?.response?.data?.message);
+    // }
+    notify();
+    setReviewModalOpen(false);
+  };
+
+  useEffect(() => {
+    setReviewForm((prevForm) => ({
+      ...prevForm,
+      rating: ratingValue,
+      description: description,
+    }));
+  }, [description, ratingValue]);
+
+  useEffect(() => {
+    console.log(pickupLocations);
+    console.log(pickupLocation);
+    const locationName = pickupLocation.trim().toLowerCase();
+    let region = null;
+
+    for (const pickupRegion of pickupLocations) {
+      for (const location of pickupRegion.locations) {
+        const trimmedLocationName = location.name.trim().toLowerCase();
+        if (trimmedLocationName.includes(locationName)) {
+          region = pickupRegion;
+          break;
+        }
+      }
+      if (region) {
+        break;
+      }
+    }
+
+    const location = region.locations.find((location) =>
+      location.name.trim().toLowerCase().includes(locationName)
+    );
+
+    setLocation(location);
+
+    console.log(location);
+  }, []);
 
   useEffect(() => {
     axios
@@ -42,7 +122,7 @@ export default function OrderHistoryOrder({
       })
       .then((res) => {
         setMerchant(res.data.user);
-        console.log(groceries);
+        // console.log(groceries);
       })
       .catch((err) => {
         console.log(err);
@@ -98,7 +178,7 @@ export default function OrderHistoryOrder({
         pr: "0",
       }}
     >
-      <ToastContainer position="top-right" limit={1} />
+      {/* <ToastContainer position="top-right" limit={1} /> */}
       {/* Merchant image & Order status */}
       <Container
         sx={{
@@ -198,6 +278,28 @@ export default function OrderHistoryOrder({
             fontFamily: "nunito, sans-serif",
             fontWeight: "800",
             fontSize: { xs: ".8rem", md: "1.2rem" },
+            width: { xs: "140px", md: "200px" },
+            padding: "5px 5px",
+            "&:hover": {
+              backgroundColor: alpha("#64CF94", 0.8),
+            },
+            "&:focus": { outline: "none" },
+            mr: { xs: ".5rem", md: "1rem" },
+          }}
+          onClick={() => setLocationModalOpen(true)}
+        >
+          Pickup Location
+        </CustomButton>
+        <CustomButton
+          sx={{
+            borderRadius: "15px",
+            borderBlockColor: "transparent",
+            backgroundColor: "#64CF94", // Custom background color
+            color: "#FFF", // Custom text color,
+            textTransform: "none",
+            fontFamily: "nunito, sans-serif",
+            fontWeight: "800",
+            fontSize: { xs: ".8rem", md: "1.2rem" },
             width: { xs: "60px", md: "100px" },
             padding: "5px 5px",
             "&:hover": {
@@ -206,6 +308,7 @@ export default function OrderHistoryOrder({
             "&:focus": { outline: "none" },
             mr: { xs: ".5rem", md: "1rem" },
           }}
+          onClick={() => setReviewModalOpen(true)}
         >
           Rate
         </CustomButton>
@@ -328,6 +431,74 @@ export default function OrderHistoryOrder({
             >
               Send
             </CustomButton>
+          </DialogActions>
+        </Dialog>
+
+        <LocationModal
+          isOpen={locationModalOpen}
+          onClose={() => setLocationModalOpen(false)}
+          locations={location}
+        />
+
+        <Dialog
+          open={reviewModalOpen}
+          onClose={() => setReviewModalOpen(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            <Typography
+              sx={{
+                fontFamily: "nunito, sans-serif",
+                color: "#000000",
+                fontWeight: "bold",
+                fontSize: "21px",
+                p: 0,
+              }}
+            >
+              Give {merchant.username} a rating and review:
+            </Typography>
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              <TextField
+                id="outlined-multiline-static"
+                label="Write a Review"
+                multiline
+                fullWidth
+                rows={6}
+                onChange={(event) => {
+                  setDescription(event.target.value);
+                }}
+                sx={{ mt: "8px", mb: "10px" }}
+              />
+              <Rating
+                size="medium"
+                value={ratingValue}
+                onChange={(event, newValue) => {
+                  setRatingValue(newValue);
+                }}
+                sx={{ mb: "5px" }}
+              />
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={handleSubmitRating}
+              sx={{
+                fontFamily: "open sans, sans-serif",
+                backgroundColor: "#076365",
+                color: "#FAFFF4",
+                borderRadius: "5px",
+                "&:hover": { backgroundColor: "#076365" },
+                width: "100%",
+                marginLeft: "10px",
+                marginRight: "10px",
+                marginBottom: "10px",
+              }}
+            >
+              Submit
+            </Button>
           </DialogActions>
         </Dialog>
       </Container>
