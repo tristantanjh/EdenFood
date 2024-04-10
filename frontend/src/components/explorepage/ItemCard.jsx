@@ -24,6 +24,8 @@ import axios from "axios";
 import averageRating from "../../utils/averageRating";
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function SimpleDialog(props) {
   const { user } = useAuth();
@@ -41,11 +43,8 @@ function SimpleDialog(props) {
         groceryId: props.groceryId,
         quantity: quantity,
       });
-      // add SnackBar for if response.ok
-      if (!response.ok) {
-        throw new Error("Failed to add item to cart");
-      }
       console.log("Item added to cart successfully");
+      toast.success("Item added to cart successfully");
       handleClose();
     } catch (error) {
       console.error("Error adding item to cart:", error);

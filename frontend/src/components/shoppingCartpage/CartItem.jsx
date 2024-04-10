@@ -91,18 +91,25 @@ export default function CartItem(props) {
               marginBottom: "20px",
             }}
           >
-            <CardMedia
-              component="img"
-              sx={{
+            <div
+              style={{
                 width: "100%",
                 height: "100%",
-                objectFit: "cover",
-                justifyContent: "center",
+                overflow: "hidden",
               }}
-              image={props.imageURL[0]}
-              alt="Product Image"
-              title="Listing Photo"
-            />
+            >
+              <img
+                src={props.imageURL[0]}
+                alt="Product Image"
+                title="Listing Photo"
+                style={{
+                  width: isMobile ? "90px" : "180px",
+                  height: isMobile ? "110px" : "140px",
+                  objectFit: "cover",
+                  objectPosition: "center",
+                }}
+              />
+            </div>
           </Grid>
           <Grid item xs={6}>
             <CardContent>
@@ -113,13 +120,12 @@ export default function CartItem(props) {
                   position: "absolute",
                   top: "10%",
                   left: "35%",
-                  fontSize: isMobile ? 21 : 32,
+                  fontSize: isMobile ? 18 : 28,
                   fontWeight: 550,
                   maxWidth: isMobile ? "200px" : "500px",
                   display: "inline-block",
                   overflowWrap: "break-word",
                   lineHeight: "1.2",
-                  mb: 1,
                 }}
               >
                 {props.title}
@@ -128,15 +134,15 @@ export default function CartItem(props) {
               <Typography
                 sx={{
                   position: "absolute",
-                  top: "42%",
+                  top: "38%",
                   left: "35%",
                   mb: 0.5,
-                  fontSize: isMobile ? 12 : 18,
+                  fontSize: isMobile ? 11 : 16,
                 }}
                 color="text.secondary"
                 fontFamily="open sans, sans-serif"
               >
-                Time until expiry: {timeLeftString}
+                Time till expiry: {timeLeftString}
               </Typography>
 
               {/* Custom price based on merchant uploads */}

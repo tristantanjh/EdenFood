@@ -13,7 +13,9 @@ const deleteCart = async (req, res) => {
     return res.status(200).json({ message: "Cart deleted successfully." });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "An error occurred while deleting the cart." });
+    res
+      .status(500)
+      .json({ message: "An error occurred while deleting the cart." });
   }
 };
 
@@ -70,7 +72,9 @@ const getCart = async (req, res) => {
     const userId = req.query.userId;
 
     // Find the user's cart and populate it with groceries
-    const userCart = await Cart.findOne({ user: userId }).populate("items.grocery");
+    const userCart = await Cart.findOne({ user: userId }).populate(
+      "items.grocery"
+    );
 
     if (!userCart) {
       return res.status(404).json({ message: "Cart not found for this user" });
@@ -133,7 +137,6 @@ const decrementGroceryQuantity = async (req, res) => {
     if (!grocery) {
       return res.status(404).json({ message: "Grocery not found" });
     }
-    
 
     // Decrement the quantity of the item by 1
     if (item.quantity > 1) {
@@ -161,7 +164,6 @@ const incrementGroceryQuantity = async (req, res) => {
     const { cartId, groceryId } = req.body;
 
     let cart = await Cart.findById(cartId);
-    
 
     if (!cart) {
       return res.status(404).json({ message: "Cart not found" });
