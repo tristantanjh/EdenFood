@@ -4,9 +4,8 @@ import { Grocery } from "../model/groceryModel.js";
 import { User } from "../model/userModel.js";
 import { Sale } from "../model/saleModel.js";
 
-
 const checkoutOrder = async (req, res) => {
-  const { pickupLocation, user, cartId } = req.body;
+  const { pickupLocation, userId, cartId } = req.body;
 
   try {
     const cart = await Cart.findById(cartId).populate("items.grocery");
@@ -32,25 +31,31 @@ const checkoutOrder = async (req, res) => {
     }
 
     if (hasInvalidQuantity) {
-      return res.status(400).json({ message: "Some items have too much quantity" });
+      return res
+        .status(400)
+        .json({ message: "Some items have too much quantity" });
     }
 
-    //for each grocery create a sale object 
-    await Promise.all(cart.items.map(async (cartItem) => {
-      const sale = new Sale({
-        user: cartItem.grocery.user,
-        totalPrice: cartItem.grocery.price * cartItem.quantity,
-        items: [{
-          grocery: cartItem.grocery._id, 
-          quantity: cartItem.quantity,
-        }],
-      });
-      await sale.save(); 
-    }));
+    //for each grocery create a sale object
+    await Promise.all(
+      cart.items.map(async (cartItem) => {
+        const sale = new Sale({
+          user: cartItem.grocery.user,
+          totalPrice: cartItem.grocery.price * cartItem.quantity,
+          items: [
+            {
+              grocery: cartItem.grocery._id,
+              quantity: cartItem.quantity,
+            },
+          ],
+        });
+        await sale.save();
+      })
+    );
 
-  //problem starts here 
-      // Reduce the quantity of affected groceries in the database
-      /*for (const item of cart.items) {
+    //problem starts here
+    // Reduce the quantity of affected groceries in the database
+    /*for (const item of cart.items) {
         const grocery = await Grocery.findById(item.grocery._id);
 
         // Update the quantity of the grocery in the database
@@ -61,29 +66,30 @@ const checkoutOrder = async (req, res) => {
         );
       }*/
 
-      for (const item of cart.items) {
-        try {
-            const grocery = await Grocery.findById(item.grocery._id);
-            if (!grocery) {
-                console.error(`Grocery with ID ${item.grocery._id} not found.`);
-                continue;
-            }
+    // for (const item of cart.items) {
+    //   try {
+    //     const grocery = await Grocery.findById(item.grocery._id);
+    //     if (!grocery) {
+    //       console.error(`Grocery with ID ${item.grocery._id} not found.`);
+    //       continue;
+    //     }
 
-            const newQuantity = Math.max(0, grocery.quantity - item.quantity);
-    
-            const updatedGrocery = await Grocery.findByIdAndUpdate(
-                item.grocery._id,
-                { quantity: newQuantity },
-                { new: true }
-            );
-            
-            console.log(`Updated grocery ${updatedGrocery.name}, new quantity: ${updatedGrocery.quantity}`);
-        } catch (error) {
-            console.error(`shit ass grocery cant be found: ${error}`);
-        }
-    }
+    //     const newQuantity = Math.max(0, grocery.quantity - item.quantity);
 
-    
+    //     const updatedGrocery = await Grocery.findByIdAndUpdate(
+    //       item.grocery._id,
+    //       { quantity: newQuantity },
+    //       { new: true }
+    //     );
+
+    //     console.log(
+    //       `Updated grocery ${updatedGrocery.name}, new quantity: ${updatedGrocery.quantity}`
+    //     );
+    //   } catch (error) {
+    //     console.error(`shit ass grocery cant be found: ${error}`);
+    //   }
+    // }
+
     // Create a function to split the cart by merchant
     const splitCartByMerchant = (cartItems) => {
       // Use reduce to split the cart into an object where keys are unique merchant IDs
@@ -99,17 +105,17 @@ const checkoutOrder = async (req, res) => {
       }, {});
 
       return cartByMerchant; // Return the processed object
-    }
+    };
 
-    const cartByMerchant = splitCartByMerchant(cart.items); 
+    const cartByMerchant = splitCartByMerchant(cart.items);
 
     // Iterate over each merchant ID
     for (const merchantId in cartByMerchant) {
       const merchantList = cartByMerchant[merchantId];
-      
+
       // Calculate total price for this merchant's groceries
       const totalPriceForMerchant = merchantList.reduce((total, item) => {
-        return total + (item.grocery.price * item.quantity);
+        return total + item.grocery.price * item.quantity;
       }, 0);
 
       // Create order items for this merchant
@@ -118,11 +124,13 @@ const checkoutOrder = async (req, res) => {
         quantity: item.quantity,
       }));
 
+      const result = await Cart.deleteOne({ user: userId });
+
       // Create a new order for this merchant
       const newOrder = new Order({
         pickupLocation,
         status: "pending",
-        user,
+        user: userId,
         amount: totalPriceForMerchant,
         groceries: orderItems,
       });
@@ -131,15 +139,16 @@ const checkoutOrder = async (req, res) => {
       const savedOrder = await newOrder.save();
     }
     //
-    await Cart.deleteOne({ user });
+
 
     res.status(201).json({ message: "succesfully created orders." });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "An error occurred while creating the order." });
+    res
+      .status(500)
+      .json({ message: "An error occurred while creating the order." });
   }
 };
-
 
 /*
 const checkoutOrder = async (req, res) => {
@@ -170,20 +179,19 @@ const checkoutOrder = async (req, res) => {
 };
 */
 
-
 //get order based on user id
 
 const getOrdersWithUserId = async (req, res) => {
   try {
-    const userId = req.query.userId; 
+    const userId = req.query.userId;
     const orders = await Order.find({ user: userId }).populate({
-      path: 'groceries',
+      path: "groceries",
       populate: {
-        path: 'grocery',
-        model: 'Grocery'
-      }
+        path: "grocery",
+        model: "Grocery",
+      },
     });
-    
+
     if (orders.length > 0) {
       res.status(200).json({ orders });
     } else {
