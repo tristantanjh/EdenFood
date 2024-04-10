@@ -162,7 +162,7 @@ export default function ItemDescription() {
         }
         setImageURL(res.data.imageURL);
         setReviewsLength(res.data.reviews.length);
-        setFreshness(getFreshness(res.data.freshness, res.data.createdDate));
+        setFreshness(getFreshness(res.data.freshness, res.data.createdAt));
         setSelectedItem(res.data);
         console.log(res.data.user._id);
         axios

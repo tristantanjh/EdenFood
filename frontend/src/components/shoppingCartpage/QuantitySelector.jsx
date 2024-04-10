@@ -1,11 +1,14 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/Button";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import Box from "@mui/material/Box";
 import axios from "axios";
+import { useAuth } from "../../hooks/AuthProvider";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const QuantitySelector = ({
   children,
@@ -14,9 +17,24 @@ const QuantitySelector = ({
   currentValue,
   setTotalPrice,
   itemPrice,
+  groceryId,
   ...props
 }) => {
   const [count, setCount] = useState(currentValue);
+  const [cart, setCart] = React.useState(null);
+  const { user } = useAuth();
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/getCart", {
+        params: { userId: user.id },
+      })
+      .then((res) => {
+        setCart(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleIncrementCounter = () => {
     if (count < maxValue) {
@@ -34,11 +52,13 @@ const QuantitySelector = ({
       const response = await axios.post(
         "http://localhost:3000/incrementGroceryQuantity",
         {
-          cartId: "6602e852a2a91d16e7b55bad",
-          groceryId: "6602cad65bc973dc6f8d9013",
+          cartId: cart._id,
+          groceryId: groceryId,
         }
       );
-      // add SnackBar for if response.ok
+      if (response.status == "400") {
+        toast.error("There are no more groceries available.");
+      }
       console.log("Grocery successfully incremented");
     } catch (error) {
       console.error("Error incrementing grocery: ", error);
@@ -61,8 +81,8 @@ const QuantitySelector = ({
       const response = await axios.post(
         "http://localhost:3000/decrementGroceryQuantity",
         {
-          cartId: "6602e852a2a91d16e7b55bad",
-          groceryId: "6602cad65bc973dc6f8d9013",
+          cartId: cart._id,
+          groceryId: groceryId,
         }
       );
       // add SnackBar for if response.ok

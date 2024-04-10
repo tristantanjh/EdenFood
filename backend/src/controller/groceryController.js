@@ -1,6 +1,15 @@
 import { Grocery } from "../model/groceryModel.js";
 import { User } from "../model/userModel.js";
 
+function getFreshness(freshness, createdDate) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const created = new Date(createdDate);
+  const diffTime = Math.abs(today - created);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return parseInt(freshness) - diffDays;
+}
+
 const createListing = async (req, res) => {
   const {
     name,
@@ -42,8 +51,10 @@ const createListing = async (req, res) => {
 const getListingByGroceryId = async (req, res) => {
   try {
     const groceryId = req.query.groceryId;
-    
-    const grocery = await Grocery.findById(groceryId).populate("user").populate("reviews");
+
+    const grocery = await Grocery.findById(groceryId)
+      .populate("user")
+      .populate("reviews");
 
     if (!grocery) {
       return res.status(404).json({ message: "Grocery not found" });
@@ -55,7 +66,6 @@ const getListingByGroceryId = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
 
 const disableGroceryByGroceryId = async (req, res) => {
   try {
@@ -85,7 +95,7 @@ const disableGroceryByGroceryId = async (req, res) => {
 const getListingsByCategory = async (req, res) => {
   try {
     const { category } = req.query;
-    
+
     const groceries = await Grocery.find({ category: category });
 
     if (groceries.length === 0) {
@@ -105,7 +115,7 @@ const getListingsByCategory = async (req, res) => {
 const getListingsByUserId = async (req, res) => {
   try {
     const { userId } = req.query;
-    
+
     const groceries = await Grocery.find({ user: userId });
 
     if (groceries.length > 0) {
@@ -119,14 +129,13 @@ const getListingsByUserId = async (req, res) => {
   }
 };
 
-
 //filter out freshness < current date
 
 const getAllGroceries = async (req, res) => {
   try {
     const groceries = await Grocery.find();
     const userId = req.query.userId;
-    
+
     const filteredCategories = req.query.categories[0].split(", ");
 
     const currUser = await User.find({ user: userId });
@@ -141,22 +150,35 @@ const getAllGroceries = async (req, res) => {
       return res.status(404).json({ message: "No groceries found" });
     }
 
-    const currentDate = new Date();
-    // const filteredGroceriesWithFreshness = groceries.filter(grocery => grocery.freshness >= currentDate);
-    const filteredGroceries = groceries.filter(grocery => grocery.user.toString() !== userId);
+    // const currentDate = new Date();
+    const filteredGroceriesWithFreshness = groceries.filter(
+      (grocery) => getFreshness(grocery.freshness, grocery.createdAt) >= 0
+    );
+    const filteredGroceries = filteredGroceriesWithFreshness.filter(
+      (grocery) => grocery.user.toString() !== userId
+    );
     const result = [];
 
     for (let i = 0; i < filteredCategories.length; i++) {
-      let categoryObject = { categoryName: filteredCategories[i], categoryItems: [] };
+      let categoryObject = {
+        categoryName: filteredCategories[i],
+        categoryItems: [],
+      };
       result.push(categoryObject);
     }
 
-    filteredGroceries.map(grocery => result[filteredCategories.indexOf(grocery.category)].categoryItems.push(grocery));
+    filteredGroceries.map((grocery) =>
+      result[filteredCategories.indexOf(grocery.category)].categoryItems.push(
+        grocery
+      )
+    );
 
     res.json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "An error occurred while fetching groceries" });
+    res
+      .status(500)
+      .json({ message: "An error occurred while fetching groceries" });
   }
 };
 
