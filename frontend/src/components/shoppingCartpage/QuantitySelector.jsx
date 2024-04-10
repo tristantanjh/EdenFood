@@ -41,9 +41,7 @@ const QuantitySelector = ({
       const newCount = count + 1;
       setCount(newCount);
       handleIncrementGroceryQuantity();
-      setTotalPrice((prevTotalPrice) =>
-        parseFloat(prevTotalPrice + itemPrice).toFixed(1)
-      );
+      setTotalPrice((prevTotalPrice) => prevTotalPrice + itemPrice);
     }
   };
 
@@ -70,9 +68,7 @@ const QuantitySelector = ({
       const newCount = count - 1;
       setCount(newCount);
       handleDecrementGroceryQuantity();
-      setTotalPrice((prevTotalPrice) =>
-        parseFloat(prevTotalPrice - itemPrice).toFixed(1)
-      );
+      setTotalPrice((prevTotalPrice) => prevTotalPrice - itemPrice);
     }
   };
 
