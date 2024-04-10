@@ -1,21 +1,38 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { LineChart, axisClasses } from '@mui/x-charts';
+import axios from 'axios';
+import { useAuth } from "../../hooks/AuthProvider";
 
 import Title from './Title';
 
-// Generate Sales Data
-// Generate Sales Data
-function createData(dayOfMonth, amount) {
-  return { dayOfMonth, amount: amount ?? null };
-}
-
-// Assuming 30 days in a month for demonstration purposes
-const daysOfMonth = Array.from({ length: 30 }, (_, i) => i + 1); // Generate array [1, 2, ..., 30]
-const data = daysOfMonth.map(day => createData(day, Math.random() * 2500)); // Generate random sales data for each day
-
 export default function Chart() {
+  const { user } = useAuth();
   const theme = useTheme();
+  const [data, setData] = useState([]); // State to hold the sales data
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/getMonthlySaleReport', {
+          params: { userId: user.id }
+        });
+        const dailySalesFromAPI = response.data;
+
+        // Transforming the data from the API call to match the required format
+        const formattedData = dailySalesFromAPI.map((totalSales, index) => ({
+          dayOfMonth: index + 1, // Day of the month
+          amount: totalSales // Total sales for the day
+        }));
+
+        setData(formattedData); // Set the state with the fetched data
+      } catch (error) {
+        console.error('Error fetching monthly sales report:', error);
+      }
+    };
+
+    fetchData(); // Call the fetchData function when the component mounts
+  }, [user.id]); // Dependency array to ensure useEffect runs when user.id changes
 
   return (
     <React.Fragment>
@@ -37,6 +54,7 @@ export default function Chart() {
               tickLabelStyle: theme.typography.body2,
             },
           ]}
+          xAxisLabel="Day of Month"
           yAxis={[
             {
               label: 'Sales ($)',
@@ -45,7 +63,7 @@ export default function Chart() {
                 fill: theme.palette.text.primary,
               },
               tickLabelStyle: theme.typography.body2,
-              max: 3000,
+              max: 100,
               tickNumber: 3,
             },
           ]}

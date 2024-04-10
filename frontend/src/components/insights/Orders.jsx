@@ -40,6 +40,7 @@ const Orders = () => {
           return rowData;
         });
         setRows(formattedRows);
+        console.log(formattedRows);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
