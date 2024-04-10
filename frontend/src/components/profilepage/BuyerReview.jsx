@@ -38,13 +38,13 @@ export default function BuyerReview() {
   }, []);
 
   return (
-    <Container
-      sx={{
-        display: "flex",
-        alignItems: "flex-start",
-        pb: 5,
-      }}
-    >
+    // <Container
+    //   sx={{
+    //     display: "flex",
+    //     alignItems: "flex-start",
+    //     pb: 5,
+    //   }}
+    // >
       <Stack spacing={1}>
         <Stack
           direction="row"
@@ -91,6 +91,6 @@ export default function BuyerReview() {
             ))}
         </Grid>
       </Stack>
-    </Container>
+    // </Container>
   );
 }

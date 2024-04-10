@@ -24,14 +24,17 @@ import { Sale } from "../model/saleModel.js";
   };*/
   
   //get sale - by merchant id --> need to change
+
+  //might need a method to return  list of sales sorted by date 
+  //list of 30 days to plot
   const getSalesByUserId = async (req, res) => {
     try {
       const { userId } = req.query;
-      
-      const sales = await Sale.find({ user: userId });
   
+      const sales = await Sale.find({ "user" : userId });
+      //.sort({ createdAt: -1 });
       if (sales.length > 0) {
-        res.status(200).json({ sales });
+        res.status(200).json(sales);
       } else {
         res.status(200).json({ message: "No sale found for the user." });
       }
@@ -43,7 +46,7 @@ import { Sale } from "../model/saleModel.js";
 
   const getAllSales = async (req, res) => {
     try {
-      const sales = await Sale.find().populate("user");
+      const sales = await Sale.find().populate("user").sort({ createdAt: -1 });
       if (sales.length) {
         res.status(200).json(sales);
       } else {

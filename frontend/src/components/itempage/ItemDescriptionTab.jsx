@@ -82,7 +82,7 @@ export default function ItemDescriptionTab({ description, instruction}) {
         }}
       >
         <Box
-          sx={{ borderBottom: 1, borderColor: "divider", borderWidth: "2px" }}
+          sx={{  width: "100%", borderBottom: 1, borderColor: "divider", borderWidth: "2px" }}
         >
           <Tabs value={value} onChange={handleChange} variant="fullWidth">
             <Tab

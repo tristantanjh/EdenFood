@@ -27,6 +27,7 @@ import Pickup from "./components/checkout/pickup/Pickup.jsx";
 import Confirmation from "./components/checkout/confirmation/Confirmation.jsx";
 import EditPasswordMain from "./components/editPasswordPage/EditPassword.jsx";
 import MerchantPage from "./components/merchantPage/MerchantPage.jsx";
+import Insights from "./components/insights";
 import { ToastContainer, toast } from "react-toastify";
 
 const router = createBrowserRouter([
@@ -50,6 +51,7 @@ const router = createBrowserRouter([
             path: "/register",
             element: <Register />,
           },
+
         ],
       },
       {
@@ -109,6 +111,11 @@ const router = createBrowserRouter([
             path: "/editPassword",
             element: <EditPasswordMain />,
           },
+          {
+            path: "/insights",
+            element: <Insights />
+          },
+
         ],
       },
     ],

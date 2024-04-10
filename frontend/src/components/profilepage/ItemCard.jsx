@@ -52,6 +52,7 @@ export default function ItemCard(props) {
         maxWidth: isMobile ? 175 : 275,
         borderRadius: "8px",
         mb: "1rem",
+        mt: "2rem"
       }}
     >
       <Grid

@@ -345,7 +345,7 @@ function AppBarSecondary() {
                   </MenuItem>
 
                   <MenuItem
-                    onClick={() => scrollToSection("pricing")}
+                    onClick={() => navigate("/insights")}
                     sx={{
                       fontFamily: "open sans, sans-serif",
                       fontWeight: "750",

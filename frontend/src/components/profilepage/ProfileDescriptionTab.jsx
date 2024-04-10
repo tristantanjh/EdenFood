@@ -20,6 +20,7 @@ import Grid from "@mui/material/Grid";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import BuyerReview from "./BuyerReview.jsx";
 import OrderHistoryOrder from "../orderhistory/OrderHistoryOrder";
 
 // const items = [
@@ -303,14 +304,19 @@ export default function ProfileDescriptionTab(props) {
         sx={{
           display: "flex",
           flexDirection: { xs: "column", md: "column" },
-          alignItems: "center",
-          justifyContent: "flex-start",
+          // alignItems: "center",
+          // justifyContent: "flex-start",
           pt: { xs: 4, md: 4 },
           //   pb: { xs: 6, sm: 12 },
         }}
       >
         <Box
-          sx={{ borderBottom: 1, borderColor: "divider", borderWidth: "2px" }}
+          sx={{
+            width: "100%",
+            borderBottom: 1,
+            borderColor: "divider",
+            borderWidth: "2px",
+          }}
         >
           <Tabs value={value} onChange={handleChange} variant="fullWidth">
             <Tab
@@ -350,7 +356,7 @@ export default function ProfileDescriptionTab(props) {
               style={{ height: 30, alignSelf: "center" }}
             />
             <Tab
-              label="Insights"
+              label="Reviews"
               {...a11yProps(4)}
               sx={{
                 fontFamily: "nunito, sans-serif",
@@ -365,132 +371,169 @@ export default function ProfileDescriptionTab(props) {
             />
           </Tabs>
         </Box>
-        <CustomTabPanel value={value} index={0}>
-          <Container
+        <CustomTabPanel value={value} index={0} sx={{ width: "100%" }}>
+          {/* <Container
             sx={{
               display: "flex",
               flexDirection: { xs: "column", md: "column" },
-              alignItems: "center",
-              justifyContent: "flex-start",
+              // alignItems: "center",
+              // justifyContent: "flex-start",
               pb: { xs: 6, sm: 12 },
             }}
-          >
-            <div
+          > */}
+            {/* <div
               style={{
                 marginRight: "auto",
-                marginBottom: "1rem",
+                // marginBottom: "1rem",
+              }}
+            > */}
+            {/* <Box
+              sx={{
+                // alignItems: "flex-start",
+                pb: isMobile ? 1 : 2,
+                // ml: isMobile ? "18%" : "3%",
+              }}
+            > */}
+              
+            {/* </Box> */}
+            <Grid
+              container
+              // sx={{ ml: isMobile ? 0 : 3 }}
+              spacing={isMobile ? 1 : 1}
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", md: "column" },
+                // alignItems: "center",
+                // justifyContent: "flex-start",
+                pb: { xs: 6, sm: 12 },
+                ml: isMobile ? 0 : 3
               }}
             >
-              <Box
-                sx={{
-                  alignItems: "flex-start",
-                  pb: isMobile ? 1 : 2,
-                  ml: isMobile ? "18%" : "3%",
+              <Link to="/addListing">
+                <Button
+                  sx={{
+                    backgroundColor: "#64CF94",
+                    borderColor: "#64CF94",
+                    color: "#FFFFFF",
+                    borderRadius: 15,
+                    fontSize: isMobile ? 10 : 15,
+                    width: isMobile ? 150 : 200,
+                    mb: "1rem"
+                  }}
+                >
+                  Add New Listing <AddIcon sx={{ ml: isMobile ? 10 / 100 : 1 }} />
+                </Button>
+              </Link> 
+              <div
+                style={{
+                  marginRight: "auto",
+                  marginBottom: "1rem",
+                  maxHeight: isMobile ? "43vh" : "60vh",
+                  overflow: "auto",
                 }}
               >
-                <Link to="/addListing">
-                  <Button
-                    sx={{
-                      backgroundColor: "#64CF94",
-                      borderColor: "#64CF94",
-                      color: "#FFFFFF",
-                      borderRadius: 15,
-                      fontSize: isMobile ? 10 : 15,
-                      width: isMobile ? 90 : 150,
-                    }}
-                  >
-                    Add New <AddIcon sx={{ ml: isMobile ? 10 / 100 : 1 }} />
-                  </Button>
-                </Link>
-              </Box>
-              <Grid
-                container
-                sx={{ ml: isMobile ? 0 : 3 }}
-                spacing={isMobile ? 1 : 1}
-              >
-                <div
-                  style={{
-                    marginRight: "auto",
-                    marginBottom: "1rem",
-                    maxHeight: isMobile ? "43vh" : "60vh",
-                    overflow: "auto",
+                
+                <Typography
+                  sx={{
+                    fontSize: "30px",
+                    fontWeight: "800",
+                    // m: "0 auto 1rem .5rem",
+                    fontFamily: "nunito, sans-serif",
                   }}
                 >
-                  <Typography
-                    sx={{
-                      fontSize: "30px",
-                      fontWeight: "800",
-                      m: "0 auto 1rem .5rem",
-                      fontFamily: "nunito, sans-serif",
-                    }}
-                  >
-                    Active Listings
-                  </Typography>
-                  {activeListings.length > 0 ? (
-                    <Grid container spacing={isMobile ? 1 : 2}>
-                      {activeListings.map((listing, index) => (
-                        <Grid item container xs md key={index}>
-                          <ItemCard
-                            imageURL={listing.imageURL}
-                            name={listing.name}
-                            freshness={getFreshness(
-                              listing.freshness,
-                              listing.createdAt
-                            )}
-                            price={listing.price}
-                            id={listing._id}
-                          />
-                        </Grid>
-                      ))}
-                    </Grid>
-                  ) : null}
-                </div>
-              </Grid>
-              <Grid
-                container
-                sx={{ ml: isMobile ? 0 : 3 }}
-                spacing={isMobile ? 1 : 1}
+                  Active Listings
+                </Typography>
+                {activeListings.length > 0 ? (
+                  <Grid container spacing={isMobile ? 1 : 1}>
+                    {activeListings.map((listing, index) => (
+                      <Grid item container xs md key={index} >
+                        <ItemCard
+                          imageURL={listing.imageURL}
+                          name={listing.name}
+                          freshness={getFreshness(
+                            listing.freshness,
+                            listing.createdAt
+                          )}
+                          price={listing.price}
+                          id={listing._id}
+                        />
+                      </Grid>
+                    ))}
+                  </Grid>
+                ) : <Box
+                id="image"
+                component="img"
+                fullWidth
+                sx={{
+                  height: "250px",
+                  width: "auto",
+                  maxWidth: "425px",
+                  objectFit: "contain",
+                  mt: "3rem",
+                }}
+                src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1712733794/active_a7efbk.png"
+                alt="Uploaded Profile Picture"
+              />}
+              </div>
+            </Grid>
+            <Grid
+              container
+              sx={{ ml: isMobile ? 0 : 3 }}
+              spacing={isMobile ? 1 : 1}
+            >
+              <div
+                style={{
+                  marginRight: "auto",
+                  marginBottom: "1rem",
+                  maxHeight: isMobile ? "43vh" : "60vh",
+                  overflow: "auto",
+                }}
               >
-                <div
-                  style={{
-                    marginRight: "auto",
-                    marginBottom: "1rem",
-                    maxHeight: isMobile ? "43vh" : "60vh",
-                    overflow: "auto",
+                <Typography
+                  sx={{
+                    fontSize: "30px",
+                    fontWeight: "800",
+                    // m: "0 auto 1rem .5rem",
+                    fontFamily: "nunito, sans-serif",
                   }}
                 >
-                  <Typography
-                    sx={{
-                      fontSize: "30px",
-                      fontWeight: "800",
-                      m: "0 auto 1rem .5rem",
-                      fontFamily: "nunito, sans-serif",
-                    }}
-                  >
-                    Inactive Listings
-                  </Typography>
-                  {inactiveListings.length > 0 ? (
-                    <Grid container spacing={isMobile ? 1 : 2}>
-                      {inactiveListings.map((listing, index) => (
-                        <Grid item container xs md key={index}>
-                          <ItemCard
-                            imageURL={listing.imageURL}
-                            name={listing.name}
-                            freshness={getFreshness(
-                              listing.freshness,
-                              listing.createdAt
-                            )}
-                            price={listing.price}
-                            id={listing._id}
-                          />
-                        </Grid>
-                      ))}
-                    </Grid>
-                  ) : null}
-                </div>
-              </Grid>
-            </div>
-          </Container>
+                  Inactive Listings
+                </Typography>
+                {inactiveListings.length > 0 ? (
+                  <Grid container spacing={isMobile ? 1 : 1}>
+                    {inactiveListings.map((listing, index) => (
+                      <Grid item container xs md key={index}>
+                        <ItemCard
+                          imageURL={listing.imageURL}
+                          name={listing.name}
+                          freshness={getFreshness(
+                            listing.freshness,
+                            listing.createdAt
+                          )}
+                          price={listing.price}
+                          id={listing._id}
+                        />
+                      </Grid>
+                    ))}
+                  </Grid>
+                ) : <Box
+                id="image"
+                component="img"
+                fullWidth
+                sx={{
+                  height: "250px",
+                  width: "auto",
+                  maxWidth: "425px",
+                  objectFit: "contain",
+                  mt: "3rem",
+                }}
+                src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1712733793/inactive_utb64c.png"
+                alt="Uploaded Profile Picture"
+              />}
+              </div>
+            </Grid>
+            {/* </div> */}
+          {/* </Container> */}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
           {orders.map((order, index) => (
@@ -531,7 +574,7 @@ export default function ProfileDescriptionTab(props) {
           ))}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={4}>
-          Item Three
+        <BuyerReview user={user} />
         </CustomTabPanel>
       </Container>
     </Box>

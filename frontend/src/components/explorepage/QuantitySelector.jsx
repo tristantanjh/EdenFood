@@ -18,19 +18,17 @@ const QuantitySelector = ({
 
   const handleIncrementCounter = () => {
     if (count < maxValue) {
-      setCount((prevState) => prevState + 1);
-    }
-    if (quantity > minValue) {
-      onQuantityChange(quantity + 1);
+      const newCount = count + 1;
+      setCount(newCount);
+      onQuantityChange(newCount);
     }
   };
 
   const handleDecrementCounter = () => {
     if (count > minValue) {
-      setCount((prevState) => prevState - 1);
-    }
-    if (quantity > minValue) {
-      onQuantityChange(quantity - 1);
+      const newCount = count - 1;
+      setCount(newCount);
+      onQuantityChange(newCount);
     }
   };
   return (

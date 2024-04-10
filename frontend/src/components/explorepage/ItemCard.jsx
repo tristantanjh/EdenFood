@@ -24,6 +24,8 @@ import axios from "axios";
 import averageRating from "../../utils/averageRating";
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function SimpleDialog(props) {
   const { user } = useAuth();
@@ -36,16 +38,17 @@ function SimpleDialog(props) {
 
   const handleAddToCart = async (value) => {
     try {
+      console.log(quantity);
       const response = await axios.post("http://localhost:3000/addToCart", {
         userId: user.id,
         groceryId: props.groceryId,
         quantity: quantity,
       });
-      // add SnackBar for if response.ok
-      if (!response.ok) {
-        throw new Error("Failed to add item to cart");
+      if (response.status == "405") {
+        toast.error("Insufficient grocery quantity for your request");
+      } else if (response.status == "200") {
+        toast.success("Item added to cart successfully");
       }
-      console.log("Item added to cart successfully");
       handleClose();
     } catch (error) {
       console.error("Error adding item to cart:", error);
@@ -115,7 +118,6 @@ function getFreshness(freshness, createdDate) {
   today.setHours(0, 0, 0, 0);
   const created = new Date(createdDate);
   const diffTime = Math.abs(today - created);
-  console.log(diffTime);
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   return parseInt(freshness) - diffDays;
 }
@@ -231,11 +233,18 @@ export default function ItemCard(props) {
 
         {/* Custom number of days based on merchant uploads */}
         <Typography
+          sx={{ fontSize: isMobile ? 11 : 14 }}
+          color="text.secondary"
+          fontFamily="open sans, sans-serif"
+        >
+          Expires {getFreshness(props.freshness, props.createdAt)} days
+        </Typography>
+        <Typography
           sx={{ mb: 1.5, fontSize: isMobile ? 11 : 14 }}
           color="text.secondary"
           fontFamily="open sans, sans-serif"
         >
-          Expires {getFreshness(props.freshness, props.createdDate)} days
+          Quantity left: {props.quantity}
         </Typography>
         {/* Custom price based on merchant uploads */}
         <Typography
