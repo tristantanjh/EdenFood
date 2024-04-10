@@ -13,7 +13,7 @@ const paypalScriptOptions = {
   // disableFunding: "card",
 };
 
-function Button({ handlePayPalPayment }) {
+function Button({ handlePayPalPayment, totalPrice }) {
   /**
    * usePayPalScriptReducer use within PayPalScriptProvider
    * isPending: not finished loading(default state)
@@ -21,6 +21,9 @@ function Button({ handlePayPalPayment }) {
    * isRejected: failed to load
    */
   const [{ isPending }] = usePayPalScriptReducer();
+  let paymentAmount = "" + totalPrice;
+  console.log(paymentAmount);
+  console.log(typeof paymentAmount);
   const paypalbuttonTransactionProps = {
     style: { layout: "vertical", label: "pay" },
     createOrder(data, actions) {
@@ -28,7 +31,7 @@ function Button({ handlePayPalPayment }) {
         purchase_units: [
           {
             amount: {
-              value: "100.00",
+              value: paymentAmount,
             },
           },
         ],
@@ -61,20 +64,25 @@ function Button({ handlePayPalPayment }) {
   };
   return (
     <>
-      {isPending ? <p>Load Smart Payment Button...</p> : null}
+      {isPending && totalPrice ? <p>Load Smart Payment Button...</p> : null}
       <PayPalButtons {...paypalbuttonTransactionProps} />
     </>
   );
 }
 
-export default function Paypal({ handlePayPalPayment }) {
+export default function Paypal({ handlePayPalPayment, totalPrice }) {
   return (
     <div>
-      <PayPalScriptProvider options={paypalScriptOptions}>
-        <Button
-          handlePayPalPayment={handlePayPalPayment}
-        />
-      </PayPalScriptProvider>
+      {totalPrice ? ( 
+        <PayPalScriptProvider options={paypalScriptOptions}>
+          <Button
+            handlePayPalPayment={handlePayPalPayment}
+            totalPrice={totalPrice}
+          />
+        </PayPalScriptProvider>
+      ) : (
+        <div>Loading payment...</div>
+      )}
     </div>
   );
 }
