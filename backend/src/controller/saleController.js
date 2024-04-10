@@ -29,7 +29,7 @@ import { Sale } from "../model/saleModel.js";
   //list of 30 days to plot
   const getSalesByUserId = async (req, res) => {
     try {
-      const { userId } = req.body;
+      const { userId } = req.query;
   
       const sales = await Sale.find({ "user" : userId });
       //.sort({ createdAt: -1 });

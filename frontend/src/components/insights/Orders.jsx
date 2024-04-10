@@ -6,13 +6,13 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
-import { useAuth } from "../../hooks/AuthProvider";
 import axios from 'axios';
+import { useAuth } from "../../hooks/AuthProvider";
 
 // Generate Order Data
-function createData( id, date, name, quantity, amount) {
+function createData(id, date, name, quantity, amount) {
   const formattedDate = new Date(date).toISOString().split('T')[0];
-  return {  id, date: formattedDate, name, quantity, amount };
+  return { id, date: formattedDate, name, quantity, amount };
 }
 
 const Orders = () => {
@@ -22,53 +22,28 @@ const Orders = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response =  await axios.get('http://localhost:3000/getSalesByUserId', {
-          params: {
-            userId: user.id
-          }
-        })
+         //const response = await axios.get('http://localhost:3000/getAllSales');
+        const response = await axios.get('http://localhost:3000/getSalesByUserId', {
+          params: { userId: user.id }
+        });
         const sales = response.data;
-    
         let count = 0;
-        const fetchedRows = await Promise.all(sales.map(async sale => {
-          const groceryId = sale.items[0]?.grocery;
-          if (!groceryId) return null; // Skip if groceryId is missing
-          try {
-            // Fetch grocery data using groceryId
-            const groceryResponse = await axios.get(`http://localhost:3000/getListingByGroceryId`, {
-              params: {
-                groceryId: groceryId
-              }
-            });
-            const groceryData = groceryResponse.data;
-    
-            // Assuming groceryData contains the grocery object
-            const rowData = createData(
-              count,
-              sale.createdAt,
-              groceryData.name, // Assuming groceryData has a name property
-              sale.items[0].quantity,
-              sale.totalPrice
-            );
-            count++;
-            return rowData;
-          } catch (error) {
-            console.error('Error fetching grocery data:', error);
-            return null; // Return null in case of error
-          }
-        }));
-    
-        // Filter out null entries (skipped sales without groceryId or errors)
-        const filteredRows = fetchedRows.filter(row => row !== null);
-    
-        console.log(filteredRows);
-        setRows(filteredRows); // Update the state with the new list of rows
+        const formattedRows = sales.map(sale => {
+          const rowData = createData(
+            count,
+            sale.createdAt,
+            sale.items[0].grocery.name,
+            sale.items[0].quantity,
+            sale.totalPrice
+          );
+          count++;
+          return rowData;
+        });
+        setRows(formattedRows);
       } catch (error) {
         console.error('Error fetching data:', error);
-        setRows([]); // Reset rows to an empty array in case of error
       }
     };
-    
 
     fetchData();
   }, []);
