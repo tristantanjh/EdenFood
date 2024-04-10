@@ -168,7 +168,7 @@ export default function CartItem(props) {
                 <QuantitySelector
                   minValue={1}
                   currentValue={props.currentQuantity}
-                  maxValue={20}
+                  maxValue={props.groceryQuantity}
                   itemPrice={props.price}
                   setTotalPrice={props.setTotalPrice}
                   groceryId={props.groceryId}
