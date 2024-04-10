@@ -78,6 +78,16 @@ const ProfileHeader = (props) => {
     }
   };
 
+  function copy() {
+    const el = document.createElement("input");
+    el.value = window.location.href;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
+    handleOpenSnackbar("Successfully copied profile to clipboard", "success");
+  }
+
   useEffect(() => {
     console.log(props.user.id);
     axios
@@ -323,6 +333,7 @@ const ProfileHeader = (props) => {
               justifyContent: "center",
               alignItems: "center",
             }}
+            onClick={copy}
           >
             <img
               src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1711185761/share_cfenjn.png"

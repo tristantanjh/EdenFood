@@ -116,6 +116,16 @@ const Tabs = styled(MuiTabs)({
   },
 });
 
+function getFreshness(freshness, createdDate) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const created = new Date(createdDate);
+  const diffTime = Math.abs(today - created);
+  console.log(diffTime);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return parseInt(freshness) - diffDays;
+}
+
 export default function ProfileDescriptionTab(props) {
   const theme = useTheme();
   const user = props.user;
@@ -126,10 +136,10 @@ export default function ProfileDescriptionTab(props) {
   today.setHours(0, 0, 0, 0); // Normalize today to midnight for accurate comparison
 
   const activeListings = listings.filter(
-    (listing) => new Date(listing.freshness) >= today
+    (listing) => getFreshness(listing.freshness, listing.createdAt) >= 0
   );
   const inactiveListings = listings.filter(
-    (listing) => new Date(listing.freshness) < today
+    (listing) => getFreshness(listing.freshness, listing.createdAt) < 0
   );
 
   const handleChange = (event, newValue) => {
@@ -139,7 +149,7 @@ export default function ProfileDescriptionTab(props) {
   useEffect(() => {
     axios
       .get("http://localhost:3000/getListingsByUserId", {
-        params: { userId: user.id },
+        params: { userId: user },
       })
       .then((res) => {
         if (res.data.groceries) {
@@ -250,90 +260,107 @@ export default function ProfileDescriptionTab(props) {
                   pb: isMobile ? 1 : 2,
                   ml: isMobile ? "18%" : "3%",
                 }}
-              ></Box>
+              >
+                <Link to="/addListing">
+                  <Button
+                    sx={{
+                      backgroundColor: "#64CF94",
+                      borderColor: "#64CF94",
+                      color: "#FFFFFF",
+                      borderRadius: 15,
+                      fontSize: isMobile ? 10 : 15,
+                      width: isMobile ? 90 : 150,
+                    }}
+                  >
+                    Add New <AddIcon sx={{ ml: isMobile ? 10 / 100 : 1 }} />
+                  </Button>
+                </Link>
+              </Box>
               <Grid
                 container
                 sx={{ ml: isMobile ? 0 : 3 }}
                 spacing={isMobile ? 1 : 1}
               >
-                {activeListings.length > 0 ? (
-                  <div>
-                    <Typography
-                      sx={{
-                        fontSize: "30px",
-                        fontWeight: "800",
-                        m: "0 auto 1rem .5rem",
-                        fontFamily: "nunito, sans-serif",
-                      }}
-                    >
-                      Active Listings
-                    </Typography>
-                    <Grid container justifyContent="center">
-                      {activeListings.map((listing, index) => (
-                        <Grid item container xs md key={index}>
-                          <ItemCard
-                            imageURL={listing.imageURL}
-                            name={listing.name}
-                            freshness={listing.freshness}
-                            price={listing.price}
-                            id={listing._id}
-                          />
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </div>
-                ) : (
+                <div
+                  style={{
+                    marginRight: "auto",
+                    marginBottom: "1rem",
+                    maxHeight: isMobile ? "43vh" : "60vh",
+                    overflow: "auto",
+                  }}
+                >
                   <Typography
                     sx={{
                       fontSize: "30px",
                       fontWeight: "800",
                       m: "0 auto 1rem .5rem",
-                      textAlign: "left",
                       fontFamily: "nunito, sans-serif",
                     }}
                   >
-                    No Active Listings
+                    Active Listings
                   </Typography>
-                )}
-                {inactiveListings.length > 0 ? (
-                  <div>
-                    <Typography
-                      sx={{
-                        fontSize: "30px",
-                        fontWeight: "800",
-                        m: "0 auto 1rem .5rem",
-                        fontFamily: "nunito, sans-serif",
-                      }}
-                    >
-                      Inactive Listings
-                    </Typography>
-                    <Grid container justifyContent="center">
-                      {inactiveListings.map((listing, index) => (
+                  {activeListings.length > 0 ? (
+                    <Grid container spacing={isMobile ? 1 : 2}>
+                      {activeListings.map((listing, index) => (
                         <Grid item container xs md key={index}>
                           <ItemCard
                             imageURL={listing.imageURL}
                             name={listing.name}
-                            freshness={listing.freshness}
+                            freshness={getFreshness(
+                              listing.freshness,
+                              listing.createdAt
+                            )}
                             price={listing.price}
                             id={listing._id}
                           />
                         </Grid>
                       ))}
                     </Grid>
-                  </div>
-                ) : (
+                  ) : null}
+                </div>
+              </Grid>
+              <Grid
+                container
+                sx={{ ml: isMobile ? 0 : 3 }}
+                spacing={isMobile ? 1 : 1}
+              >
+                <div
+                  style={{
+                    marginRight: "auto",
+                    marginBottom: "1rem",
+                    maxHeight: isMobile ? "43vh" : "60vh",
+                    overflow: "auto",
+                  }}
+                >
                   <Typography
                     sx={{
                       fontSize: "30px",
                       fontWeight: "800",
+                      m: "0 auto 1rem .5rem",
                       fontFamily: "nunito, sans-serif",
-                      textAlign: "left", // Align the text to the left
-                      ml: "0.5rem", // Align the margin to match the 'Active Listings' section
                     }}
                   >
-                    No Inactive Listings
+                    Inactive Listings
                   </Typography>
-                )}
+                  {inactiveListings.length > 0 ? (
+                    <Grid container spacing={isMobile ? 1 : 2}>
+                      {inactiveListings.map((listing, index) => (
+                        <Grid item container xs md key={index}>
+                          <ItemCard
+                            imageURL={listing.imageURL}
+                            name={listing.name}
+                            freshness={getFreshness(
+                              listing.freshness,
+                              listing.createdAt
+                            )}
+                            price={listing.price}
+                            id={listing._id}
+                          />
+                        </Grid>
+                      ))}
+                    </Grid>
+                  ) : null}
+                </div>
               </Grid>
             </div>
           </Container>
