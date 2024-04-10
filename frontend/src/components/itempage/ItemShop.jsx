@@ -9,9 +9,6 @@ import {
   useMediaQuery,
   Tooltip,
 } from "@mui/material";
-import SetMealIcon from "@mui/icons-material/SetMeal";
-import CustomButton from "../common/CustomButton";
-import { alpha } from "@mui/material";
 import averageRating from "../../utils/averageRating";
 import { useNavigate } from "react-router-dom";
 
@@ -22,8 +19,7 @@ const ItemShop = (props) => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down(414));
   const [rating, setRating] = useState(1);
   const handleViewMerchant = (merchant) => {
-    console.log(merchant);
-    navigate("/merchant/" + merchant.id);
+    navigate("/merchant/" + merchant._id);
   };
 
   useEffect(() => {
@@ -98,7 +94,7 @@ const ItemShop = (props) => {
             ) : null}
           </Box>
           <Typography variant="body2" sx={{ fontStyle: "italic" }} gutterBottom>
-            Expires: {props.freshness.substring(0, 10).replace(/-/g, "/")}
+            Expires {props.freshness} days
           </Typography>
           <Box
             sx={{

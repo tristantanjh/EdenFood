@@ -107,7 +107,7 @@ export default function CartItemsSection() {
           >
             SGD
           </span>
-          ${totalPrice}
+          ${(Math.round(totalPrice * 100) / 100).toFixed(2)}
         </span>
       </Typography>
       <Modal

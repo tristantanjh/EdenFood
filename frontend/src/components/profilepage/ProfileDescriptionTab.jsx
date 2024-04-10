@@ -223,7 +223,7 @@ export default function ProfileDescriptionTab(props) {
   const [value, setValue] = React.useState(0);
   const [listings, setListings] = React.useState([]);
   const today = new Date();
-  today.setHours(0, 0, 0, 0); // Normalize today to midnight for accurate comparison
+  today.setHours(0, 0, 0, 0); 
 
   const activeListings = listings.filter(
     (listing) => getFreshness(listing.freshness, listing.createdAt) >= 0

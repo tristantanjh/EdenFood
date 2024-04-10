@@ -6,13 +6,13 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import MerchantHeader from "./MerchantHeader.jsx";
 import MerchantDescriptionTab from "./MerchantDescriptionTab.jsx";
-import BuyerReview from "../profilepage/BuyerReview.jsx";
-import { useAuth } from "../../hooks/AuthProvider";
+import { useParams } from "react-router-dom";
 
 export default function Profile() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const { user } = useAuth();
+  const { merchantId } = useParams();
+  console.log(merchantId);
 
   return (
     <Box
@@ -29,11 +29,12 @@ export default function Profile() {
           flexDirection: { xs: "column", md: "column" },
           alignItems: "center",
           justifyContent: "center",
+          pt: { xs: 6, sm: 2 },
           pb: { xs: 6, sm: 12 },
         }}
       >
-        <MerchantHeader user={user} />
-        <MerchantDescriptionTab user={user} />
+        <MerchantHeader user={merchantId} />
+        <MerchantDescriptionTab user={merchantId} />
       </Container>
     </Box>
   );
