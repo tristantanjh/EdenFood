@@ -67,24 +67,10 @@ const ProfileHeader = (props) => {
       })
       .then((res) => {
         setUser(res.data.user);
-        const reviews = res.data.user.reviews;
-        // console.log(reviews);
-        let totalRating = 0;
-        const promiseArray = reviews.map((review) => {
-          return axios.get("http://localhost:3000/getReviewWithId", {
-            params: { reviewId: review },
-          });
+        averageRating(res.data.user._id).then((res) => {
+          console.log(res);
+          setRating(res);
         });
-        Promise.all(promiseArray)
-          .then((responses) => {
-            responses.forEach((response) => {
-              totalRating += response.data.review.rating;
-            });
-            setRating(totalRating / reviews.length);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
       })
       .catch((err) => {
         console.log(err);
