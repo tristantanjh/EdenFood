@@ -80,7 +80,7 @@ const ProfileHeader = (props) => {
 
   function copy() {
     const el = document.createElement("input");
-    el.value = window.location.href;
+    el.value = "http://localhost:5173/merchant/" + props.user.id;
     document.body.appendChild(el);
     el.select();
     document.execCommand("copy");
