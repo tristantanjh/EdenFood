@@ -142,8 +142,8 @@ const getAllGroceries = async (req, res) => {
     }
 
     const currentDate = new Date();
-    const filteredGroceriesWithFreshness = groceries.filter(grocery => grocery.freshness >= currentDate);
-    const filteredGroceries = filteredGroceriesWithFreshness.filter(grocery => grocery.user.toString() !== userId);
+    // const filteredGroceriesWithFreshness = groceries.filter(grocery => grocery.freshness >= currentDate);
+    const filteredGroceries = groceries.filter(grocery => grocery.user.toString() !== userId);
     const result = [];
 
     for (let i = 0; i < filteredCategories.length; i++) {
@@ -152,8 +152,6 @@ const getAllGroceries = async (req, res) => {
     }
 
     filteredGroceries.map(grocery => result[filteredCategories.indexOf(grocery.category)].categoryItems.push(grocery));
-
-    // console.log(result);
 
     res.json(result);
   } catch (error) {
