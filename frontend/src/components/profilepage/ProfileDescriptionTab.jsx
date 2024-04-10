@@ -223,7 +223,7 @@ export default function ProfileDescriptionTab(props) {
   const [value, setValue] = React.useState(0);
   const [listings, setListings] = React.useState([]);
   const today = new Date();
-  today.setHours(0, 0, 0, 0); // Normalize today to midnight for accurate comparison
+  today.setHours(0, 0, 0, 0); 
 
   const activeListings = listings.filter(
     (listing) => getFreshness(listing.freshness, listing.createdAt) >= 0
@@ -390,7 +390,7 @@ export default function ProfileDescriptionTab(props) {
                     Active Listings
                   </Typography>
                   {activeListings.length > 0 ? (
-                    <Grid container spacing={isMobile ? 1 : 1}>
+                    <Grid container spacing={isMobile ? 1 : 2}>
                       {activeListings.map((listing, index) => (
                         <Grid item container xs md key={index}>
                           <ItemCard
@@ -433,7 +433,7 @@ export default function ProfileDescriptionTab(props) {
                     Inactive Listings
                   </Typography>
                   {inactiveListings.length > 0 ? (
-                    <Grid container spacing={isMobile ? 1 : 1}>
+                    <Grid container spacing={isMobile ? 1 : 2}>
                       {inactiveListings.map((listing, index) => (
                         <Grid item container xs md key={index}>
                           <ItemCard
