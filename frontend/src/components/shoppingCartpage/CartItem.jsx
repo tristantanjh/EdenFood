@@ -15,6 +15,8 @@ import axios from "axios";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import QuantitySelector from "./QuantitySelector";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 
 export default function CartItem(props) {
@@ -23,33 +25,34 @@ export default function CartItem(props) {
   const expiryDate = new Date(props.freshness);
   const currentDate = new Date();
   const calculateTimeLeft = () => {
-    const difference = expiryDate - currentDate;
-
-    if (difference > 0) {
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-
-      return `${days} days, ${hours} hours left`;
-    } else {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    console.log(props);
+    const created = new Date(props.createdAt);
+    const diffTime = Math.abs(today - created);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const daysLeft = parseInt(props.freshness) - diffDays;
+    if (daysLeft < 0) {
       return "Expired";
+    } else {
+      return `${daysLeft} days left`;
     }
   };
   const timeLeftString = calculateTimeLeft();
-  const handleRemoveItem = async (value) => {
-    try {
-      const response = await axios.delete(
-        "http://localhost:3000/removeFromCart",
-        {
-          params: { userId: user.id, groceryId: props.groceryId },
-        }
-      );
-      // add SnackBar for if response.ok
-      console.log("Item successfully deleted");
-      window.location.reload();
-    } catch (error) {
-      console.error("Error deleting grocery: ", error);
-    }
-  };
+  // const handleRemoveItem = async (value) => {
+  //   try {
+  //     const response = await axios.delete(
+  //       "http://localhost:3000/removeFromCart",
+  //       {
+  //         params: { userId: user.id, groceryId: props.groceryId },
+  //       }
+  //     );
+  //     window.location.reload();
+  //     toast.success("Item successfully deleted");
+  //   } catch (error) {
+  //     console.error("Error deleting grocery: ", error);
+  //   }
+  // };
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -91,18 +94,25 @@ export default function CartItem(props) {
               marginBottom: "20px",
             }}
           >
-            <CardMedia
-              component="img"
-              sx={{
+            <div
+              style={{
                 width: "100%",
                 height: "100%",
-                objectFit: "cover",
-                justifyContent: "center",
+                overflow: "hidden",
               }}
-              image={props.imageURL[0]}
-              alt="Product Image"
-              title="Listing Photo"
-            />
+            >
+              <img
+                src={props.imageURL[0]}
+                alt="Product Image"
+                title="Listing Photo"
+                style={{
+                  width: isMobile ? "90px" : "180px",
+                  height: isMobile ? "110px" : "140px",
+                  objectFit: "cover",
+                  objectPosition: "center",
+                }}
+              />
+            </div>
           </Grid>
           <Grid item xs={6}>
             <CardContent>
@@ -113,13 +123,12 @@ export default function CartItem(props) {
                   position: "absolute",
                   top: "10%",
                   left: "35%",
-                  fontSize: isMobile ? 21 : 32,
+                  fontSize: isMobile ? 18 : 21,
                   fontWeight: 550,
                   maxWidth: isMobile ? "200px" : "500px",
                   display: "inline-block",
                   overflowWrap: "break-word",
                   lineHeight: "1.2",
-                  mb: 1,
                 }}
               >
                 {props.title}
@@ -128,15 +137,15 @@ export default function CartItem(props) {
               <Typography
                 sx={{
                   position: "absolute",
-                  top: "42%",
+                  top: "35%",
                   left: "35%",
                   mb: 0.5,
-                  fontSize: isMobile ? 12 : 18,
+                  fontSize: isMobile ? 11 : 14,
                 }}
                 color="text.secondary"
                 fontFamily="open sans, sans-serif"
               >
-                Time until expiry: {timeLeftString}
+                Time till expiry: {timeLeftString}
               </Typography>
 
               {/* Custom price based on merchant uploads */}
@@ -145,13 +154,13 @@ export default function CartItem(props) {
                 spacing={2}
                 justifyContent="space-between"
                 alignItems="flex-start"
-                sx={{ position: "absolute", top: "70%", left: "35%" }}
+                sx={{ position: "absolute", top: "72%", left: "35%" }}
               >
                 <Typography
                   fontWeight={800}
                   fontFamily="nunito, sans-serif"
                   sx={{
-                    fontSize: isMobile ? 16 : 24,
+                    fontSize: isMobile ? 16 : 21,
                   }}
                 >
                   ${props.price}
@@ -159,9 +168,10 @@ export default function CartItem(props) {
                 <QuantitySelector
                   minValue={1}
                   currentValue={props.currentQuantity}
-                  maxValue={20}
+                  maxValue={props.groceryQuantity}
                   itemPrice={props.price}
                   setTotalPrice={props.setTotalPrice}
+                  groceryId={props.groceryId}
                 />
               </Stack>
             </CardContent>
@@ -174,11 +184,11 @@ export default function CartItem(props) {
             <CardContent>
               <IconButton
                 size="small"
-                onClick={handleRemoveItem}
+                onClick={() => props.handleRemoveItem(props.groceryId)}
                 sx={{
                   position: "absolute",
-                  bottom: isMobile ? 7 : 5,
-                  right: isMobile ? 7 : 5,
+                  bottom: -2,
+                  right: -2,
                   mt: -4.5,
                   width: isMobile ? 25 : 60,
                   height: isMobile ? 25 : 60,

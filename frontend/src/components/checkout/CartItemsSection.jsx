@@ -45,8 +45,11 @@ export default function CartItemsSection() {
 
   useEffect(() => {
     renderCount.current += 1;
-    if (renderCount.current > 2) { // THIS IS POTENTIALLY BUGGY
-      setTotalPrice(cart.reduce((acc, item) => acc + item.grocery.price * item.quantity, 0));
+    if (renderCount.current > 2) {
+      // THIS IS POTENTIALLY BUGGY
+      setTotalPrice(
+        cart.reduce((acc, item) => acc + item.grocery.price * item.quantity, 0)
+      );
 
       if (cart.length === 0) {
         handleOpenModal();
@@ -66,6 +69,7 @@ export default function CartItemsSection() {
             title={item.grocery.name}
             freshness={item.grocery.freshness}
             quantity={item.quantity}
+            createdAt={item.grocery.createdAt}
           />
         ))}
       </div>

@@ -13,7 +13,9 @@ const deleteCart = async (req, res) => {
     return res.status(200).json({ message: "Cart deleted successfully." });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "An error occurred while deleting the cart." });
+    res
+      .status(500)
+      .json({ message: "An error occurred while deleting the cart." });
   }
 };
 
@@ -34,6 +36,11 @@ const addToCart = async (req, res) => {
       return res.status(404).json({ message: "Grocery not found" });
     }
 
+    if (quantity > grocery.quantity) {
+      return res
+        .status(405)
+        .json({ message: "Insufficient grocery quantity for your request." });
+    }
     if (typeof quantity !== "number" || quantity <= 0) {
       return res
         .status(400)
@@ -70,7 +77,9 @@ const getCart = async (req, res) => {
     const userId = req.query.userId;
 
     // Find the user's cart and populate it with groceries
-    const userCart = await Cart.findOne({ user: userId }).populate("items.grocery");
+    const userCart = await Cart.findOne({ user: userId }).populate(
+      "items.grocery"
+    );
 
     if (!userCart) {
       return res.status(404).json({ message: "Cart not found for this user" });
@@ -98,6 +107,7 @@ const removeFromCart = async (req, res) => {
     }
 
     const item = cart.items.find((item) => item.grocery.equals(groceryId));
+
     let grocery = await Grocery.findById(item.grocery);
     cart.totalPrice -= grocery.price * item.quantity;
     cart.items = cart.items.filter((item) => !item.grocery.equals(groceryId));
@@ -133,7 +143,6 @@ const decrementGroceryQuantity = async (req, res) => {
     if (!grocery) {
       return res.status(404).json({ message: "Grocery not found" });
     }
-    
 
     // Decrement the quantity of the item by 1
     if (item.quantity > 1) {
@@ -161,8 +170,7 @@ const incrementGroceryQuantity = async (req, res) => {
     const { cartId, groceryId } = req.body;
 
     let cart = await Cart.findById(cartId);
-    
-
+    const grocery = await Grocery.findById(groceryId);
     if (!cart) {
       return res.status(404).json({ message: "Cart not found" });
     }
@@ -173,7 +181,6 @@ const incrementGroceryQuantity = async (req, res) => {
       return res.status(404).json({ message: "Grocery not found in the cart" });
     }
 
-    const grocery = await Grocery.findById(groceryId);
     if (!grocery) {
       return res.status(404).json({ message: "Grocery not found" });
     }
@@ -182,7 +189,7 @@ const incrementGroceryQuantity = async (req, res) => {
       item.quantity += 1;
       cart.totalPrice += grocery.price;
     } else {
-      return res.status(400).json({
+      return res.status(401).json({
         message:
           "Cannot increment quantity. Quantity exceeds available quantity",
       });

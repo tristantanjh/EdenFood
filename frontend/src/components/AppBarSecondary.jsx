@@ -39,8 +39,8 @@ function AppBarSecondary() {
   const { logout } = useAuth();
   const { user } = useAuth();
   const profilePic = user.profilePic;
-  console.log(user);
-  console.log(user.profilePic);
+  // console.log(user);
+  // console.log(user.profilePic);
   const cartNum = user?.cart?.items?.size() || 0;
   const navigate = useNavigate();
   const location = useLocation();
@@ -221,7 +221,7 @@ function AppBarSecondary() {
                 <Box
                   id="drawerContent"
                   sx={{
-                    minWidth: "60dvw",
+                    minWidth: { xs: "60dvw", sm: "40dvw" },
                     p: 2,
                     backgroundColor: "#FAFFF4",
                     flexGrow: 1,

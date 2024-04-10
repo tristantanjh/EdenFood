@@ -13,18 +13,19 @@ import Stack from "@mui/material/Stack";
 export default function CartItem(props) {
   const theme = useTheme();
   const { user } = useAuth();
-  const expiryDate = new Date(props.freshness);
-  const currentDate = new Date();
+
   const calculateTimeLeft = () => {
-    const difference = expiryDate - currentDate;
-
-    if (difference > 0) {
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-
-      return `${days} days, ${hours} hours left`;
-    } else {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    console.log(props);
+    const created = new Date(props.createdAt);
+    const diffTime = Math.abs(today - created);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const daysLeft = parseInt(props.freshness) - diffDays;
+    if (daysLeft < 0) {
       return "Expired";
+    } else {
+      return `${daysLeft} days left`;
     }
   };
   const timeLeftString = calculateTimeLeft();
@@ -47,7 +48,7 @@ export default function CartItem(props) {
         sx={{
           position: "relative",
           width: "90%",
-          height: isMobile ? "12vh" : "20vh",
+          height: isMobile ? "12vh" : "22vh",
           margin: "0 auto",
           justifyContent: "center",
         }}
@@ -142,7 +143,7 @@ export default function CartItem(props) {
                   fontWeight={800}
                   fontFamily="nunito, sans-serif"
                   sx={{
-                    fontSize: isMobile ? 16 : 28,
+                    fontSize: isMobile ? 16 : 25,
                   }}
                 >
                   ${props.price}
@@ -183,9 +184,10 @@ export default function CartItem(props) {
       <Card
         sx={{
           position: "relative",
-          width: "90%",
+          width: "100%",
           height: isMobile ? "12vh" : "20vh",
           margin: "0 auto",
+          alignItems: "center",
           justifyContent: "center",
         }}
       >
@@ -226,7 +228,7 @@ export default function CartItem(props) {
                 fontFamily="open sans, sans-serif"
                 sx={{
                   position: "absolute",
-                  top: "10%",
+                  top: "8%",
                   left: "35%",
                   fontSize: 24,
                   fontWeight: 550,

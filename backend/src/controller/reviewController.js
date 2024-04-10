@@ -48,14 +48,14 @@ const getReviewWithId = async (req, res) => {
 //get review --> groceryID
 const getReview = async (req, res) => {
   try {
-    const groceryId = req.query.groceryId;
-    const reviews = await Review.find({ groceryId: groceryId });
+    const sellerId = req.query.sellerId;
+    const reviews = await Review.find({ sellerId: sellerId });
     if (reviews.length) {
       res.status(200).json(reviews);
     } else {
       res
         .status(200)
-        .json({ message: "No reviews found for the specified groceryID." });
+        .json({ message: "No reviews found for the specified sellerID." });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });

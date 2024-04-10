@@ -15,12 +15,13 @@ export default function Confirmation() {
   const { user, sessionId } = useAuth();
   const isMobile = useMediaQuery("(max-width:600px)");
   const [cart, setCart] = useState([]);
+  const [totalPrice, setTotalPrice] = useState("");
   const navigate = useNavigate();
 
   const handlePayPalPayment = async () => {
     // Add logic for PayPal payment here
 
-    await setCartFromBackend();
+    checkoutOrder();
 
     swal("Success", "Payment Successful", "success");
   };
@@ -30,12 +31,17 @@ export default function Confirmation() {
   };
 
   const setCartFromBackend = async () => {
-    setCart(await getCart(user.id));
+    getCart(user.id).then((res) => {
+      console.log(res);
+      setCart(res);
+      setTotalPrice(res.totalPrice);
+    });
+    // setCart(await getCart(user.id));
   };
 
   useEffect(() => {
-    checkoutOrder();
-  }, [cart]);
+    setCartFromBackend();
+  }, []);
 
   const checkoutOrder = () => {
     // Make sure cart is properly initialized before accessing cart.items
@@ -105,7 +111,7 @@ export default function Confirmation() {
         {selectedLocationLocalStorage}
       </Typography>
       <div style={{ display: "flex", marginTop: "32px", gap: "16px" }}>
-        <Paypal handlePayPalPayment={handlePayPalPayment} />
+        <Paypal totalPrice={totalPrice} handlePayPalPayment={handlePayPalPayment} />
       </div>
       <Button
         variant="contained"

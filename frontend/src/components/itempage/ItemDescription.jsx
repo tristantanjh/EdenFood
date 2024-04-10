@@ -29,6 +29,7 @@ import List from "@mui/material/List";
 import Stack from "@mui/material/Stack";
 import QuantitySelector from "../explorepage/QuantitySelector";
 import { toast } from "react-toastify";
+import averageRating from "../../utils/averageRating";
 
 function SimpleDialog(props) {
   const { user } = useAuth();
@@ -131,6 +132,7 @@ export default function ItemDescription() {
   const [imageURL, setImageURL] = useState([]);
   const [freshness, setFreshness] = useState("");
   const [open, setOpen] = useState(false);
+  const [rating, setRating] = useState(0);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -148,7 +150,7 @@ export default function ItemDescription() {
     return parseInt(freshness) - diffDays;
   }
 
-  const fetchData = () => {
+  const fetchData = async () => {
     axios
       .get("http://localhost:3000/getListingByGroceryId", {
         params: { groceryId: _id },
@@ -160,8 +162,9 @@ export default function ItemDescription() {
         } else {
           // console.log("not merchant");
         }
+        console.log(res.data);
         setImageURL(res.data.imageURL);
-        setReviewsLength(res.data.reviews.length);
+        setReviewsLength(res.data.user.reviews.length);
         setFreshness(getFreshness(res.data.freshness, res.data.createdAt));
         setSelectedItem(res.data);
         console.log(res.data.user._id);
@@ -170,7 +173,12 @@ export default function ItemDescription() {
             params: { userId: res.data.user._id },
           })
           .then((res) => {
+            // console.log(res.data.user.reviews.length);
             setMerchant(res.data.user);
+            averageRating(res.data.user._id).then((res) => {
+              console.log(res);
+              setRating(res);
+            });
           })
           .catch((err) => {
             console.log(err);
@@ -195,6 +203,17 @@ export default function ItemDescription() {
         console.log(err);
       });
   };
+
+  // useEffect(() => {
+  //   const fetchRating = async () => {
+  //     console.log(merchant);
+  //     const avgRating = await averageRating(props.merchant._id);
+  //     console.log(avgRating);
+  //     setRating(avgRating);
+  //   };
+
+  //   fetchRating();
+  // }, [rating]);
 
   useEffect(() => {
     fetchData();
@@ -223,6 +242,7 @@ export default function ItemDescription() {
           <ItemShop
             selectedItem={selectedItem}
             merchant={merchant}
+            rating={rating}
             reviewLength={reviewsLength}
             freshness={freshness}
           />
