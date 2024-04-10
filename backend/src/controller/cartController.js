@@ -185,11 +185,12 @@ const incrementGroceryQuantity = async (req, res) => {
       return res.status(404).json({ message: "Grocery not found" });
     }
 
-    if (item.quantity + 1 > grocery.quantity) {
+    if (item.quantity + 1 < grocery.quantity) {
       item.quantity += 1;
       cart.totalPrice += grocery.price;
+      console.log(item.quantity);
     } else {
-      return res.status(400).json({
+      return res.status(401).json({
         message:
           "Cannot increment quantity. Quantity exceeds available quantity",
       });
