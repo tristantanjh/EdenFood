@@ -66,29 +66,29 @@ const checkoutOrder = async (req, res) => {
         );
       }*/
 
-    // for (const item of cart.items) {
-    //   try {
-    //     const grocery = await Grocery.findById(item.grocery._id);
-    //     if (!grocery) {
-    //       console.error(`Grocery with ID ${item.grocery._id} not found.`);
-    //       continue;
-    //     }
+    for (const item of cart.items) {
+      try {
+        const grocery = await Grocery.findById(item.grocery._id);
+        if (!grocery) {
+          console.error(`Grocery with ID ${item.grocery._id} not found.`);
+          continue;
+        }
 
-    //     const newQuantity = Math.max(0, grocery.quantity - item.quantity);
+        const newQuantity = Math.max(0, grocery.quantity - item.quantity);
 
-    //     const updatedGrocery = await Grocery.findByIdAndUpdate(
-    //       item.grocery._id,
-    //       { quantity: newQuantity },
-    //       { new: true }
-    //     );
+        const updatedGrocery = await Grocery.findByIdAndUpdate(
+          item.grocery._id,
+          { quantity: newQuantity },
+          { new: true }
+        );
 
-    //     console.log(
-    //       `Updated grocery ${updatedGrocery.name}, new quantity: ${updatedGrocery.quantity}`
-    //     );
-    //   } catch (error) {
-    //     console.error(`shit ass grocery cant be found: ${error}`);
-    //   }
-    // }
+        console.log(
+          `Updated grocery ${updatedGrocery.name}, new quantity: ${updatedGrocery.quantity}`
+        );
+      } catch (error) {
+        console.error(`shit ass grocery cant be found: ${error}`);
+      }
+    }
 
     // Create a function to split the cart by merchant
     const splitCartByMerchant = (cartItems) => {
