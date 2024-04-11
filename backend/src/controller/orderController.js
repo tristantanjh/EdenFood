@@ -202,4 +202,24 @@ const getOrdersWithUserId = async (req, res) => {
   }
 };
 
-export { checkoutOrder, getOrdersWithUserId };
+const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find().populate({
+      path: "groceries",
+      populate: {
+        path: "grocery",
+        model: "Grocery",
+      },
+    });
+
+    if (orders.length > 0) {
+      res.status(200).json({ orders });
+    } else {
+      res.status(200).json({ message: "No orders found." });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export { checkoutOrder, getOrdersWithUserId, getAllOrders };

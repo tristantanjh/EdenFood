@@ -28,6 +28,8 @@ import Confirmation from "./components/checkout/confirmation/Confirmation.jsx";
 import EditPasswordMain from "./components/editPasswordPage/EditPassword.jsx";
 import MerchantPage from "./components/merchantPage/MerchantPage.jsx";
 import Insights from "./components/insights";
+import AdminLayout from "./layout/AdminLayout.jsx";
+import OrderStatus from "./components/orderStatus/OrderStatus.jsx";
 import { ToastContainer, toast } from "react-toastify";
 
 const router = createBrowserRouter([
@@ -115,7 +117,15 @@ const router = createBrowserRouter([
             path: "/insights",
             element: <Insights />
           },
-
+          {
+            element: <AdminLayout />,
+            children: [
+              {
+                path: "/orderStatus",
+                element: <OrderStatus />,
+              },
+            ],
+          }
         ],
       },
     ],

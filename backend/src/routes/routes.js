@@ -23,6 +23,7 @@ import {
 import {
   checkoutOrder,
   getOrdersWithUserId,
+  getAllOrders,
 } from "../controller/orderController.js";
 
 import { getSalesByUserId, getAllSales } from "../controller/saleController.js";
@@ -115,5 +116,7 @@ APIrouter.get("/getAllSales", getAllSales);
 APIrouter.post("/disableGrocery", disableGroceryByGroceryId);
 
 APIrouter.put("/verifyUser", verify);
+
+APIrouter.get("/getAllOrders", getAllOrders);
 
 export { APIrouter };

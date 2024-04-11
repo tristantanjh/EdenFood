@@ -349,17 +349,6 @@ export default function RegisterMain() {
                 },
               }}
             />
-            <Typography
-              variant="body2"
-              color="inherit"
-              align="left"
-              sx={{
-                fontFamily: "nunito, sans-serif",
-                fontSize: "12px",
-              }}
-            >
-              *Please use an email address that is linked to a valid PayPal
-            </Typography>
             <TextField
               color="success"
               variant="standard"
@@ -381,7 +370,7 @@ export default function RegisterMain() {
                 "& label": {
                   fontFamily: "nunito, sans-serif",
                 },
-                my: "4px",
+                mb: "8px",
               }}
             />
             <FormControl sx={{ width: "100%" }} variant="standard">
@@ -425,7 +414,7 @@ export default function RegisterMain() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                marginTop: 16,
+                marginTop: 32,
               }}
             >
               {imageURL == "empty" ? (
@@ -496,7 +485,7 @@ export default function RegisterMain() {
                 imageURL == "empty"
               }
               sx={{
-                mt: 2,
+                mt: 4,
                 mb: 2,
                 py: isMobile ? 1.5 : 1,
                 fontFamily: "open sans, sans-serif",
