@@ -37,7 +37,6 @@ const drawerWidth = 240;
 const defaultTheme = createTheme();
 
 export default function Dashboard() {
-  console.log("stephie");
   // const { user } = useAuth();
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
