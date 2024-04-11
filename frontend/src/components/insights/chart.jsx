@@ -36,7 +36,7 @@ export default function Chart() {
 
   return (
     <React.Fragment>
-      <Title>Current Month Sales</Title>
+      <Title style={{ color: '#013220' }}>Current Month Sales</Title>
       <div style={{ width: '100%', flexGrow: 1, overflow: 'hidden' }}>
         <LineChart
           dataset={data}
