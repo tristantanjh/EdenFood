@@ -80,7 +80,7 @@ function SimpleDialog(props) {
             minValue={1}
             maxValue={10}
             quantity={quantity}
-            onQuantityChange={() => setQuantity(quantity)}
+            onQuantityChange={setQuantity}
           />
           <Box
             sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}

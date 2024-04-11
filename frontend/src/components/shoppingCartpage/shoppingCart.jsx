@@ -60,8 +60,17 @@ export default function ShoppingCart(props) {
           params: { userId: user.id, groceryId: groceryId },
         }
       );
-      toast.success("Item successfully deleted");
       setRefreshCart((prev) => prev + 1);
+      toast.success("Item successfully deleted", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } catch (error) {
       console.error("Error deleting grocery: ", error);
     }
@@ -75,6 +84,7 @@ export default function ShoppingCart(props) {
       .then((res) => {
         const itemsData = res.data?.items || [];
         const totalPrice = parseFloat((res.data?.totalPrice || 0).toFixed(1));
+        console.log(itemsData);
         setGroceries(itemsData);
         setTotalPrice(totalPrice);
       })
@@ -144,7 +154,7 @@ export default function ShoppingCart(props) {
 
             {items.map((item, index) => (
               <CartItem
-                key={index}
+                key={item.grocery._id}
                 groceryId={item.grocery._id}
                 groceryQuantity={item.grocery.quantity}
                 price={item.grocery.price}
