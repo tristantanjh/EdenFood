@@ -24,11 +24,13 @@ import {
   checkoutOrder,
   getOrdersWithUserId,
   getAllOrders,
+  changeOrderStatus,
 } from "../controller/orderController.js";
 
-import { getSalesByUserId, 
-         getAllSales,
-         getMonthlySalesByUserId
+import {
+  getSalesByUserId,
+  getAllSales,
+  getMonthlySalesByUserId,
 } from "../controller/saleController.js";
 
 import {
@@ -122,8 +124,10 @@ APIrouter.put("/verifyUser", verify);
 
 APIrouter.get("/getAllOrders", getAllOrders);
 
-APIrouter.delete("/deleteCart", deleteCart); 
+APIrouter.put("/changeOrderStatus", changeOrderStatus);
 
-APIrouter.get("/getMonthlySaleReport", getMonthlySalesByUserId)
+APIrouter.delete("/deleteCart", deleteCart);
+
+APIrouter.get("/getMonthlySaleReport", getMonthlySalesByUserId);
 
 export { APIrouter };

@@ -387,19 +387,13 @@ function AppBarSecondary() {
                         color: (theme) => "#076365",
                       }}
                     >
-                      <UpdateIcon
-                        sx={{
-                          width: "35px",
-                          height: "25px",
-                        }}
-                      />
-                      {/* <ListItemIcon>
-                      <img
-                        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708483825/dashboard_uncrnk.png"
-                        alt="Dashboard Icon"
-                        style={{ width: "25px", height: "25px" }}
-                      />
-                    </ListItemIcon> */}
+                      <ListItemIcon>
+                        <img
+                          src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1713155284/changes_v9yvrq.png"
+                          alt="Update Icon"
+                          style={{ width: "28px", height: "28px" }}
+                        />
+                      </ListItemIcon>
                       <Divider
                         orientation="vertical"
                         flexItem

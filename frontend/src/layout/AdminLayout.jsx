@@ -22,10 +22,10 @@ export default function AdminLayout() {
     <Suspense fallback={<LinearProgress />}>
       <AppBarSecondary />
       <Box
-          sx={{
-            height: { xs: "84px", sm: "90px" },
-          }}
-        />
+        sx={{
+          height: { xs: "84px", sm: "100px" },
+        }}
+      />
       <Outlet />
       <Footer />
     </Suspense>

@@ -140,7 +140,6 @@ const checkoutOrder = async (req, res) => {
     }
     //
 
-
     res.status(201).json({ message: "succesfully created orders." });
   } catch (error) {
     console.error(error);
@@ -222,4 +221,31 @@ const getAllOrders = async (req, res) => {
   }
 };
 
-export { checkoutOrder, getOrdersWithUserId, getAllOrders };
+const changeOrderStatus = async (req, res) => {
+  const { orderId, orderStatus } = req.query;
+  console.log(orderId);
+  try {
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      return res.status(404).json({ message: { orderId } });
+    }
+
+    if (orderStatus === "pending") {
+      order.status = "collected";
+    } else if (orderStatus === "collected") {
+      order.status = "pending";
+    } else {
+      return res.status(400).json({ message: "Invalid order status" });
+    }
+
+    await order.save();
+
+    res.status(200).json({ message: "Order status updated successfully" });
+  } catch (error) {
+    console.error("Error updating order status:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export { checkoutOrder, getOrdersWithUserId, getAllOrders, changeOrderStatus };
