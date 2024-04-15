@@ -28,6 +28,8 @@ export const AuthProvider = ({ children }) => {
 
   const isAuthenticated = () => !!user;
 
+  const isAdmin = user?.admin;
+
   //useMemo to improve performance
   const value = useMemo(
     () => ({
@@ -37,6 +39,7 @@ export const AuthProvider = ({ children }) => {
       login,
       logout,
       isAuthenticated,
+      isAdmin,
     }),
     [user]
   );

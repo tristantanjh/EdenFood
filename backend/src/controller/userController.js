@@ -27,7 +27,7 @@ const authenticateUser = (req, res, next) => {
       }
       return res.status(200).json({
         message: "Authentication successful",
-        user: { id: user.id, email: user.email },
+        user: { id: user.id, email: user.email,  admin: user.admin },
       });
     });
   })(req, res, next);

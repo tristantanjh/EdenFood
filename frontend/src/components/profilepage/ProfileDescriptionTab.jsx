@@ -395,7 +395,7 @@ export default function ProfileDescriptionTab(props) {
           {/* </Container> */}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          {orders.map((order, index) => (
+          {orders?.map((order, index) => (
             <Accordion
               expanded={expanded === "panel" + index}
               onChange={handlePanel("panel" + index)}

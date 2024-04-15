@@ -24,6 +24,7 @@ import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import UpdateIcon from "@mui/icons-material/Update";
 import ShoppingCart from "./shoppingCartpage/shoppingCart";
 import { useState, useEffect } from "react";
 
@@ -37,7 +38,7 @@ function AppBarSecondary() {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [cartOpen, setCartOpen] = React.useState(false);
   const { logout } = useAuth();
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const profilePic = user.profilePic;
   // console.log(user);
   // console.log(user.profilePic);
@@ -374,6 +375,43 @@ function AppBarSecondary() {
                     INSIGHTS
                   </MenuItem>
 
+                  {isAdmin ? (
+                    <MenuItem
+                      onClick={() => navigate("/orderStatus")}
+                      sx={{
+                        fontFamily: "open sans, sans-serif",
+                        fontWeight: "750",
+                        fontSize: { xs: "0.9rem", md: "0.9rem" },
+                        letterSpacing: "0.5px",
+                        gap: { xs: "none", md: "10px" },
+                        color: (theme) => "#076365",
+                      }}
+                    >
+                      <UpdateIcon
+                        sx={{
+                          width: "35px",
+                          height: "25px",
+                        }}
+                      />
+                      {/* <ListItemIcon>
+                      <img
+                        src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708483825/dashboard_uncrnk.png"
+                        alt="Dashboard Icon"
+                        style={{ width: "25px", height: "25px" }}
+                      />
+                    </ListItemIcon> */}
+                      <Divider
+                        orientation="vertical"
+                        flexItem
+                        sx={{
+                          borderWidth: "1.1px",
+                          mr: "-2px",
+                          mr: "15px",
+                        }}
+                      />
+                      UPDATE ORDER STATUS
+                    </MenuItem>
+                  ) : null}
                   <Divider />
                   <div
                     style={{
