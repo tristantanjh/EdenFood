@@ -134,7 +134,7 @@ export default function ProfileDescriptionTab(props) {
       })
       .then((res) => {
         console.log(res.data.orders);
-        setOrders(res.data.orders);
+        setOrders(res.data.orders.reverse());
       })
       .catch((err) => {
         console.log(err);
@@ -412,7 +412,7 @@ export default function ProfileDescriptionTab(props) {
                     color: "#FFF",
                   }}
                 >
-                  No: {index + 1}
+                  No: {orders.length - index}
                 </Typography>
                 <Typography
                   sx={{

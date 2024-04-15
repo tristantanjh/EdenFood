@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBarSecondary from "../AppBarSecondary.jsx";
 import Footer from "../Footer.jsx";
@@ -16,7 +16,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useAuth } from "../../hooks/AuthProvider";
 import axios from "axios";
 
-
 const Accordion = styled(MuiAccordion)({
   "&.Mui-expanded": {
     margin: "0",
@@ -31,11 +30,10 @@ const Accordion = styled(MuiAccordion)({
 
 export default function OrderHistory() {
   const theme = useTheme();
-  const [expanded, setExpanded] = React.useState("panel0");
+  const [expanded, setExpanded] = React.useState("");
   const { user } = useAuth();
   const [orders, setOrders] = React.useState([]);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  
 
   useEffect(() => {
     axios
@@ -43,8 +41,8 @@ export default function OrderHistory() {
         params: { userId: user.id },
       })
       .then((res) => {
-        console.log(res.data.orders);
         setOrders(res.data.orders);
+        setExpanded("panel" + (res.data.orders.length - 1));
       })
       .catch((err) => {
         console.log(err);
@@ -123,10 +121,7 @@ export default function OrderHistory() {
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <OrderHistoryOrder
-                  key={index}
-                  {...order}
-                />
+                <OrderHistoryOrder key={index} {...order} />
               </AccordionDetails>
             </Accordion>
           ))}
