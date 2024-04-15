@@ -287,7 +287,7 @@ function AppBarSecondary() {
                     />
                     PROFILE SETTINGS
                   </MenuItem>
-                  <MenuItem
+                  {/* <MenuItem
                     onClick={() => navigate("/profile")}
                     sx={{
                       fontFamily: "open sans, sans-serif",
@@ -314,8 +314,8 @@ function AppBarSecondary() {
                       }}
                     />
                     MANAGE LISTINGS
-                  </MenuItem>
-                  <MenuItem
+                  </MenuItem> */}
+                  {/* <MenuItem
                     onClick={() => navigate("/orderhistory")}
                     sx={{
                       fontFamily: "open sans, sans-serif",
@@ -343,7 +343,7 @@ function AppBarSecondary() {
                       }}
                     />
                     ORDER HISTORY
-                  </MenuItem>
+                  </MenuItem> */}
 
                   <MenuItem
                     onClick={() => navigate("/insights")}

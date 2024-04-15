@@ -102,7 +102,7 @@ export default function OrderStatus() {
 
   const columns = [
     { field: "id", headerName: "No.", width: 50 },
-    { field: "_id", headerName: "Order Id", width: 250 },
+    { field: "_id", headerName: "Order ID", width: 250 },
     {
       field: "pickupLocation",
       headerName: "Pick-up Location",
@@ -221,7 +221,7 @@ export default function OrderStatus() {
             sx={{ display: "flex", justifyContent: "flex-start" }}
           >
             <TextField
-              label="Search Order Id"
+              label="Search Order ID"
               variant="outlined"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
@@ -269,6 +269,13 @@ export default function OrderStatus() {
                   onRowClick={(params) => {
                     setSelectedOrder(params.row);
                     setOpenDialog(true);
+                  }}
+                  sx={{
+                    "& .MuiDataGrid-row:hover": {
+                      cursor: "pointer",
+                      backgroundColor: "#076365",
+                      color: "#fff",
+                    },
                   }}
                 />
               </div>
