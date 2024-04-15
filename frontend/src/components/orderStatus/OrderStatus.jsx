@@ -271,10 +271,16 @@ export default function OrderStatus() {
                     setOpenDialog(true);
                   }}
                   sx={{
-                    "& .MuiDataGrid-row:hover": {
+                    "& .MuiDataGrid-row": {
                       cursor: "pointer",
-                      backgroundColor: "#076365",
+                    },
+                    "& .MuiDataGrid-row:hover": {
+                      backgroundColor: "#64CF94",
                       color: "#fff",
+                    },
+                    "& .Mui-selected": {
+                      backgroundColor: "transparent",
+                      color: "#000000",
                     },
                   }}
                 />
