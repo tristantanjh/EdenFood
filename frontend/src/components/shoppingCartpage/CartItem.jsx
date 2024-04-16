@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -21,24 +21,26 @@ import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 
 export default function CartItem(props) {
   const theme = useTheme();
-  const { user } = useAuth();
-  const expiryDate = new Date(props.freshness);
-  const currentDate = new Date();
-  const calculateTimeLeft = () => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    console.log(props);
-    const created = new Date(props.createdAt);
-    const diffTime = Math.abs(today - created);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    const daysLeft = parseInt(props.freshness) - diffDays;
-    if (daysLeft < 0) {
-      return "Expired";
-    } else {
-      return `${daysLeft} days left`;
-    }
-  };
-  const timeLeftString = calculateTimeLeft();
+  const [freshness, setFreshness] = React.useState(0);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/getListingByGroceryId", {
+        params: { groceryId: props.groceryId },
+      })
+      .then((response) => {
+        const grocery = response.data;
+        console.log(grocery);
+        const createdAt = new Date(grocery.createdAt);
+        console.log(createdAt);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const diffTime = Math.abs(today - createdAt);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        setFreshness(parseInt(grocery.freshness) - diffDays);
+      });
+  }, []);
+
   // const handleRemoveItem = async (value) => {
   //   try {
   //     const response = await axios.delete(
@@ -145,7 +147,7 @@ export default function CartItem(props) {
                 color="text.secondary"
                 fontFamily="open sans, sans-serif"
               >
-                Time till expiry: {timeLeftString}
+                Time till expiry: {freshness} days
               </Typography>
 
               {/* Custom price based on merchant uploads */}

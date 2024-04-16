@@ -36,9 +36,8 @@ function SimpleDialog(props) {
     onClose();
   };
 
-  const handleAddToCart = async (value) => {
+  const handleAddToCart = async () => {
     try {
-      console.log(quantity);
       const response = await axios.post("http://localhost:3000/addToCart", {
         userId: user.id,
         groceryId: props.groceryId,
