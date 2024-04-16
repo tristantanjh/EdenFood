@@ -11,13 +11,14 @@ import {
   Avatar,
   Modal,
   TextField,
-  Snackbar,
   Alert,
   Tooltip,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import farmLicenses from "../../utils/farmLicense";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../../hooks/AuthProvider";
 
 const ProfileHeader = (props) => {
@@ -28,19 +29,6 @@ const ProfileHeader = (props) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [openSnackbar, setOpenSnackbar] = React.useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
-
-  const handleOpenSnackbar = (message, severity) => {
-    setSnackbarMessage(message);
-    setSnackbarSeverity(severity);
-    setOpenSnackbar(true);
-  };
-
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
-  };
 
   const [formData, setFormData] = useState({
     name: "",
@@ -66,15 +54,15 @@ const ProfileHeader = (props) => {
           userId: props.user.id,
         });
 
-        handleOpenSnackbar("User successfully verified.", "success");
+        toast.success("Successfully copied profile");
         setUser((prevUser) => ({ ...prevUser, verified: true }));
         handleClose();
       } catch (error) {
         console.error("Error verifying user:", error);
-        handleOpenSnackbar("Error verifying user. Please try again.", "error");
+        toast.error("Error verifying user. Please try again");
       }
     } else {
-      handleOpenSnackbar("Invalid farm name or license number.", "error");
+      toast.error("Invalid farm name or license number");
     }
   };
 
@@ -85,7 +73,7 @@ const ProfileHeader = (props) => {
     el.select();
     document.execCommand("copy");
     document.body.removeChild(el);
-    handleOpenSnackbar("Successfully copied profile to clipboard", "success");
+    toast.success("Successfully copied profile");
   }
 
   useEffect(() => {
@@ -117,21 +105,6 @@ const ProfileHeader = (props) => {
         alignItems="center"
         justifyContent="center"
       >
-        <Snackbar
-          open={openSnackbar}
-          autoHideDuration={6000}
-          onClose={handleCloseSnackbar}
-          anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        >
-          <Alert
-            onClose={handleCloseSnackbar}
-            severity={snackbarSeverity}
-            variant="filled"
-            sx={{ width: "100%" }}
-          >
-            {snackbarMessage}
-          </Alert>
-        </Snackbar>
         <Grid item sx={{ mt: 15 }}>
           <Avatar
             alt="User profile picture"

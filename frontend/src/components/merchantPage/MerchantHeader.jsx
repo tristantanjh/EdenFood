@@ -12,7 +12,6 @@ import {
   Modal,
   TextField,
   Rating,
-  Snackbar,
   Alert,
   Tooltip,
 } from "@mui/material";
@@ -21,6 +20,8 @@ import axios from "axios";
 import { useAuth } from "../../hooks/AuthProvider";
 import averageRating from "../../utils/averageRating";
 import StarIcon from "@mui/icons-material/Star";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProfileHeader = (props) => {
   const [user, setUser] = useState("");
@@ -28,22 +29,7 @@ const ProfileHeader = (props) => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const navigateTo = "/editProfile";
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const [openSnackbar, setOpenSnackbar] = React.useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [rating, setRating] = useState(1);
-
-  const handleOpenSnackbar = (message, severity) => {
-    setSnackbarMessage(message);
-    setSnackbarSeverity(severity);
-    setOpenSnackbar(true);
-  };
-
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
-  };
 
   const [formData, setFormData] = useState({
     name: "",
@@ -58,6 +44,17 @@ const ProfileHeader = (props) => {
     });
     console.log(formData);
   };
+
+  function copy() {
+    console.log(props);
+    const el = document.createElement("input");
+    el.value = "http://localhost:5173/merchant/" + props.user;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
+    toast.success("Successfully copied profile");
+  }
 
   useEffect(() => {
     // console.log(props);
@@ -91,21 +88,6 @@ const ProfileHeader = (props) => {
         alignItems="center"
         justifyContent="center"
       >
-        <Snackbar
-          open={openSnackbar}
-          autoHideDuration={6000}
-          onClose={handleCloseSnackbar}
-          anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        >
-          <Alert
-            onClose={handleCloseSnackbar}
-            severity={snackbarSeverity}
-            variant="filled"
-            sx={{ width: "100%" }}
-          >
-            {snackbarMessage}
-          </Alert>
-        </Snackbar>
         <Stack sx={{ display: "flex", justifyContent: "center" }}>
           <Stack direction="row">
             <Grid item sx={{ mt: 15 }}>
@@ -176,10 +158,34 @@ const ProfileHeader = (props) => {
           >
             <Rating name="read-only" value={rating} readOnly />
             <Typography variant="body2" component="span" sx={{ ml: 1 }}>
-              {rating.toFixed(1)} | {user && user.reviews ? user.reviews.length : 0} Reviews
+              {rating.toFixed(1)} |{" "}
+              {user && user.reviews ? user.reviews.length : 0} Reviews
             </Typography>
           </Box>
         </Stack>
+        <Grid item sx={{ mt: isSmallScreen ? "25%" : "6%" }}>
+          <IconButton
+            sx={{
+              bgcolor: "#64CF94",
+              borderRadius: "50%",
+              width: isSmallScreen ? 35 : 45,
+              height: isSmallScreen ? 35 : 45,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onClick={copy}
+          >
+            <img
+              src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1711185761/share_cfenjn.png"
+              alt="Share button"
+              style={{
+                width: isSmallScreen ? 12 : 15,
+                height: isSmallScreen ? 12 : 15,
+              }}
+            />
+          </IconButton>
+        </Grid>
       </Grid>
     </Box>
   );
