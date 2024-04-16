@@ -151,6 +151,7 @@ export default function ItemDescription() {
   }
 
   const fetchData = async () => {
+    console.log("fetching data " + _id);
     axios
       .get("http://localhost:3000/getListingByGroceryId", {
         params: { groceryId: _id },

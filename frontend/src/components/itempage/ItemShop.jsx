@@ -18,8 +18,8 @@ const ItemShop = (props) => {
   const navigate = useNavigate();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down(414));
   // const [rating, setRating] = useState(1);
-  const handleViewMerchant = (merchant) => {
-    navigate("/merchant/" + merchant._id);
+  const handleViewMerchant = (id) => {
+    navigate("/merchant/" + id);
   };
 
   // useEffect(() => {
@@ -65,7 +65,7 @@ const ItemShop = (props) => {
             </Typography>
             <a
               href="#"
-              onClick={() => handleViewMerchant(props.merchant)}
+              onClick={() => handleViewMerchant(props.merchant._id)}
               style={{
                 textDecoration: "none",
                 color: "inherit",

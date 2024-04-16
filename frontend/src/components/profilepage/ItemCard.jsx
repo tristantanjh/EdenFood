@@ -52,7 +52,7 @@ export default function ItemCard(props) {
         maxWidth: isMobile ? 175 : 275,
         borderRadius: "8px",
         mb: "1rem",
-        mt: "2rem"
+        mt: "2rem",
       }}
     >
       <Grid
@@ -99,7 +99,7 @@ export default function ItemCard(props) {
       <CardContent>
         <a
           href="#"
-          onClick={() => handleViewItem(props.id)}
+          onClick={() => handleViewItem(props._id)}
           style={{
             textDecoration: "none",
             color: "inherit",

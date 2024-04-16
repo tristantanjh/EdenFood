@@ -312,16 +312,7 @@ export default function MerchantDescriptionTab(props) {
                 <Grid container spacing={isMobile ? 1 : 2}>
                   {activeListings.map((listing, index) => (
                     <Grid item container xs md key={index}>
-                      <ItemCard
-                        imageURL={listing.imageURL}
-                        name={listing.name}
-                        freshness={getFreshness(
-                          listing.freshness,
-                          listing.createdAt
-                        )}
-                        price={listing.price}
-                        id={listing._id}
-                      />
+                      <ItemCard {...listing} />
                     </Grid>
                   ))}
                 </Grid>
@@ -369,16 +360,7 @@ export default function MerchantDescriptionTab(props) {
                 <Grid container spacing={isMobile ? 1 : 2}>
                   {inactiveListings.map((listing, index) => (
                     <Grid item container xs md key={index}>
-                      <ItemCard
-                        imageURL={listing.imageURL}
-                        name={listing.name}
-                        freshness={getFreshness(
-                          listing.freshness,
-                          listing.createdAt
-                        )}
-                        price={listing.price}
-                        id={listing._id}
-                      />
+                      <ItemCard {...listing} />
                     </Grid>
                   ))}
                 </Grid>
