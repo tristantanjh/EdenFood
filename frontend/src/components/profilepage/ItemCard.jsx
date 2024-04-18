@@ -30,6 +30,8 @@ export default function ItemCard(props) {
   const [rating, setRating] = useState(null);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
+  const freshness =
+    props.freshness === 1 ? "today" : "in " + props.freshness + " days";
 
   useEffect(() => {
     const fetchRating = async () => {
@@ -129,7 +131,7 @@ export default function ItemCard(props) {
           color="text.secondary"
           fontFamily="open sans, sans-serif"
         >
-          Expires {props.freshness} days
+          Expires {freshness}
         </Typography>
         {/* Custom price based on merchant uploads */}
         <Typography
