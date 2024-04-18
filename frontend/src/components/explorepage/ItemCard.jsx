@@ -118,7 +118,7 @@ function getFreshness(freshness, createdDate) {
   const created = new Date(createdDate);
   const diffTime = Math.abs(today - created);
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  return parseInt(freshness) - diffDays;
+  return parseInt(freshness) - diffDays + 1;
 }
 
 export default function ItemCard(props) {

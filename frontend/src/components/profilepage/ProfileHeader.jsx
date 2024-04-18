@@ -54,7 +54,7 @@ const ProfileHeader = (props) => {
           userId: props.user.id,
         });
 
-        toast.success("Successfully copied profile");
+        toast.success("Successfully verified profile");
         setUser((prevUser) => ({ ...prevUser, verified: true }));
         handleClose();
       } catch (error) {
@@ -185,88 +185,94 @@ const ProfileHeader = (props) => {
                   p: 4,
                 }}
               >
-                <Typography id="modal-modal-title" variant="h6" component="h2">
-                  Enter your registered name and SFA license number
-                </Typography>
-                <TextField
-                  margin="normal"
-                  color="success"
-                  variant="standard"
-                  fullWidth
-                  id="name"
-                  name="name"
-                  autoComplete="name"
-                  autoFocus
-                  label="Registered Name"
-                  onChange={handleChange}
-                  InputProps={{
-                    sx: {
-                      "& input:-webkit-autofill": {
-                        WebkitBoxShadow: "0 0 0 1000px #FFFFFF inset",
-                        WebkitTextFillColor: "#181B13",
+                <Stack>
+                  <Typography
+                    id="modal-modal-title"
+                    variant="h6"
+                    component="h2"
+                  >
+                    Enter your registered name and SFA license number
+                  </Typography>
+                  <TextField
+                    margin="normal"
+                    color="success"
+                    variant="standard"
+                    fullWidth
+                    id="name"
+                    name="name"
+                    autoComplete="name"
+                    autoFocus
+                    label="Registered Name"
+                    onChange={handleChange}
+                    InputProps={{
+                      sx: {
+                        "& input:-webkit-autofill": {
+                          WebkitBoxShadow: "0 0 0 1000px #FFFFFF inset",
+                          WebkitTextFillColor: "#181B13",
+                        },
+                        fontFamily: "nunito, sans-serif",
                       },
-                      fontFamily: "nunito, sans-serif",
-                    },
-                  }}
-                  sx={{
-                    "& label": {
-                      fontFamily: "nunito, sans-serif",
-                    },
-                  }}
-                />
-                <TextField
-                  margin="normal"
-                  color="success"
-                  variant="standard"
-                  fullWidth
-                  id="licenseNumber"
-                  name="licenseNumber"
-                  autoComplete="licenseNumber"
-                  autoFocus
-                  label="License Number"
-                  onChange={handleChange}
-                  InputProps={{
-                    sx: {
-                      "& input:-webkit-autofill": {
-                        WebkitBoxShadow: "0 0 0 1000px #FFFFFF inset",
-                        WebkitTextFillColor: "#181B13",
+                    }}
+                    sx={{
+                      "& label": {
+                        fontFamily: "nunito, sans-serif",
                       },
-                      fontFamily: "nunito, sans-serif",
-                    },
-                  }}
-                  sx={{
-                    "& label": {
-                      fontFamily: "nunito, sans-serif",
-                    },
-                  }}
-                />
-                <Button
-                  type="submit"
-                  onClick={handleSubmit}
-                  fullWidth
-                  variant="contained"
-                  disabled={!formData.name || !formData.licenseNumber}
-                  sx={{
-                    mt: 3,
-                    mb: 2,
-                    py: isSmallScreen ? 1.5 : 1,
-                    fontFamily: "open sans, sans-serif",
-                    backgroundColor: "#076365",
-                    color: "#FAFFF4",
-                    borderRadius: "30px",
-                    "&:hover": { backgroundColor: "#076365" },
-                    position: isSmallScreen ? "fixed" : "none", // Position fixed on mobile
-                    bottom: isSmallScreen ? "20px" : "auto", // Adjust bottom position on mobile
-                    left: isSmallScreen ? "50%" : "0",
-                    transform: isSmallScreen ? "translateX(-50%)" : "0",
-                    width: isSmallScreen ? "calc(100% - 40px)" : "100%", // Adjust width on mobile
-                    maxWidth: isSmallScreen ? "400px" : "auto", // Max width of the button
-                    marginLeft: "auto", // Center horizontally
-                    marginRight: "auto", // Center horizontally
-                  }}
-                >
-                  Verify
-                </Button>
+                    }}
+                  />
+                  <TextField
+                    margin="normal"
+                    color="success"
+                    variant="standard"
+                    fullWidth
+                    id="licenseNumber"
+                    name="licenseNumber"
+                    autoComplete="licenseNumber"
+                    autoFocus
+                    label="License Number"
+                    onChange={handleChange}
+                    InputProps={{
+                      sx: {
+                        "& input:-webkit-autofill": {
+                          WebkitBoxShadow: "0 0 0 1000px #FFFFFF inset",
+                          WebkitTextFillColor: "#181B13",
+                        },
+                        fontFamily: "nunito, sans-serif",
+                      },
+                    }}
+                    sx={{
+                      "& label": {
+                        fontFamily: "nunito, sans-serif",
+                      },
+                      mb: 2,
+                    }}
+                  />
+                  <Button
+                    type="submit"
+                    onClick={handleSubmit}
+                    fullWidth
+                    variant="contained"
+                    disabled={!formData.name || !formData.licenseNumber}
+                    sx={{
+                      mt: isSmallScreen ? 3 : 3,
+                      // mr: isSmallScreen ? 5 : 0,
+                      mb: 2,
+                      py: isSmallScreen ? 1.5 : 1,
+                      fontFamily: "open sans, sans-serif",
+                      backgroundColor: "#076365",
+                      color: "#FAFFF4",
+                      borderRadius: "30px",
+                      "&:hover": { backgroundColor: "#076365" },
+                      position: isSmallScreen ? "relative" : "none", // Position fixed on mobile
+                      // transform: isSmallScreen ? "translateX(-50%)" : "0",
+                      width: isSmallScreen ? "calc(100% - 40px)" : "100%", // Adjust width on mobile
+                      maxWidth: isSmallScreen ? "400px" : "auto", // Max width of the button
+                      marginLeft: "auto", // Center horizontally
+                      marginRight: "auto", // Center horizontally
+                    }}
+                  >
+                    Verify
+                  </Button>
+                </Stack>
               </Box>
             </Modal>
           </Stack>

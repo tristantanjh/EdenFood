@@ -146,8 +146,9 @@ export default function ItemDescription() {
     today.setHours(0, 0, 0, 0);
     const created = new Date(createdDate);
     const diffTime = Math.abs(today - created);
+    console.log(diffTime);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return parseInt(freshness) - diffDays;
+    return parseInt(freshness) - diffDays + 1;
   }
 
   const fetchData = async () => {
