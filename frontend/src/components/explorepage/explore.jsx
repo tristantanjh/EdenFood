@@ -40,9 +40,12 @@ export default function Explore() {
             params: { userId: user.id, categories: cat },
           }
         );
-        setOriginalGroceries(response.data);
-        setSearchResults(response.data);
-        // console.log(originalGroceries)
+        const filteredResults = response.data.map((category) => ({
+          ...category,
+          categoryItems: category.categoryItems.filter((item) => item.quantity > 0),
+        }));
+        setOriginalGroceries(filteredResults);
+        setSearchResults(filteredResults);
         setLoading(false);
       } catch (error) {
         setError("Error fetching data. Please try again.");
