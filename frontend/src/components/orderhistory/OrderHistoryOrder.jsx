@@ -49,7 +49,7 @@ export default function OrderHistoryOrder({
 
   const [reviewForm, setReviewForm] = useState({
     // to change to props.user
-    sellerId: _id,
+    sellerId: merchant._id,
     buyerId: user.id,
     rating: ratingValue,
     description: description,
@@ -58,11 +58,12 @@ export default function OrderHistoryOrder({
   });
 
   const handleSubmitRating = async (event) => {
+    console.log(merchant);
     event.preventDefault();
-    const { userId, ...restOfData } = reviewForm;
+    const { sellerId, ...restOfData } = reviewForm;
 
     const transformedData = {
-      userId: userId,
+      sellerId: merchant._id,
       ...restOfData,
     };
     console.log(transformedData);
