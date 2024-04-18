@@ -127,6 +127,10 @@ export default function ItemCard(props) {
   const [open, setOpen] = useState(false);
   const [rating, setRating] = useState(null);
   const navigate = useNavigate();
+  const freshness =
+    getFreshness(props.freshness, props.createdAt) === 1
+      ? "today"
+      : "in " + getFreshness(props.freshness, props.createdAt) + " days";
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -237,7 +241,7 @@ export default function ItemCard(props) {
           color="text.secondary"
           fontFamily="open sans, sans-serif"
         >
-          Expires {getFreshness(props.freshness, props.createdAt)} days
+          Expires {freshness}
         </Typography>
         <Typography
           sx={{ mb: 1.5, fontSize: isMobile ? 11 : 14 }}

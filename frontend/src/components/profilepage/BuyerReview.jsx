@@ -31,6 +31,7 @@ export default function BuyerReview({ buyerId }) {
       })
       .then((res) => {
         setMerchant(res.data.user);
+        console.log(res.data.user.reviews);
       })
       .catch((err) => {
         console.log(err);
@@ -45,52 +46,52 @@ export default function BuyerReview({ buyerId }) {
     //     pb: 5,
     //   }}
     // >
-      <Stack spacing={1}>
-        <Stack
-          direction="row"
-          spacing={1}
-          sx={{
-            display: "flex",
-            justifyContent: "flex-start",
-            alignItems: "center",
-          }}
+    <Stack spacing={1}>
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
+        }}
+      >
+        <Typography
+          fontFamily={"nunito, sans-serif"}
+          fontSize={32}
+          fontWeight={"bold"}
+          color={"#181B13"}
+          sx={{ mb: "20px" }}
         >
-          <Typography
-            fontFamily={"nunito, sans-serif"}
-            fontSize={32}
-            fontWeight={"bold"}
-            color={"#181B13"}
-            sx={{ mb: "20px" }}
-          >
-            Buyer reviews
-          </Typography>
-          <Typography
-            fontFamily={"nunito, sans-serif"}
-            fontSize={28}
-            color={"BEBEBE"}
-            sx={{ mt: "5px" }}
-          >
-            {"("}
-            {merchant && merchant.reviews ? merchant.reviews.length : 0}
-            {")"}
-          </Typography>
-        </Stack>
-        <Grid container justifyContent="center">
-          {merchant &&
-            merchant.reviews &&
-            merchant.reviews.map((review, index) => (
-              <Grid item xs={12} key={index}>
-                {" "}
-                {/* Each ReviewCard in its own row */}
-                <Grid container justifyContent="center">
-                  <Grid item xs={12}>
-                    <ReviewCard reviewId={review} />
-                  </Grid>
+          Buyer reviews
+        </Typography>
+        <Typography
+          fontFamily={"nunito, sans-serif"}
+          fontSize={28}
+          color={"BEBEBE"}
+          sx={{ mt: "5px" }}
+        >
+          {"("}
+          {merchant && merchant.reviews ? merchant.reviews.length : 0}
+          {")"}
+        </Typography>
+      </Stack>
+      <Grid container justifyContent="center">
+        {merchant &&
+          merchant.reviews &&
+          merchant.reviews.map((review, index) => (
+            <Grid item xs={12} key={index}>
+              {" "}
+              {/* Each ReviewCard in its own row */}
+              <Grid container justifyContent="center">
+                <Grid item xs={12}>
+                  <ReviewCard reviewId={review} />
                 </Grid>
               </Grid>
-            ))}
-        </Grid>
-      </Stack>
+            </Grid>
+          ))}
+      </Grid>
+    </Stack>
     // </Container>
   );
 }
