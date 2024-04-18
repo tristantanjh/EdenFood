@@ -17,6 +17,7 @@ import ListingDescriptionTab from "./ListingDescriptionTab";
 import axios from "axios"; // Ensure axios is imported if you're using it for API calls
 import { useAuth } from "../../hooks/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function ListingDetails() {
   const theme = useTheme();
@@ -139,6 +140,9 @@ export default function ListingDetails() {
         const response = await axios.post(
           "http://localhost:3000/createGrocery",
           transformedData
+        );
+        toast.success(
+          "Grocery listed successfully"
         );
         console.log(response.data);
         navigate("/profile");
