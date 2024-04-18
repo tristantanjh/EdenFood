@@ -30,6 +30,8 @@ import Stack from "@mui/material/Stack";
 import QuantitySelector from "../explorepage/QuantitySelector";
 import { toast } from "react-toastify";
 import averageRating from "../../utils/averageRating";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
 
 function SimpleDialog(props) {
   const { user } = useAuth();
@@ -133,12 +135,21 @@ export default function ItemDescription() {
   const [freshness, setFreshness] = useState("");
   const [open, setOpen] = useState(false);
   const [rating, setRating] = useState(0);
+  const [confirmationOpen, setConfirmationOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = (value) => {
     setOpen(false);
+  };
+
+  const handleClickOpenConfirmation = () => {
+    setConfirmationOpen(true);
+  };
+
+  const handleClickCloseConfirmation = () => {
+    setConfirmationOpen(false);
   };
 
   function getFreshness(freshness, createdDate) {
@@ -199,6 +210,7 @@ export default function ItemDescription() {
       })
       .then((res) => {
         toast.success("Successfully disabled " + selectedItem.name);
+        handleClickCloseConfirmation();
         fetchData();
       })
       .catch((err) => {
@@ -393,7 +405,7 @@ export default function ItemDescription() {
                         },
                         "&:focus": { outline: "none" },
                       }}
-                      onClick={handleDeleteItem}
+                      onClick={handleClickOpenConfirmation}
                       disabled={selectedItem.quantity === 0}
                     >
                       Delete
@@ -444,6 +456,78 @@ export default function ItemDescription() {
                     <FavoriteBorderIcon />
                   </Button>
                   )} */}
+                  {confirmationOpen ? (
+                    <Dialog
+                      open={confirmationOpen}
+                      onClose={handleClickCloseConfirmation}
+                      sx={{ borderRadius: 2, color: "#402e55e1" }}
+                    >
+                      <DialogTitle
+                        sx={{
+                          textAlign: "center",
+                          fontSize: { xs: "1.2rem", md: "1.5rem" },
+                          fontWeight: "700",
+                        }}
+                      >
+                        This action{" "}
+                        <span style={{ color: "red" }}>
+                          <u>cannot be undone</u>
+                        </span>
+                        . Are you certain you want to delete this item?
+                      </DialogTitle>
+
+                      <DialogActions
+                        display="flex"
+                        sx={{ justifyContent: "center", alignItems: "center" }}
+                      >
+                        <Button
+                          sx={{
+                            borderRadius: "15px",
+                            borderBlockColor: "transparent",
+                            backgroundColor: "#64CF94", // Custom background color
+                            color: "#FFF", // Custom text color,
+                            textTransform: "none",
+                            fontWeight: "800",
+                            fontSize: { xs: ".8rem", md: "1rem" },
+                            width: { xs: "60px", md: "100px" },
+                            padding: "5px 3px",
+                            "&:hover": {
+                              backgroundColor: alpha("#64CF94", 0.8),
+                            },
+                            "&:focus": { outline: "none" },
+                            mb: { xs: ".4rem", md: ".8rem" },
+                            mr: "1rem",
+                          }}
+                          onClick={handleClickCloseConfirmation}
+                        >
+                          No
+                        </Button>
+                        <Button
+                          sx={{
+                            borderRadius: "15px",
+                            borderBlockColor: "transparent",
+                            backgroundColor: "#FF6A74", // Custom background color
+                            color: "#FFF", // Custom text color,
+                            textTransform: "none",
+                            fontWeight: "800",
+                            fontSize: { xs: ".8rem", md: "1rem" },
+                            width: { xs: "60px", md: "100px" },
+                            padding: "5px 3px",
+                            mb: { xs: ".4rem", md: ".8rem" },
+                            "&:hover": {
+                              backgroundColor: alpha("#64CF94", 0.8),
+                            },
+                            "&:focus": { outline: "none" },
+                          }}
+                          onClick={() => handleDeleteItem()}
+                        >
+                          Yes
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </Container>
             </Box>

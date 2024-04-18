@@ -103,9 +103,9 @@ export default function ProfileDescriptionTab(props) {
 
   const activeListings = listings.filter(
     (listing) => getFreshness(listing.freshness, listing.createdAt) >= 0
-  );
+  ).filter((listing) => listing.quantity > 0);
   const inactiveListings = listings.filter(
-    (listing) => getFreshness(listing.freshness, listing.createdAt) < 0
+    (listing) => getFreshness(listing.freshness, listing.createdAt) < 0 | listing.quantity == 0
   );
 
   const handleChange = (event, newValue) => {

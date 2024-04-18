@@ -157,6 +157,7 @@ export default function ItemCard(props) {
     <Card
       fullWidth
       sx={{
+        cursor: "pointer",
         position: "relative",
         borderRadius: "8px",
         mb: "1rem",
