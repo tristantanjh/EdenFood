@@ -101,11 +101,15 @@ export default function ProfileDescriptionTab(props) {
   const [expanded, setExpanded] = React.useState("panel0");
   today.setHours(0, 0, 0, 0);
 
-  const activeListings = listings.filter(
-    (listing) => getFreshness(listing.freshness, listing.createdAt) >= 0
-  ).filter((listing) => listing.quantity > 0);
+  const activeListings = listings
+    .filter(
+      (listing) => getFreshness(listing.freshness, listing.createdAt) >= 0
+    )
+    .filter((listing) => listing.quantity > 0);
   const inactiveListings = listings.filter(
-    (listing) => getFreshness(listing.freshness, listing.createdAt) < 0 | listing.quantity == 0
+    (listing) =>
+      (getFreshness(listing.freshness, listing.createdAt) < 0) |
+      (listing.quantity == 0)
   );
 
   const handleChange = (event, newValue) => {
@@ -377,42 +381,62 @@ export default function ProfileDescriptionTab(props) {
           {/* </Container> */}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          {orders?.map((order, index) => (
-            <Accordion
-              expanded={expanded === "panel" + index}
-              onChange={handlePanel("panel" + index)}
-            >
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon sx={{ color: "#FFF" }} />}
-                sx={{ backgroundColor: "#076365" }}
-              >
-                <Typography
-                  sx={{
-                    fontSize: { xs: "14px", md: "18px" },
-                    fontWeight: "bold",
-                    mr: { xs: "40px", md: "auto" },
-                    color: "#FFF",
-                  }}
+          {orders.length > 0 ? (
+            <div>
+              {orders.map((order, index) => (
+                <Accordion
+                  expanded={expanded === "panel" + index}
+                  onChange={handlePanel("panel" + index)}
                 >
-                  No: {orders.length - index}
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: { xs: "14px", md: "18px" },
-                    fontWeight: "bold",
-                    ml: "auto",
-                    mr: { xs: ".2rem", md: "18px" },
-                    color: "#FFF",
-                  }}
-                >
-                  Date: {order.createdAt.substring(0, 10).replace(/-/g, "/")}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <OrderHistoryOrder key={index} {...order} />
-              </AccordionDetails>
-            </Accordion>
-          ))}
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon sx={{ color: "#FFF" }} />}
+                    sx={{ backgroundColor: "#076365" }}
+                  >
+                    <Typography
+                      sx={{
+                        fontSize: { xs: "14px", md: "18px" },
+                        fontWeight: "bold",
+                        mr: { xs: "40px", md: "auto" },
+                        color: "#FFF",
+                      }}
+                    >
+                      No: {orders.length - index}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: { xs: "14px", md: "18px" },
+                        fontWeight: "bold",
+                        ml: "auto",
+                        mr: { xs: ".2rem", md: "18px" },
+                        color: "#FFF",
+                      }}
+                    >
+                      Date:{" "}
+                      {order.createdAt.substring(0, 10).replace(/-/g, "/")}
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <OrderHistoryOrder key={index} {...order} />
+                  </AccordionDetails>
+                </Accordion>
+              ))}
+            </div>
+          ) : (
+            <Box
+              id="image"
+              component="img"
+              fullWidth
+              sx={{
+                height: "250px",
+                width: "auto",
+                maxWidth: "425px",
+                objectFit: "contain",
+                mt: "3rem",
+              }}
+              src="https://res.cloudinary.com/dhdnzfgm8/image/upload/v1713435028/yxtic5aoxpl5nl6ftnaf.png"
+              alt="Uploaded Profile Picture"
+            />
+          )}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={4}>
           <BuyerReview buyerId={user.id} />
