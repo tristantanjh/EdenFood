@@ -15,9 +15,11 @@
 
 ## Project Details
 
-EdenFood is an e-commerce platform designed to connect fresh food farm grocers and wet market sellers directly with consumers. The primary goal of this project is to provide a seamless online marketplace for selling and purchasing fresh produce, meats, seafood, and other locally-sourced products.
+EdenFood is a mobile friendly e-commerce platform designed to connect fresh food farm grocers and wet market sellers directly with consumers. The primary goal of this project is to provide a seamless online marketplace for selling and purchasing fresh produce, meats, seafood, and other locally-sourced products.
 
 _Made for NUS' IS3106 - Enterprise Systems Interface Design and Development._
+
+<img src=https://github.com/tristantanjh/EdenFood/assets/99729861/30c23875-83d6-45d6-b9c7-aec0bf24bcb2 width=1000> <br />
 
 ## Features
 
@@ -61,7 +63,7 @@ EdenFood leverages several third-party API services to enhance its functionality
 - **Google Maps Platform**: EdenFood leverages the Google Maps Platform to display pickup locations for sellers, enabling users to easily locate and navigate to their preferred pickup points for self-collection orders.
 
 ## Installation
-1. Ensure that you have [Node.js](https://nodejs.org/en) installed, and that you have a [MongoDB Atlas](https://www.mongodb.com/atlas/database), [Cloudinary](https://cloudinary.com/) account, [Google Maps API Key](console.cloud.google.com/), [Mailgun](https://www.mailgun.com/), and [Paypal Developer](https://developer.paypal.com/home) accounts set up.
+1. Ensure that you have [Node.js](https://nodejs.org/en) installed, and that you have a [MongoDB Atlas](https://www.mongodb.com/atlas/database), [Cloudinary](https://cloudinary.com/), [Google Console](console.cloud.google.com/), [Mailgun](https://www.mailgun.com/), and [Paypal Developer](https://developer.paypal.com/home) accounts set up.
 2.	Clone the repository to your local machine.
 ```bash
 git clone https://github.com/tristantanjh/EdenFood.git
