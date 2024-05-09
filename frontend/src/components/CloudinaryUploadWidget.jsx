@@ -44,8 +44,8 @@ const CloudinaryUploadWidget = ({ children, onUpload }) => {
     // "unsigned" uploads which may allow for more usage than intended. Read more
     // about unsigned uploads at: https://cloudinary.com/documentation/upload_images#unsigned_upload
 
-    const cloudName = "dhdnzfgm8";
-    const uploadPreset = "eden_food";
+    const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+    const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
     if (!cloudName || !uploadPreset) {
       console.warn(`Kindly ensure you have the cloudName and UploadPreset 

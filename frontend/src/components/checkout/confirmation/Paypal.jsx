@@ -5,9 +5,11 @@ import {
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
 
+const paypalClientId = import.meta.env.VITE_PAYPAL_CLIENT_ID;
+
 const paypalScriptOptions = {
   "client-id":
-    "AbRrEQYIUs4ua0sadcrMCFoJUHF1l5CSUljqd5BYzTKBNqC5TiWgeoN2FF3bl73xdUDBhapnr7JSLts6",
+    paypalClientId,
   currency: "SGD",
   intent: "capture",
   // disableFunding: "card",
