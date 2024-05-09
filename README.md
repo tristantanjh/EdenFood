@@ -10,7 +10,6 @@
 - [Features](#features)
 - [Tech Stack and API dependencies](#tech-stack-and-api-dependencies)
 - [Installation](#installation)
-- [Contributions](#contributions)
 - [License](#license)
 
 ## Project Details
@@ -89,21 +88,6 @@ VITE_PAYPAL_CLIENT_ID=<YOUR_CLIENT_ID>
 4.	`cd` into both frontend and backend folders and run `npm i` on both.
 5.	After these steps, do `npm run dev` in both the frontend and backend folders to start the servers.
 6.   Visit `http://localhost:5173` to explore the application! 
-
-## Contributions
-Contributions to EventHub are welcome and appreciated! Here's how you can contribute:
-
-- **Bug Reports:** If you encounter any bugs or issues while using EventHub, please open a new issue on the GitHub repository. Be sure to provide detailed information about the problem you're experiencing, including steps to reproduce it.
-  
-- **Feature Requests:** Have an idea for a new feature or improvement? Feel free to suggest it by opening a new issue on GitHub. We value your feedback and are always looking for ways to enhance EventHub.
-  
-- **Code Contributions:** If you're interested in contributing code to EventHub, you can fork the repository, make your changes, and submit a pull request. Please ensure that your code follows the project's coding standards and guidelines.
-  
-- **Documentation:** Improving documentation is another valuable way to contribute. If you notice any errors or outdated information in the documentation, or if you'd like to add new sections or examples, please submit a pull request with your changes.
-  
-- **Testing:** Help us ensure the stability and reliability of EventHub by testing new features, bug fixes, and updates. You can report any issues you encounter during testing or provide feedback on the user experience.
-  
-- **Spread the Word:** Enjoy using EventHub? Spread the word to others who might benefit from it! Share your experiences on social media, forums, or with your colleagues and friends.
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
